@@ -1,0 +1,18 @@
+server:
+  port: 10000
+spring:
+  application:
+    name: security-uaa
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  #时间格式化
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+logging:
+  level:
+    root: debug
+    org.springframework.web: info

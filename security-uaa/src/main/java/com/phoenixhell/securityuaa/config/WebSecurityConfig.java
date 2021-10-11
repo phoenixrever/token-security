@@ -2,12 +2,15 @@ package com.phoenixhell.securityuaa.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 
 /**
  * @author phoenixhell
@@ -16,6 +19,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    //设置授权码模式的授权码如何存取，暂时采用内存方式
+    @Bean
+    public AuthorizationCodeServices authorizationCodeServices() {
+        return new InMemoryAuthorizationCodeServices();
+    }
+
+    //认证管理器 密码模式颁发令牌服务URL
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -34,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //URL路径拦截
                 .authorizeRequests()//需要登陆路径request
-                    .antMatchers("/loginPage", "/login","/static/**").permitAll()//不需要登陆验证就可以访问的路径 permitAll 放行
+                    .antMatchers("/loginPage", "/login","/static/**","/oauth/**").permitAll()//不需要登陆验证就可以访问的路径 permitAll 放行
                     .antMatchers("/index").hasAnyAuthority("p1")//特别指出index需要认证并且需要p1权限才能访问
                     .anyRequest().authenticated()//其他所有路径都需要认证
                 .and()

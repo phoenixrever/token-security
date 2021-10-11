@@ -32,6 +32,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     private TokenStore tokenStore;
     @Autowired
     private ClientDetailsService clientDetailsService;
+    //以下2个实例在WebSecurityConfig中配置了bean
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -45,16 +46,25 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory() // 使用in‐memory存储
-                .withClient("client1")// client_id 客户端id
+        clients.inMemory() //使用in‐memory存储
+                .withClient("client1")//client_id 客户端id
                 .secret(new BCryptPasswordEncoder().encode("secret")) //客户端密钥
                 .resourceIds("resource1")//客户端可以访问的资源列表
-                // 该client允许的授权类型 authorization_code, password, refresh_token, implicit, client_credentials
+                //该client允许的授权类型 authorization_code, password, refresh_token, implicit, client_credentials
                 .authorizedGrantTypes("authorization_code",
                         "password", "client_credentials", "implicit", "refresh_token")
-                .scopes("all")//read 等等 允许的授权范围 all不是所有也是一种标识
+                .scopes("all")//read 等等允许的授权范围 all不是所有也是一种标识
                 .autoApprove(false)//跳转到授权页面  true 不用跳转直接发令牌
-                .redirectUris("http://www.baidu.com");//加上验证回调地址
+                .redirectUris("http://www.baidu.com")//加上验证回调地址
+                .and()
+                .withClient("client2")
+                .secret(new BCryptPasswordEncoder().encode("secret2"))
+                .resourceIds("resource2")//
+                .authorizedGrantTypes("authorization_code",
+                        "password", "client_credentials", "implicit", "refresh_token")
+                .scopes("all")
+                .autoApprove(false)
+                .redirectUris("http://www.baidu.com");
 
         //换到数据库存储用户信息  JdbcClientDetailsService  或者自己实现ClientRegistrationService 接口
         //clients.withClientDetails(clientDetailsService());
@@ -85,8 +95,8 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .authenticationManager(authenticationManager)//密码模式 颁发令牌服务URL开启
-                .authorizationCodeServices(authorizationCodeServices)//授权码模式 颁发令牌服务URL开启
+                .authenticationManager(authenticationManager)//认证管理器  密码模式颁发令牌服务URL 开启
+                .authorizationCodeServices(authorizationCodeServices)//授权码模式颁发令牌服务URL开启
                 .tokenServices(tokenServices())//令牌管理服务
                 .allowedTokenEndpointRequestMethods(HttpMethod.POST);//允许post提交访问令牌
     }

@@ -1,0 +1,4 @@
+com\phoenixhell\securityorder\config\TokenConfig.class
+com\phoenixhell\securityorder\controller\ResourceController.class
+com\phoenixhell\securityorder\config\ResourceServerConfig.class
+com\phoenixhell\securityorder\SecurityOrderApplication.class

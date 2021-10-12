@@ -1,23 +1,26 @@
 server:
-  port: 10000
+  port: 10001
 #  servlet:
 #    context-path: uaa
 spring:
   application:
     name: security-uaa
+  profiles:
+    active: prod
   datasource:
     username: root
     password: root
     url: jdbc:mysql://192.168.56.100:3306/security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
   #时间格式化
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
 
 #mybatis
 mybatis-plus:
@@ -28,3 +31,6 @@ logging:
 #    root: debug    # 更详细的启动日志
 #    org.springframework.web: info  #默认
     com.phoenixhell.securityuaa: debug
+
+security:
+  loginPage: http://localhost:9999/api/uaa/login

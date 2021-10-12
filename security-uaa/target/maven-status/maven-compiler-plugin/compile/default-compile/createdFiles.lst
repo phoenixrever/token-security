@@ -1,0 +1,9 @@
+com\phoenixhell\securityuaa\mapper\UserMapper.class
+com\phoenixhell\securityuaa\SecurityUaaApplication.class
+com\phoenixhell\securityuaa\config\AuthorizationServer.class
+com\phoenixhell\securityuaa\service\impl\MyUserDetailService.class
+com\phoenixhell\securityuaa\config\WebSecurityConfig.class
+com\phoenixhell\securityuaa\config\TokenConfig.class
+com\phoenixhell\securityuaa\service\impl\UserServiceImpl.class
+com\phoenixhell\securityuaa\entity\User.class
+com\phoenixhell\securityuaa\service\UserService.class

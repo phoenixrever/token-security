@@ -19,6 +19,7 @@
         <module>security-uaa</module>
         <module>security-common</module>
         <module>security-order</module>
+        <module>security-gateway</module>
     </modules>
 
     <properties>

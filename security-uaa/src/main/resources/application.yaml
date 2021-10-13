@@ -5,8 +5,8 @@ server:
 spring:
   application:
     name: security-uaa
-  profiles:
-    active: prod
+#  profiles:
+#    active: prod
   datasource:
     username: root
     password: root
@@ -33,4 +33,5 @@ logging:
     com.phoenixhell.securityuaa: debug
 
 security:
-  loginPage: http://localhost:9999/api/uaa/login
+  baseUrl: http://uaa.security.com
+

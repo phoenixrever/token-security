@@ -27,8 +27,11 @@ import javax.sql.DataSource;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${security.loginPage}")
-    private String loginPage;
+
+    @Value("${security.baseUrl}")
+    private String baseUrl;
+
+
     //客户端详情数据库存储   这里不自己实现接口 直接用 JdbcClientDetailsService
     //clientDetailsService 名字已经被使用 或者使用覆盖设置 或者改个名字
     @Bean
@@ -57,21 +60,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .sessionManagement() //
-                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) //默认创建会话
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //默认创建会话
                 .and()
-                //允许表单登录
-                .formLogin()
-                     //loginPage 指定登录页面会覆盖默认登陆页面
-                    //.loginPage("/loginPage")//用户未登陆时候,访问任何资源都跳转到该路径,登陆静态页面
-                    //.loginProcessingUrl("/login")///登陆表单form里面 action处理表单提交地址 spring 提供 我们controller不需要提供
-                    .defaultSuccessUrl(loginPage)//登陆成功跳转路径
-                    .usernameParameter("username")//form表单中input的name名字 不改的话默认是username
-                    .passwordParameter("password")//form表单中input的name名字 不改的话默认是password
-                .and()
-                //URL路径拦截 oauth不需要在这放行
                 .authorizeRequests()//需要登陆路径request
-                    .antMatchers("/loginPage", "/login","/static/**").permitAll()//不需要登陆验证就可以访问的路径 permitAll 放行
-//                    .antMatchers("/index").hasAnyAuthority("p1")//特别指出index需要认证并且需要p1权限才能访问
                     .anyRequest().authenticated()//其他所有路径都需要认证
                 .and()
                 .csrf().disable();//关闭crsf跨域攻击

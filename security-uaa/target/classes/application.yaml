@@ -5,8 +5,8 @@ server:
 spring:
   application:
     name: security-uaa
-  profiles:
-    active: prod
+#  profiles:
+#    active: prod
   datasource:
     username: root
     password: root
@@ -31,3 +31,7 @@ logging:
 #    root: debug    # 更详细的启动日志
 #    org.springframework.web: info  #默认
     com.phoenixhell.securityuaa: debug
+
+security:
+  baseUrl: http://uaa.security.com
+

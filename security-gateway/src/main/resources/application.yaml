@@ -22,3 +22,9 @@ spring:
             - Path=/api/order/**  #没有匹配到的最后都交给你
           filters:
             - RewritePath=/api/order/(?<segment>.*),/$\{segment}
+
+        - id: security-uaa-route
+          uri: lb://security-uaa
+          predicates:
+            #按照host断言
+            - Host=uaa.security.com

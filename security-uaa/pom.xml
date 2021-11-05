@@ -11,7 +11,7 @@
     <artifactId>security-uaa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>security-uaa</name>
-    <description>认证授权服务</description>
+    <description>认证授权服务 (User Authorization Server）</description>
 
     <dependencies>
         <dependency>
@@ -33,15 +33,29 @@
             <artifactId>spring-cloud-starter-oauth2</artifactId>
             <version>2.2.4.RELEASE</version>
         </dependency>
-
+        <!--MyBatis-Plus代码生成器需要的依赖，开始-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+        <!--MyBatis-Plus代码生成器需要的依赖，结束-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>

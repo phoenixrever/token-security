@@ -1,16 +1,20 @@
 package com.phoenixhell.securityuaa.service;
 
-import com.phoenixhell.securityuaa.entity.RolesMenus;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.phoenixhell.common.utils.PageUtils;
+import com.phoenixhell.securityuaa.entity.RolesMenusEntity;
+
+import java.util.Map;
 
 /**
- * <p>
- * 角色菜单关联 服务类
- * </p>
+ * 角色菜单关联
  *
  * @author phoenixhell
- * @since 2021-11-05
+ * @email phoenixrever@gmail.com
+ * @date 2021-11-05 21:04:10
  */
-public interface RolesMenusService extends IService<RolesMenus> {
+public interface RolesMenusService extends IService<RolesMenusEntity> {
 
+    PageUtils queryPage(Map<String, Object> params);
 }
+

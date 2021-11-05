@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @TableName("sys_roles_menus")
 public class RolesMenus implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
     /**
      * 菜单ID

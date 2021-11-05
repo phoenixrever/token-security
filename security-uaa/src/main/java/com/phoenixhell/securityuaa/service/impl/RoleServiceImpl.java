@@ -1,20 +1,29 @@
 package com.phoenixhell.securityuaa.service.impl;
 
-import com.phoenixhell.securityuaa.entity.Role;
-import com.phoenixhell.securityuaa.mapper.RoleMapper;
-import com.phoenixhell.securityuaa.service.RoleService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import java.util.Map;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.phoenixhell.common.utils.PageUtils;
+import com.phoenixhell.common.utils.Query;
 
-/**
- * <p>
- * 角色表 服务实现类
- * </p>
- *
- * @author phoenixhell
- * @since 2021-11-05
- */
-@Service
-public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
+import com.phoenixhell.securityuaa.dao.RoleDao;
+import com.phoenixhell.securityuaa.entity.RoleEntity;
+import com.phoenixhell.securityuaa.service.RoleService;
+
+
+@Service("roleService")
+public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements RoleService {
+
+    @Override
+    public PageUtils queryPage(Map<String, Object> params) {
+        IPage<RoleEntity> page = this.page(
+                new Query<RoleEntity>().getPage(params),
+                new QueryWrapper<RoleEntity>()
+        );
+
+        return new PageUtils(page);
+    }
 
 }

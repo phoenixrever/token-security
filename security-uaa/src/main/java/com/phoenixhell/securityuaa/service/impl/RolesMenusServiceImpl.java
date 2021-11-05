@@ -1,20 +1,29 @@
 package com.phoenixhell.securityuaa.service.impl;
 
-import com.phoenixhell.securityuaa.entity.RolesMenus;
-import com.phoenixhell.securityuaa.mapper.RolesMenusMapper;
-import com.phoenixhell.securityuaa.service.RolesMenusService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import java.util.Map;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.phoenixhell.common.utils.PageUtils;
+import com.phoenixhell.common.utils.Query;
 
-/**
- * <p>
- * 角色菜单关联 服务实现类
- * </p>
- *
- * @author phoenixhell
- * @since 2021-11-05
- */
-@Service
-public class RolesMenusServiceImpl extends ServiceImpl<RolesMenusMapper, RolesMenus> implements RolesMenusService {
+import com.phoenixhell.securityuaa.dao.RolesMenusDao;
+import com.phoenixhell.securityuaa.entity.RolesMenusEntity;
+import com.phoenixhell.securityuaa.service.RolesMenusService;
+
+
+@Service("rolesMenusService")
+public class RolesMenusServiceImpl extends ServiceImpl<RolesMenusDao, RolesMenusEntity> implements RolesMenusService {
+
+    @Override
+    public PageUtils queryPage(Map<String, Object> params) {
+        IPage<RolesMenusEntity> page = this.page(
+                new Query<RolesMenusEntity>().getPage(params),
+                new QueryWrapper<RolesMenusEntity>()
+        );
+
+        return new PageUtils(page);
+    }
 
 }

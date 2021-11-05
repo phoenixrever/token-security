@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
 @TableName("sys_menu")
 public class Menu implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
     /**
      * ID

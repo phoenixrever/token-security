@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @TableName("sys_users_roles")
 public class UsersRoles implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
     /**
      * 用户ID

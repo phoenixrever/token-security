@@ -1,20 +1,29 @@
 package com.phoenixhell.securityuaa.service.impl;
 
-import com.phoenixhell.securityuaa.entity.UsersRoles;
-import com.phoenixhell.securityuaa.mapper.UsersRolesMapper;
-import com.phoenixhell.securityuaa.service.UsersRolesService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import java.util.Map;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.phoenixhell.common.utils.PageUtils;
+import com.phoenixhell.common.utils.Query;
 
-/**
- * <p>
- * 用户角色关联 服务实现类
- * </p>
- *
- * @author phoenixhell
- * @since 2021-11-05
- */
-@Service
-public class UsersRolesServiceImpl extends ServiceImpl<UsersRolesMapper, UsersRoles> implements UsersRolesService {
+import com.phoenixhell.securityuaa.dao.UsersRolesDao;
+import com.phoenixhell.securityuaa.entity.UsersRolesEntity;
+import com.phoenixhell.securityuaa.service.UsersRolesService;
+
+
+@Service("usersRolesService")
+public class UsersRolesServiceImpl extends ServiceImpl<UsersRolesDao, UsersRolesEntity> implements UsersRolesService {
+
+    @Override
+    public PageUtils queryPage(Map<String, Object> params) {
+        IPage<UsersRolesEntity> page = this.page(
+                new Query<UsersRolesEntity>().getPage(params),
+                new QueryWrapper<UsersRolesEntity>()
+        );
+
+        return new PageUtils(page);
+    }
 
 }

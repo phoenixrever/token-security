@@ -1,19 +1,16 @@
 package com.phoenixhell.securityuaa.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.phoenixhell.securityuaa.entity.User;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
- *  Mapper 接口
+ * 系统用户 Mapper 接口
  * </p>
  *
  * @author phoenixhell
- * @since 2021-10-10
+ * @since 2021-11-05
  */
 public interface UserMapper extends BaseMapper<User> {
-    List<String> getGrantedAuthorities(@Param("username") String username);
+
 }

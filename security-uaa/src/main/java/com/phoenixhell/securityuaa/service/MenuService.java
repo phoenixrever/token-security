@@ -1,16 +1,20 @@
 package com.phoenixhell.securityuaa.service;
 
-import com.phoenixhell.securityuaa.entity.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.phoenixhell.common.utils.PageUtils;
+import com.phoenixhell.securityuaa.entity.MenuEntity;
+
+import java.util.Map;
 
 /**
- * <p>
- * 系统菜单 服务类
- * </p>
+ * 系统菜单
  *
  * @author phoenixhell
- * @since 2021-11-05
+ * @email phoenixrever@gmail.com
+ * @date 2021-11-05 21:04:10
  */
-public interface MenuService extends IService<Menu> {
+public interface MenuService extends IService<MenuEntity> {
 
+    PageUtils queryPage(Map<String, Object> params);
 }
+

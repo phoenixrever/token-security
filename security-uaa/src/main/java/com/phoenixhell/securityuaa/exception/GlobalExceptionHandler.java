@@ -5,6 +5,7 @@ import com.phoenixhell.common.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.HashMap;
  */
 
 @Slf4j
+@ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public R handleValidationException(MethodArgumentNotValidException e) {
@@ -28,11 +30,11 @@ public class GlobalExceptionHandler {
     }
 
     //精确匹配不到的错误 最后来到这写了控制台就不报错了
-    @ExceptionHandler(value = Throwable.class)
-    public R handleException(Throwable throwable) {
-        log.error("error===>", throwable);
-        return R.error(BizCodeEnume.UNKNOWN_EXCEPTION.getCode(),BizCodeEnume.UNKNOWN_EXCEPTION.getMsg()).put("data",throwable.getMessage());
-
-    }
+    //@ExceptionHandler(value = Throwable.class)
+    //public R handleException(Throwable throwable) {
+    //    log.error("error===>", throwable);
+    //    return R.error(BizCodeEnume.UNKNOWN_EXCEPTION.getCode(),BizCodeEnume.UNKNOWN_EXCEPTION.getMsg()).put("data",throwable.getMessage());
+    //
+    //}
 
 }

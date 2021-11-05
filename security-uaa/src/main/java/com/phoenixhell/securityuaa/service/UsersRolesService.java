@@ -1,16 +1,20 @@
 package com.phoenixhell.securityuaa.service;
 
-import com.phoenixhell.securityuaa.entity.UsersRoles;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.phoenixhell.common.utils.PageUtils;
+import com.phoenixhell.securityuaa.entity.UsersRolesEntity;
+
+import java.util.Map;
 
 /**
- * <p>
- * 用户角色关联 服务类
- * </p>
+ * 用户角色关联
  *
  * @author phoenixhell
- * @since 2021-11-05
+ * @email phoenixrever@gmail.com
+ * @date 2021-11-05 21:04:10
  */
-public interface UsersRolesService extends IService<UsersRoles> {
+public interface UsersRolesService extends IService<UsersRolesEntity> {
 
+    PageUtils queryPage(Map<String, Object> params);
 }
+

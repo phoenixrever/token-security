@@ -1,16 +1,17 @@
 package com.phoenixhell.securityuaa.mapper;
 
-import com.phoenixhell.securityuaa.entity.Role;
+import com.phoenixhell.securityuaa.entity.RoleEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
- * <p>
- * 角色表 Mapper 接口
- * </p>
- *
+ * 角色表
+ * 
  * @author phoenixhell
- * @since 2021-11-05
+ * @email phoenixrever@gmail.com
+ * @date 2021-11-06 10:27:35
  */
-public interface RoleMapper extends BaseMapper<Role> {
+@Mapper
+public interface RoleMapper extends BaseMapper<RoleEntity> {
 
 }

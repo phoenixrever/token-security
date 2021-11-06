@@ -14,11 +14,9 @@ class SecurityUaaApplicationTests {
         //System.out.println(secret);
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String secret = passwordEncoder.encode("secret");
-        String password = passwordEncoder.encode("123");
-        System.out.println(secret);
+        String password = passwordEncoder.encode("a12345678");
         System.out.println(password);
-        System.out.println(passwordEncoder.matches("123", secret));
+//        System.out.println(passwordEncoder.matches("123", secret));
     }
 
 }

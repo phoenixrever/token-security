@@ -30,6 +30,7 @@ public class MyUserDetailService implements UserDetailsService {
         //不存在的由spring security DaoAuthenticationProvider 自动抛出异常
         UserEntity userEntity = userService.query().eq("username", username).one();
 
+        // 注意 stringAuthorities permission 绝对不能含有null值 不然 A granted authority textual representation is required 错误
         List<String> stringAuthorities = userService.getStringAuthorities(username);
 
         //可以用security user 类生成一个 User

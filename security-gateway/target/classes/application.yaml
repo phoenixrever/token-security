@@ -1,0 +1,30 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: security-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: security-uaa
+          uri: lb://security-uaa
+          predicates:
+            - Path=/api/uaa/**  #没有匹配到的最后都交给你
+          filters:
+            - RewritePath=/api/uaa/(?<segment>.*),/$\{segment}
+
+        - id: security-order
+          uri: lb://security-order
+          predicates:
+            - Path=/api/order/**  #没有匹配到的最后都交给你
+          filters:
+            - RewritePath=/api/order/(?<segment>.*),/$\{segment}
+
+        - id: security-uaa-route
+          uri: lb://security-uaa
+          predicates:
+            #按照host断言
+            - Host=uaa.security.com

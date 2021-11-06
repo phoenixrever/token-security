@@ -1,16 +1,17 @@
 package com.phoenixhell.securityuaa.mapper;
 
-import com.phoenixhell.securityuaa.entity.Menu;
+import com.phoenixhell.securityuaa.entity.MenuEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
- * <p>
- * 系统菜单 Mapper 接口
- * </p>
- *
+ * 系统菜单
+ * 
  * @author phoenixhell
- * @since 2021-11-05
+ * @email phoenixrever@gmail.com
+ * @date 2021-11-06 10:27:35
  */
-public interface MenuMapper extends BaseMapper<Menu> {
+@Mapper
+public interface MenuMapper extends BaseMapper<MenuEntity> {
 
 }

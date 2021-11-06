@@ -5,9 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.phoenixhell.common.utils.PageUtils;
 import com.phoenixhell.common.utils.Query;
-import com.phoenixhell.securityuaa.dao.UserDao;
-import com.phoenixhell.securityuaa.entity.RoleEntity;
 import com.phoenixhell.securityuaa.entity.UserEntity;
+import com.phoenixhell.securityuaa.mapper.UserMapper;
 import com.phoenixhell.securityuaa.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,7 @@ import java.util.Map;
  * @since 2021-10-10
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

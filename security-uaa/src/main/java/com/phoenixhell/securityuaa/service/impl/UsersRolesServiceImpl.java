@@ -8,13 +8,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.phoenixhell.common.utils.PageUtils;
 import com.phoenixhell.common.utils.Query;
 
-import com.phoenixhell.securityuaa.dao.UsersRolesDao;
+import com.phoenixhell.securityuaa.mapper.UsersRolesMapper;
 import com.phoenixhell.securityuaa.entity.UsersRolesEntity;
 import com.phoenixhell.securityuaa.service.UsersRolesService;
 
 
 @Service("usersRolesService")
-public class UsersRolesServiceImpl extends ServiceImpl<UsersRolesDao, UsersRolesEntity> implements UsersRolesService {
+public class UsersRolesServiceImpl extends ServiceImpl<UsersRolesMapper, UsersRolesEntity> implements UsersRolesService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

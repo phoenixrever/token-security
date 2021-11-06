@@ -1,12 +1,11 @@
 package com.phoenixhell.securityuaa.exception;
 
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class LoginErrorException {
     @ExceptionHandler(value = AuthenticationException.class)
     @ResponseBody

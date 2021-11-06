@@ -8,13 +8,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.phoenixhell.common.utils.PageUtils;
 import com.phoenixhell.common.utils.Query;
 
-import com.phoenixhell.securityuaa.dao.RolesMenusDao;
+import com.phoenixhell.securityuaa.mapper.RolesMenusMapper;
 import com.phoenixhell.securityuaa.entity.RolesMenusEntity;
 import com.phoenixhell.securityuaa.service.RolesMenusService;
 
 
 @Service("rolesMenusService")
-public class RolesMenusServiceImpl extends ServiceImpl<RolesMenusDao, RolesMenusEntity> implements RolesMenusService {
+public class RolesMenusServiceImpl extends ServiceImpl<RolesMenusMapper, RolesMenusEntity> implements RolesMenusService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

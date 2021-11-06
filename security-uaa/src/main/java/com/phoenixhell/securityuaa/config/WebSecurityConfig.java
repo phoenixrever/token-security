@@ -1,9 +1,11 @@
 package com.phoenixhell.securityuaa.config;
 
+import com.phoenixhell.securityuaa.handler.CustomAccessDeniedHandler;
+import com.phoenixhell.securityuaa.handler.CustomAuthenticationEntryPoint;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,10 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 
 import javax.sql.DataSource;
@@ -26,7 +26,11 @@ import javax.sql.DataSource;
 @EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Value("${security.baseUrl}")
     private String baseUrl;
@@ -59,10 +63,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                //自定义异常处理
+                .exceptionHandling()
+                    .authenticationEntryPoint(customAuthenticationEntryPoint)
+                    .accessDeniedHandler(customAccessDeniedHandler)
+                .and()
                 .sessionManagement() //
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //默认创建会话
                 .and()
-                .authorizeRequests()//需要登陆路径request
+                .authorizeRequests()
+                    .antMatchers("/securityuaa/menu/**").permitAll()//需要登陆路径request
                     .anyRequest().authenticated()//其他所有路径都需要认证
                 .and()
                 .csrf().disable();//关闭crsf跨域攻击

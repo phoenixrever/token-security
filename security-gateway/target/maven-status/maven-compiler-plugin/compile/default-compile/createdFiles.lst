@@ -1,0 +1,3 @@
+com\phoenixhell\securitygateway\SecurityGatewayApplication.class
+com\phoenixhell\securitygateway\filter\TokenFilter.class
+com\phoenixhell\securitygateway\config\CorsConfig.class

@@ -75,7 +75,6 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 //                .scopes("all")
 //                .autoApprove(false)
 //                .redirectUris("http://www.baidu.com");
-
         //换到数据库存储用户详细信息  JdbcClientDetailsService  或者自己实现ClientRegistrationService 接口
         clients.withClientDetails(jdbcClientDetailsService);
     }

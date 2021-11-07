@@ -2,6 +2,7 @@ package com.phoenixhell.securityuaa.config;
 
 import com.phoenixhell.securityuaa.handler.CustomAccessDeniedHandler;
 import com.phoenixhell.securityuaa.handler.CustomAuthenticationEntryPoint;
+import com.phoenixhell.securityuaa.handler.LoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 
@@ -62,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
         http
                 //自定义异常处理
                 .exceptionHandling()
@@ -72,7 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //默认创建会话
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/securityuaa/menu/**").permitAll()//需要登陆路径request
+                    .antMatchers("/securityuaa/menu/**","/securityuaa/auth/**").permitAll()//需要登陆路径request
                     .anyRequest().authenticated()//其他所有路径都需要认证
                 .and()
                 .csrf().disable();//关闭crsf跨域攻击
@@ -82,4 +85,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
+    /**
+     * 自定义登录拦截器
+     */
+    @Bean
+    public LoginFilter loginFilter() throws Exception {
+        LoginFilter loginFilter = new LoginFilter();
+        //在使用自定义的登陆拦截器后 loginProcessingUrl 可以不配置了，在拦截器中也可以配置
+        //当然这里也可以配置但是必须得和拦截器中的一样 如果是 无 session 的话 不需要配置
+        //filter.setAuthenticationManager(authenticationManagerBean());
+        //filter.setAuthenticationSuccessHandler(appLoginInSuccessHandler);
+        loginFilter.setAuthenticationManager(authenticationManagerBean());
+        return loginFilter;
+    }
+
 }

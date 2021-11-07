@@ -12,9 +12,9 @@ spring:
         - id: security-uaa
           uri: lb://security-uaa
           predicates:
-            - Path=/api/uaa/**  #没有匹配到的最后都交给你
+            - Path=/api/securityuaa/**  #没有匹配到的最后都交给你
           filters:
-            - RewritePath=/api/uaa/(?<segment>.*),/$\{segment}
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
 
         - id: security-order
           uri: lb://security-order

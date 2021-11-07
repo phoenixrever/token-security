@@ -18,12 +18,15 @@ com\phoenixhell\securityuaa\mapper\UsersRolesMapper.class
 com\phoenixhell\securityuaa\mapper\RolesMenusMapper.class
 com\phoenixhell\securityuaa\controller\RoleController.class
 com\phoenixhell\securityuaa\entity\RolesMenus.class
+com\phoenixhell\securityuaa\controller\AuthController.class
 com\phoenixhell\securityuaa\mapper\MenuMapper.class
 com\phoenixhell\securityuaa\service\UserService.class
 com\phoenixhell\securityuaa\exception\LoginErrorException.class
 com\phoenixhell\securityuaa\service\impl\MyUserDetailService.class
 com\phoenixhell\securityuaa\service\RolesMenusService.class
 com\phoenixhell\securityuaa\config\TokenConfig.class
+com\phoenixhell\securityuaa\handler\LoginFilter.class
+com\phoenixhell\securityuaa\config\RedisConfig.class
 com\phoenixhell\securityuaa\mapper\RoleMapper.class
 com\phoenixhell\securityuaa\controller\UsersRolesController.class
 com\phoenixhell\securityuaa\entity\UsersRolesEntity.class
@@ -31,8 +34,10 @@ com\phoenixhell\securityuaa\service\impl\RolesMenusServiceImpl.class
 com\phoenixhell\securityuaa\entity\UsersRoles.class
 com\phoenixhell\securityuaa\exception\GlobalExceptionHandler.class
 com\phoenixhell\securityuaa\handler\CustomAuthenticationEntryPoint.class
+com\phoenixhell\securityuaa\config\MyCacheConfig.class
 com\phoenixhell\securityuaa\handler\CustomAccessDeniedHandler.class
 com\phoenixhell\securityuaa\service\UsersRolesService.class
 com\phoenixhell\securityuaa\controller\IndexController.class
 com\phoenixhell\securityuaa\entity\MenuEntity.class
+com\phoenixhell\securityuaa\config\MyMetaObjectHandler.class
 com\phoenixhell\securityuaa\service\impl\UserServiceImpl.class

@@ -24,7 +24,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         String uri = request.getURI().toString();
-        if (uri.contains("/api/uaa")){
+        if (uri.contains("/api/securityuaa/")){
             System.out.println(uri);
             return chain.filter(exchange);
         }
@@ -34,7 +34,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
-        byte[] bytes = "UNAUTHORIZED".getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = "UNAUTHORIZED 没有检测到token".getBytes(StandardCharsets.UTF_8);
         DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
         return response.writeWith(Flux.just(buffer));
     }

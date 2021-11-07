@@ -1,4 +1,4 @@
-D:\token-security\security-order\src\main\java\com\phoenixhell\securityorder\SecurityOrderApplication.java
-D:\token-security\security-order\src\main\java\com\phoenixhell\securityorder\controller\ResourceController.java
-D:\token-security\security-order\src\main\java\com\phoenixhell\securityorder\config\TokenConfig.java
-D:\token-security\security-order\src\main\java\com\phoenixhell\securityorder\config\ResourceServerConfig.java
+N:\Git\token-security\security-order\src\main\java\com\phoenixhell\securityorder\config\ResourceServerConfig.java
+N:\Git\token-security\security-order\src\main\java\com\phoenixhell\securityorder\controller\ResourceController.java
+N:\Git\token-security\security-order\src\main\java\com\phoenixhell\securityorder\config\TokenConfig.java
+N:\Git\token-security\security-order\src\main\java\com\phoenixhell\securityorder\SecurityOrderApplication.java

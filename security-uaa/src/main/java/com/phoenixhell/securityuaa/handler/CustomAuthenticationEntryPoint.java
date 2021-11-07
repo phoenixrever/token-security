@@ -30,6 +30,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint,
         // handle the authentication exception
         // you can return json with Jackson and
         // write it to the HttpServletResponse.
+        System.out.println(request.getRequestURI());
         System.out.println(authException.getMessage());
         R error = R.error(ExceptionCodeEnume.VALID_EXCEPTION.getCode(), ExceptionCodeEnume.VALID_EXCEPTION.getMsg());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

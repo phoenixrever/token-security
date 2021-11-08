@@ -1,5 +1,7 @@
 package com.phoenixhell.securityuaa.controller;
 
+import com.phoenixhell.securityuaa.entity.UserEntity;
+import com.phoenixhell.securityuaa.utils.SecurityUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,16 +16,8 @@ public class IndexController {
     @PreAuthorize("hasAnyAuthority('p1')")
     @GetMapping({"/","/index"})
     public String index(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(!authentication.isAuthenticated()){
-            return null;
-        }
-        Object principal = authentication.getPrincipal();
-        if(principal instanceof org.springframework.security.core.userdetails.User){
-            //密码已经被security 清空
-            org.springframework.security.core.userdetails.User user= (User) principal;
-            model.addAttribute("username", user.getUsername());
-        }
+        UserEntity currentUser = SecurityUtils.getCurrentUser();
+        model.addAttribute("username", currentUser.getUsername());
         return "index";
     }
 

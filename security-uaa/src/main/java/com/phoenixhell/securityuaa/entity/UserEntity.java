@@ -1,10 +1,13 @@
 package com.phoenixhell.securityuaa.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -60,6 +63,11 @@ public class UserEntity implements Serializable {
 	 * 密码
 	 */
 	private String password;
+	/**
+	 * 菜单routers
+	 */
+	@TableField(exist = false)
+	private List<Router> routers;
 	/**
 	 * 是否为admin账号
 	 */

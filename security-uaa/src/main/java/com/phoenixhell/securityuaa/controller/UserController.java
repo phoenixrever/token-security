@@ -1,14 +1,14 @@
 package com.phoenixhell.securityuaa.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.phoenixhell.securityuaa.entity.Router;
+import com.phoenixhell.securityuaa.service.MenuService;
+import com.phoenixhell.securityuaa.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.service.UserService;
@@ -29,6 +29,21 @@ import com.phoenixhell.common.utils.R;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private MenuService menuService;
+
+    /**
+     * 用户信息 包括侧边栏菜单
+     */
+    @GetMapping("/authUserInfo")
+    public R getAuthUserInfo(){
+//        UserEntity currentUser = SecurityUtils.getCurrentUser();
+        UserEntity currentUser = userService.query().eq("username", "admin").one();
+        List<Router> routers  =  menuService.getRouters(currentUser);
+       currentUser.setRouters(routers);
+        return R.ok().put("currentUser",currentUser);
+    }
+
 
     /**
      * 列表

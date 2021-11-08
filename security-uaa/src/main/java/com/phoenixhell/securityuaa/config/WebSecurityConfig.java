@@ -75,7 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //默认创建会话
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/securityuaa/menu/**","/securityuaa/auth/**").permitAll()//需要登陆路径request
+                    .antMatchers("/securityuaa/menu/**","/securityuaa/auth/**","/securityuaa/user/**","/favicon.ico").permitAll()//需要登陆路径request
                     .anyRequest().authenticated()//其他所有路径都需要认证
                 .and()
                 .csrf().disable();//关闭crsf跨域攻击

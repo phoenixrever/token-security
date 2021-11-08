@@ -3,12 +3,10 @@ package com.phoenixhell.securityuaa.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.phoenixhell.securityuaa.entity.UserEntity;
+import com.phoenixhell.securityuaa.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.phoenixhell.securityuaa.entity.MenuEntity;
 import com.phoenixhell.securityuaa.service.MenuService;
@@ -29,6 +27,8 @@ import com.phoenixhell.common.utils.R;
 public class MenuController {
     @Autowired
     private MenuService menuService;
+
+
 
     /**
      * 列表

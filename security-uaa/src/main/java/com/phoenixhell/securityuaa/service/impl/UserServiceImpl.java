@@ -8,6 +8,7 @@ import com.phoenixhell.common.utils.Query;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.mapper.UserMapper;
 import com.phoenixhell.securityuaa.service.UserService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +35,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return new PageUtils(page);
     }
 
+    @Cacheable(value = {"authorities"},key ="#root.args[0]")
     @Override
     public List<String> getStringAuthorities(String username) {
         return baseMapper.getGrantedAuthorities(username);
     }
+
 }

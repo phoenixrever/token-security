@@ -1,15 +1,18 @@
 package com.phoenixhell.securityuaa.utils;
 
-import com.alibaba.fastjson.JSONObject;
 import com.phoenixhell.common.exception.MyException;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author phoenixhell
@@ -26,8 +29,19 @@ public class SecurityUtils {
      * @return UserDetails
      */
     public static UserEntity getCurrentUser() {
-        UserEntity userEntity = userService.query().eq("username", getCurrentUsername()).one();
+        UserEntity userEntity = userService.query().eq("username", getSecurityUser().getUsername()).one();
         return userEntity;
+    }
+
+    /**
+     * 获取当前登录的用户
+     * @return UserDetails
+     */
+    public static List<String> getAuthorities() {
+        User securityUser = getSecurityUser();
+        Collection<GrantedAuthority> GrantedAuthorities = securityUser.getAuthorities();
+        List<String> authorities = GrantedAuthorities.stream().map(a -> a.getAuthority()).collect(Collectors.toList());
+        return authorities;
     }
 
     /**
@@ -35,14 +49,14 @@ public class SecurityUtils {
      *
      * @return 系统用户名称
      */
-    public static String getCurrentUsername() {
+    public static User getSecurityUser() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             throw new MyException(401, "当前登录状态过期");
         }
         if (authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return userDetails.getUsername();
+            User user = (User) authentication.getPrincipal();
+            return user;
         }
         throw new MyException(401, "找不到当前登录的信息");
     }

@@ -3,6 +3,7 @@ package com.phoenixhell.securityuaa.service.impl;
 import com.phoenixhell.securityuaa.entity.Router;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.service.UserService;
+import com.phoenixhell.securityuaa.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
 
     @Override
     public List<Router> getRouters(UserEntity currentUser) {
-        List<String> authorities = userService.getStringAuthorities("admin");
+        //List<String> authorities = userService.getStringAuthorities("admin");
+        List<String> authorities = SecurityUtils.getAuthorities();
         List<MenuEntity> menuEntities = this.list();
         List<Router> routers = menuEntities.stream().filter(menuEntity -> menuEntity.getPid() == 0)
                 .filter(menuItem-> StringUtils.isEmpty(menuItem.getPermission()) || authorities.contains(menuItem.getPermission()))
@@ -72,7 +74,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
      */
     //递归查找所有子分类  最后一步list为空  menu自然也为null  所欲空指针异常
     private List<Router> getChildren(MenuEntity root, List<MenuEntity> list) {
-        List<String> authorities = userService.getStringAuthorities("admin");
+        //List<String> authorities = userService.getStringAuthorities("admin");
+        List<String> authorities = SecurityUtils.getAuthorities();
         List<Router> childRouters = list.stream().filter(menuEntity -> root.getMenuId().equals(menuEntity.getPid()))
                 .filter(menuItem-> StringUtils.isEmpty(menuItem.getPermission()) || authorities.contains(menuItem.getPermission()))
                 .sorted((menu1, menu2) -> (menu1.getMenuSort() == null ? 0 : menu1.getMenuSort()) - (menu2.getMenuSort() == null ? 0 : menu2.getMenuSort()))

@@ -18,10 +18,7 @@ import org.springframework.security.oauth2.provider.client.JdbcClientDetailsServ
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.sql.DataSource;
@@ -92,7 +89,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         tokenServices.setTokenStore(tokenStore);//令牌存储策略
         //令牌增强(转化为jwt令牌)
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(customTokenEnhancer(),jwtAccessTokenConverter));
         tokenServices.setTokenEnhancer(tokenEnhancerChain);
 
         tokenServices.setAccessTokenValiditySeconds(60*60*2);//令牌默认有效期2小时
@@ -108,7 +105,8 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
                 .authenticationManager(authenticationManager)//认证管理器  密码模式颁发令牌服务URL 开启
                 .authorizationCodeServices(authorizationCodeServices)//授权码模式颁发令牌服务URL开启
                 .tokenServices(tokenServices())//令牌存储管理服务
-                .allowedTokenEndpointRequestMethods(HttpMethod.POST);//允许post提交访问令牌
+                .allowedTokenEndpointRequestMethods(HttpMethod.POST)//允许post提交访问令牌
+                .pathMapping("/oauth/token", "/securityuaa/oauth/token");
     }
 
     //令牌访问端点
@@ -125,5 +123,10 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
                 .checkTokenAccess("permitAll()")
                 //允许表单认证
                 .allowFormAuthenticationForClients();
+    }
+
+    @Bean
+    public TokenEnhancer customTokenEnhancer() {
+        return new CustomTokenConverter();
     }
 }

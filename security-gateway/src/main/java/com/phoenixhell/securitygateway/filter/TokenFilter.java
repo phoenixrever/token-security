@@ -34,7 +34,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
-        byte[] bytes = "UNAUTHORIZED 没有检测到token".getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = "UNAUTHORIZED gateway 没有检测到token".getBytes(StandardCharsets.UTF_8);
         DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
         return response.writeWith(Flux.just(buffer));
     }

@@ -2,14 +2,10 @@ package com.phoenixhell.securityuaa.controller;
 
 
 import com.phoenixhell.common.utils.R;
+import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.SpecCaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,12 +24,16 @@ public class AuthController {
 
     @RequestMapping("/captcha")
     public R captcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 5);
-        String verCode = specCaptcha.text().toLowerCase();
+        ArithmeticCaptcha captcha = new ArithmeticCaptcha(130, 48);
+        captcha.setLen(2);  // 几位数运算，默认是两位
+        captcha.getArithmeticString();  // 获取运算的公式：3+2=?
+        captcha.text();  // 获取运算的结果：5
+
+        String verCode = captcha.text();
         String key = UUID.randomUUID().toString();
         // 存入redis并设置过期时间为30分钟
         stringRedisTemplate.opsForValue().set(CAPTCHA_PREFIX+key,verCode,30, TimeUnit.MINUTES);
         // 将key和base64返回给前端
-        return R.ok().put("key", key).put("captchaImage", specCaptcha.toBase64());
+        return R.ok().put("key", key).put("captchaImage", captcha.toBase64());
     }
 }

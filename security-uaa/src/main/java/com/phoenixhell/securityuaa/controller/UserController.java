@@ -37,8 +37,8 @@ public class UserController {
      */
     @GetMapping("/authUserInfo")
     public R getAuthUserInfo(){
-//        UserEntity currentUser = SecurityUtils.getCurrentUser();
-        UserEntity currentUser = userService.query().eq("username", "admin").one();
+        UserEntity currentUser = SecurityUtils.getCurrentUser();
+//        UserEntity currentUser = userService.query().eq("username", "admin").one();
         List<Router> routers  =  menuService.getRouters(currentUser);
        currentUser.setRouters(routers);
         return R.ok().put("currentUser",currentUser);

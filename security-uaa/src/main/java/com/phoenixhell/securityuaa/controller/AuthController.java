@@ -30,10 +30,10 @@ public class AuthController {
         captcha.text();  // 获取运算的结果：5
 
         String verCode = captcha.text();
-        String key = UUID.randomUUID().toString();
+        String captchaKey = UUID.randomUUID().toString();
         // 存入redis并设置过期时间为30分钟
-        stringRedisTemplate.opsForValue().set(CAPTCHA_PREFIX+key,verCode,30, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(CAPTCHA_PREFIX+captchaKey,verCode,30, TimeUnit.MINUTES);
         // 将key和base64返回给前端
-        return R.ok().put("key", key).put("captchaImage", captcha.toBase64());
+        return R.ok().put("captchaKey", captchaKey).put("captchaImage", captcha.toBase64());
     }
 }

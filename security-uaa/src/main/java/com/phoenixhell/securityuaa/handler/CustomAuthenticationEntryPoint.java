@@ -3,7 +3,6 @@ package com.phoenixhell.securityuaa.handler;
 import com.alibaba.fastjson.JSON;
 import com.phoenixhell.common.utils.ExceptionCodeEnume;
 import com.phoenixhell.common.utils.R;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -32,7 +31,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint,
         // write it to the HttpServletResponse.
         System.out.println(request.getRequestURI());
         System.out.println(authException.getMessage());
-        R error = R.error(ExceptionCodeEnume.VALID_EXCEPTION.getCode(), ExceptionCodeEnume.VALID_EXCEPTION.getMsg());
+        R error = R.error(ExceptionCodeEnume.VALID_EXCEPTION.getCode(), ExceptionCodeEnume.VALID_EXCEPTION.getMessage());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.toString());

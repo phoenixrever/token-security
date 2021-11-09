@@ -31,6 +31,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
                 new Query<UserEntity>().getPage(params),
                 new QueryWrapper<UserEntity>()
         );
+        /*
+         显示除了某两个字段,其他所有字段.
+         queryWrapper.select(User.class, info -> !info.getColumn().equals("manager_id")
+                && !info.getColumn().equals("create_time"));
+         */
 
         return new PageUtils(page);
     }

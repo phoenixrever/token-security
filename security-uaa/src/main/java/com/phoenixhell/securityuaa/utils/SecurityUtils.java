@@ -29,13 +29,14 @@ public class SecurityUtils {
      */
     public static UserEntity getCurrentUser(UserService userService) {
         UserEntity userEntity = userService.query().eq("username", getSecurityUser().getUsername()).one();
+        List<String> authorities = getAuthorities();
+        userEntity.setPermissions(authorities);
         userEntity.setPassword(null);
         return userEntity;
     }
 
     /**
-     * 获取当前登录的用户
-     * @return UserDetails
+     * 获取当前登录的用户权限
      */
     public static List<String> getAuthorities() {
         User securityUser = getSecurityUser();

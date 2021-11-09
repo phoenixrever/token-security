@@ -9,10 +9,10 @@ public enum ExceptionCodeEnume {
     UNKNOWN_EXCEPTION(10000, "系统未知异常"),
     TO_MANY_REQUEST(10002, "请求过于频繁"),
     VALID_EXCEPTION(10001, "参数格式校验失败"),
-    SMS_CODe_EXCEPTION(10001, "验证码获取频率太高请稍后再试"),
+    SMS_CODE_EXCEPTION(10001, "验证码获取频率太高请稍后再试"),
     USER_EXIST_EXCEPTION(15001, "用户名已经存在"),
     PHONE_EXIST_EXCEPTION(15002, "手机号已经存在"),
-    NO_STOCK_EXCEPTION(21000, "商品库存不足"),
+    CAPTCHA_EXCEPTION(21000, "验证码不正确"),
     TOKEN_NOT_MATCH_EXCEPTION(21001, "令牌校验失败"),
     PRICE_NOT_MATCH_EXCEPTION(21002, "价格校验失败"),
     LOGINACCOUNT_PASSWORD_EXCEPTION(150303, "账号或者密码错误"),
@@ -21,11 +21,11 @@ public enum ExceptionCodeEnume {
     ACCESS_DENIED(30000, "你无权限访问此页面");
 
     private Integer code;
-    private String msg;
+    private String message;
 
-    ExceptionCodeEnume(Integer code, String msg) {
+    ExceptionCodeEnume(Integer code, String message) {
         this.code = code;
-        this.msg = msg;
+        this.message = message;
     }
 
     public Integer getCode() {
@@ -33,7 +33,7 @@ public enum ExceptionCodeEnume {
     }
 
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 }

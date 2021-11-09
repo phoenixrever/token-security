@@ -23,8 +23,6 @@ public class MyUserDetailService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
-
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //不存在的由spring security DaoAuthenticationProvider 自动抛出异常

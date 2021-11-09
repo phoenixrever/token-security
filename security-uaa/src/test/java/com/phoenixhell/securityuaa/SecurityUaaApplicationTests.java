@@ -21,8 +21,8 @@ class SecurityUaaApplicationTests {
         System.out.println(password);
 //        System.out.println(passwordEncoder.matches("123", secret));
 
-        RedisTemplate<String,String> redisTemplate = ApplicationContextUtils.getBean("redisTemplate");
-        System.out.println(redisTemplate);
+//        RedisTemplate<String,String> redisTemplate = ApplicationContextUtils.getBean("redisTemplate");
+//        System.out.println(redisTemplate);
     }
 
 }

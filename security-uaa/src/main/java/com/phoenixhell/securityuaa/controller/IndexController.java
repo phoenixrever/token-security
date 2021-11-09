@@ -16,8 +16,8 @@ public class IndexController {
     @PreAuthorize("hasAnyAuthority('p1')")
     @GetMapping({"/","/index"})
     public String index(Model model) {
-        UserEntity currentUser = SecurityUtils.getCurrentUser();
-        model.addAttribute("username", currentUser.getUsername());
+//        UserEntity currentUser = SecurityUtils.getCurrentUser();
+//        model.addAttribute("username", currentUser.getUsername());
         return "index";
     }
 

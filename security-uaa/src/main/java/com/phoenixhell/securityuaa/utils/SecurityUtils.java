@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,15 +22,14 @@ import java.util.stream.Collectors;
 
 public class SecurityUtils {
 
-    @Autowired
-    private static UserService userService;
 
     /**
      * 获取当前登录的用户
      * @return UserDetails
      */
-    public static UserEntity getCurrentUser() {
+    public static UserEntity getCurrentUser(UserService userService) {
         UserEntity userEntity = userService.query().eq("username", getSecurityUser().getUsername()).one();
+        userEntity.setPassword(null);
         return userEntity;
     }
 

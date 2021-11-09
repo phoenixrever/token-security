@@ -89,6 +89,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         tokenServices.setTokenStore(tokenStore);//令牌存储策略
         //令牌增强(转化为jwt令牌)
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        //customTokenEnhancer() 自定义返回token内容
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(customTokenEnhancer(),jwtAccessTokenConverter));
         tokenServices.setTokenEnhancer(tokenEnhancerChain);
 
@@ -106,7 +107,9 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
                 .authorizationCodeServices(authorizationCodeServices)//授权码模式颁发令牌服务URL开启
                 .tokenServices(tokenServices())//令牌存储管理服务
                 .allowedTokenEndpointRequestMethods(HttpMethod.POST)//允许post提交访问令牌
-                .pathMapping("/oauth/token", "/securityuaa/oauth/token");
+                //自定义获取token 地址
+                .pathMapping("/oauth/token", "/securityuaa/oauth/token")
+                .pathMapping("/oauth/check_token", "/securityuaa/oauth/check_token");
     }
 
     //令牌访问端点

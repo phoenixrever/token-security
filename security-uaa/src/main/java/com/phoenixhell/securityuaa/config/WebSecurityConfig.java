@@ -34,6 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
 
+    @Autowired
+    private LoginFilter loginFilter;
+
     @Value("${security.baseUrl}")
     private String baseUrl;
 
@@ -64,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
         http
                 //自定义异常处理
                 .exceptionHandling()
@@ -89,17 +92,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     /**
-     * 自定义登录拦截器
+     * 自定义登录拦截器 注册bean
      */
-    @Bean
-    public LoginFilter loginFilter() throws Exception {
-        LoginFilter loginFilter = new LoginFilter();
-        //在使用自定义的登陆拦截器后 loginProcessingUrl 可以不配置了，在拦截器中也可以配置
-        //当然这里也可以配置但是必须得和拦截器中的一样 如果是 无 session 的话 不需要配置
-        //filter.setAuthenticationManager(authenticationManagerBean());
-        //filter.setAuthenticationSuccessHandler(appLoginInSuccessHandler);
-        loginFilter.setAuthenticationManager(authenticationManagerBean());
-        return loginFilter;
-    }
+//    @Bean
+//    public LoginFilter loginFilter() throws Exception {
+//        LoginFilter loginFilter = new LoginFilter();
+//        //在使用自定义的登陆拦截器后 loginProcessingUrl 可以不配置了，在拦截器中也可以配置
+//        //当然这里也可以配置但是必须得和拦截器中的一样 如果是 无 session 的话 不需要配置
+//        //filter.setAuthenticationManager(authenticationManagerBean());
+//        //filter.setAuthenticationSuccessHandler(appLoginInSuccessHandler);
+//        loginFilter.setAuthenticationManager(authenticationManagerBean());
+//        return loginFilter;
+//    }
 
 }

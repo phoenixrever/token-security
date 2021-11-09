@@ -2,10 +2,12 @@ com\phoenixhell\securityuaa\SecurityUaaApplication.class
 com\phoenixhell\securityuaa\config\AuthorizationServer.class
 com\phoenixhell\securityuaa\service\impl\MenuServiceImpl.class
 com\phoenixhell\securityuaa\config\WebSecurityConfig.class
+com\phoenixhell\securityuaa\utils\ApplicationContextUtils.class
 com\phoenixhell\securityuaa\entity\RoleEntity.class
 com\phoenixhell\securityuaa\service\RoleService.class
 com\phoenixhell\securityuaa\service\impl\RoleServiceImpl.class
 com\phoenixhell\securityuaa\entity\RolesMenusEntity.class
+com\phoenixhell\securityuaa\config\ResourceServerConfig.class
 com\phoenixhell\securityuaa\controller\RolesMenusController.class
 com\phoenixhell\securityuaa\controller\MenuController.class
 com\phoenixhell\securityuaa\entity\UserEntity.class
@@ -29,10 +31,13 @@ com\phoenixhell\securityuaa\handler\LoginFilter.class
 com\phoenixhell\securityuaa\config\RedisConfig.class
 com\phoenixhell\securityuaa\mapper\RoleMapper.class
 com\phoenixhell\securityuaa\controller\UsersRolesController.class
+com\phoenixhell\securityuaa\entity\Router.class
 com\phoenixhell\securityuaa\entity\UsersRolesEntity.class
 com\phoenixhell\securityuaa\service\impl\RolesMenusServiceImpl.class
+com\phoenixhell\securityuaa\utils\SecurityUtils.class
 com\phoenixhell\securityuaa\entity\UsersRoles.class
 com\phoenixhell\securityuaa\exception\GlobalExceptionHandler.class
+com\phoenixhell\securityuaa\config\CustomTokenConverter.class
 com\phoenixhell\securityuaa\handler\CustomAuthenticationEntryPoint.class
 com\phoenixhell\securityuaa\config\MyCacheConfig.class
 com\phoenixhell\securityuaa\handler\CustomAccessDeniedHandler.class

@@ -2,7 +2,6 @@ D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\control
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\config\MyMetaObjectHandler.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\entity\MenuEntity.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\entity\UserEntity.java
-D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\handler\LoginFilter.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\SecurityUaaApplication.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\config\AuthorizationServer.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\controller\RoleController.java
@@ -22,6 +21,7 @@ D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\entity\
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\entity\UsersRolesEntity.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\service\impl\MenuServiceImpl.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\service\MenuService.java
+D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\handler\CaptchaFilter.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\entity\Router.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\mapper\RolesMenusMapper.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\controller\RolesMenusController.java

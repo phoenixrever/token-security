@@ -6,6 +6,11 @@ import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.SpecCaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +24,9 @@ import java.util.concurrent.TimeUnit;
 public class AuthController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private TokenStore tokenStore;
 
     private static final String CAPTCHA_PREFIX="captcha:";
 
@@ -35,5 +43,25 @@ public class AuthController {
         stringRedisTemplate.opsForValue().set(CAPTCHA_PREFIX+captchaKey,verCode,30, TimeUnit.MINUTES);
         // 将key和base64返回给前端
         return R.ok().put("captchaKey", captchaKey).put("captchaImage", captcha.toBase64());
+    }
+
+    @PostMapping("/oauth/logout")
+    public R revokeToken(HttpServletRequest request) {
+        try {
+            String authorization = request.getHeader("Authorization");
+            if (authorization != null && authorization.contains("Bearer")) {
+                String tokenValue = authorization.replace("Bearer", "").trim();
+
+                OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
+                tokenStore.removeAccessToken(accessToken);
+
+                //OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(tokenValue);
+                OAuth2RefreshToken refreshToken = accessToken.getRefreshToken();
+                tokenStore.removeRefreshToken(refreshToken);
+            }
+        } catch (Exception e) {
+            return R.error(30000,"Invalid access token");
+        }
+        return R.ok("Access token invalidated successfully");
     }
 }

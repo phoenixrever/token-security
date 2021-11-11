@@ -3,10 +3,8 @@ package com.phoenixhell.securityuaa.controller;
 
 import com.phoenixhell.common.utils.R;
 import com.wf.captcha.ArithmeticCaptcha;
-import com.wf.captcha.SpecCaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -23,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("securityuaa/auth")
 public class AuthController {
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private RedisTemplate<String,String> redisTemplate;
 
     @Autowired
     private TokenStore tokenStore;
@@ -40,7 +38,7 @@ public class AuthController {
         String verCode = captcha.text();
         String captchaKey = UUID.randomUUID().toString();
         // 存入redis并设置过期时间为30分钟
-        stringRedisTemplate.opsForValue().set(CAPTCHA_PREFIX+captchaKey,verCode,30, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(CAPTCHA_PREFIX+captchaKey,verCode,30, TimeUnit.MINUTES);
         // 将key和base64返回给前端
         return R.ok().put("captchaKey", captchaKey).put("captchaImage", captcha.toBase64());
     }

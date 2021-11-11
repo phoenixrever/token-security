@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.phoenixhell.common.utils.ExceptionCodeEnume;
 import com.phoenixhell.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 public class CaptchaFilter extends OncePerRequestFilter {
     private static final String CAPTCHA_PREFIX="captcha:";
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private RedisTemplate<String,String> redisTemplate;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -35,7 +35,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
         if(request.getRequestURI().contains("/securityuaa/oauth/token")){
             String code = request.getParameter("code");
             String captchaKey= request.getParameter("captchaKey");
-            String redisCode = stringRedisTemplate.opsForValue().get(CAPTCHA_PREFIX + captchaKey);
+            String redisCode = redisTemplate.opsForValue().get(CAPTCHA_PREFIX + captchaKey);
             if(!StringUtils.isEmpty(captchaKey) && !StringUtils.isEmpty(code) && code.equalsIgnoreCase(redisCode)){
                 super.doFilter(request, response, filterChain);
             }else{

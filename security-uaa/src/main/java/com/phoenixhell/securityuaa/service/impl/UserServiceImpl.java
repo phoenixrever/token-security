@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author phoenixhell
@@ -47,21 +47,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
                 && !info.getColumn().equals("create_time"));
          */
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
-        wrapper.select(UserEntity.class,user->!user.getColumn().equals("password"));
+        wrapper.select(UserEntity.class, user -> !user.getColumn().equals("password"));
         IPage<UserEntity> page = this.page(
-                new Query<UserEntity>().getPage(params),wrapper
+                new Query<UserEntity>().getPage(params), wrapper
         );
 
         //UserPage<T> extends Page<T>  自定义setRecords 方法
         Page<UserVo> userVoPage = new Page<>();
         //老的分页属性全部复制过来 (records T 泛型不同不能复制 )
-        BeanUtils.copyProperties(page,userVoPage);
+        BeanUtils.copyProperties(page, userVoPage);
 
         List<UserVo> userVos = page.getRecords().stream().map(userEntity -> {
             //获取每个user 的roles
             List<String> roles = this.getRoles(userEntity.getUserId());
             UserVo userVo = new UserVo();
-            BeanUtils.copyProperties(userEntity,userVo);
+            BeanUtils.copyProperties(userEntity, userVo);
             userVo.setRoles(roles);
             return userVo;
         }).collect(Collectors.toList());
@@ -70,10 +70,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return new PageUtils(userVoPage);
     }
 
-    @Cacheable(value = {"authorities"},key ="#root.args[0]")
+    @Cacheable(value = "authorities", key = "#root.args[0]")
     @Override
-    public List<String> getStringAuthorities(String username) {
-        return baseMapper.getGrantedAuthorities(username);
+    public List<String> getStringAuthorities(Long userId) {
+        return baseMapper.getGrantedAuthorities(userId);
     }
 
     @Override
@@ -83,6 +83,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         List<RoleEntity> roleEntities = roleService.listByIds(roleIds);
         List<String> roles = roleEntities.stream().map(item -> item.getName()).collect(Collectors.toList());
         return roles;
+    }
+
+    @Override
+    public UserVo getUserVoById(Long userId) {
+        UserEntity userEntity = this.getById(userId);
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(userEntity,userVo);
+        List<String> authorities = getStringAuthorities(userId);
+        userVo.setPermissions(authorities);
+        List<String> roles = this.getRoles(userId);
+        userVo.setRoles(roles);
+        return userVo;
     }
 
 }

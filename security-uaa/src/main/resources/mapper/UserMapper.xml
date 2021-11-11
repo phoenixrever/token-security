@@ -27,7 +27,7 @@
               SELECT menu_id FROM sys_roles_menus WHERE role_id IN(
                 SELECT role_id FROM sys_role WHERE role_id IN(
                   SELECT role_id FROM sys_users_roles WHERE user_id IN (
-                    SELECT user_id FROM sys_user WHERE username=#{username}
+                    SELECT user_id FROM sys_user WHERE username=#{userId}
                   )
                 )
               )

@@ -29,7 +29,7 @@ public class MyUserDetailService implements UserDetailsService {
         UserEntity userEntity = userService.query().eq("username", username).one();
 
         // 注意 stringAuthorities permission 绝对不能含有null值 不然 A granted authority textual representation is required 错误
-        List<String> stringAuthorities = userService.getStringAuthorities(username);
+        List<String> stringAuthorities = userService.getStringAuthorities(userEntity.getUserId());
 
         //可以用security user 类生成一个 User
         //无参数的toArray()有一个缺点，就是转换后的数组类型是Object[]

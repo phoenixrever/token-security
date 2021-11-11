@@ -65,9 +65,9 @@ public class UserController {
     @RequestMapping("/info/{userId}")
     //@RequiresPermissions("securityuaa:user:info")
     public R info(@PathVariable("userId") Long userId){
-		UserEntity user = userService.getById(userId);
-
-        return R.ok().put("user", user);
+		UserVo userVo = userService.getUserVoById(userId);
+        
+        return R.ok().put("user", userVo);
     }
 
     /**
@@ -99,7 +99,6 @@ public class UserController {
     //@RequiresPermissions("securityuaa:user:delete")
     public R delete(@RequestBody Long[] userIds){
 		userService.removeByIds(Arrays.asList(userIds));
-
         return R.ok();
     }
 

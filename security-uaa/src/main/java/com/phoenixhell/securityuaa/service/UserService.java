@@ -21,4 +21,5 @@ public interface UserService extends IService<UserEntity> {
 
    List<String> getStringAuthorities(String username);
 
+    List<String> getRoles(Long userId);
 }

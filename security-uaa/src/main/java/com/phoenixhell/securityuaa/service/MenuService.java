@@ -5,6 +5,7 @@ import com.phoenixhell.common.utils.PageUtils;
 import com.phoenixhell.securityuaa.entity.MenuEntity;
 import com.phoenixhell.securityuaa.entity.Router;
 import com.phoenixhell.securityuaa.entity.UserEntity;
+import com.phoenixhell.securityuaa.vo.UserVo;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,6 @@ public interface MenuService extends IService<MenuEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    List<Router> getRouters(UserEntity currentUser);
+    List<Router> getRouters();
 }
 

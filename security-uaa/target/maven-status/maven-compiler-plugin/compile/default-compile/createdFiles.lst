@@ -25,8 +25,10 @@ com\phoenixhell\securityuaa\mapper\MenuMapper.class
 com\phoenixhell\securityuaa\handler\CaptchaFilter.class
 com\phoenixhell\securityuaa\service\UserService.class
 com\phoenixhell\securityuaa\exception\LoginErrorException.class
+com\phoenixhell\securityuaa\vo\UserVo.class
 com\phoenixhell\securityuaa\service\impl\MyUserDetailService.class
 com\phoenixhell\securityuaa\service\RolesMenusService.class
+com\phoenixhell\securityuaa\config\UserPage.class
 com\phoenixhell\securityuaa\config\TokenConfig.class
 com\phoenixhell\securityuaa\config\RedisConfig.class
 com\phoenixhell\securityuaa\mapper\RoleMapper.class

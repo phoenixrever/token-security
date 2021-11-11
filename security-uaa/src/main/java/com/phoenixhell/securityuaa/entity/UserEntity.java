@@ -63,23 +63,7 @@ public class UserEntity implements Serializable {
 	 * 密码
 	 */
 	private String password;
-	/**
-	 * 菜单routers
-	 */
-	@TableField(exist = false)
-	private List<Router> routers;
 
-	/**
-	 * 拥有的权限
-	 */
-	@TableField(exist = false)
-	private List<String> permissions;
-
-
-	/**
-	 * 是否为admin账号
-	 */
-	private Boolean isAdmin;
 	/**
 	 * 状态：1启用、0禁用
 	 */

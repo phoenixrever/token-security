@@ -4,6 +4,7 @@ import com.phoenixhell.securityuaa.entity.Router;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.service.UserService;
 import com.phoenixhell.securityuaa.utils.SecurityUtils;
+import com.phoenixhell.securityuaa.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
     }
 
     @Override
-    public List<Router> getRouters(UserEntity currentUser) {
+    public List<Router> getRouters() {
         //List<String> authorities = userService.getStringAuthorities("admin");
         List<String> authorities = SecurityUtils.getAuthorities();
         List<MenuEntity> menuEntities = this.list();

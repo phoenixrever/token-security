@@ -3,6 +3,8 @@ package com.phoenixhell.securityuaa.utils;
 import com.phoenixhell.common.exception.MyException;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.service.UserService;
+import com.phoenixhell.securityuaa.vo.UserVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,12 +29,23 @@ public class SecurityUtils {
      * 获取当前登录的用户
      * @return UserDetails
      */
-    public static UserEntity getCurrentUser(UserService userService) {
+    public static UserVo getCurrentUser(UserService userService) {
         UserEntity userEntity = userService.query().eq("username", getSecurityUser().getUsername()).one();
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(userEntity,userVo );
         List<String> authorities = getAuthorities();
-        userEntity.setPermissions(authorities);
-        userEntity.setPassword(null);
-        return userEntity;
+        userVo.setPermissions(authorities);
+        return userVo;
+    }
+
+    /**
+     * 获取当前登录的用户权限
+     */
+    public static List<String> getRoles() {
+        User securityUser = getSecurityUser();
+        Collection<GrantedAuthority> GrantedAuthorities = securityUser.getAuthorities();
+        List<String> authorities = GrantedAuthorities.stream().map(a -> a.getAuthority()).collect(Collectors.toList());
+        return authorities;
     }
 
     /**
@@ -46,9 +59,9 @@ public class SecurityUtils {
     }
 
     /**
-     * 获取系统用户名称
+     * 获取系统用户
      *
-     * @return 系统用户名称
+     * @return 系统用户
      */
     public static User getSecurityUser() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

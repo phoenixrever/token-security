@@ -7,6 +7,7 @@ import java.util.Map;
 import com.phoenixhell.securityuaa.entity.Router;
 import com.phoenixhell.securityuaa.service.MenuService;
 import com.phoenixhell.securityuaa.utils.SecurityUtils;
+import com.phoenixhell.securityuaa.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,9 +38,10 @@ public class UserController {
      */
     @GetMapping("/authUserInfo")
     public R getAuthUserInfo(){
-        UserEntity currentUser = SecurityUtils.getCurrentUser(userService);
-//        UserEntity currentUser = userService.query().eq("username", "admin").one();
-        List<Router> routers  =  menuService.getRouters(currentUser);
+        UserVo currentUser = SecurityUtils.getCurrentUser(userService);
+        List<String> roles = userService.getRoles(currentUser.getUserId());
+        currentUser.setRoles(roles);
+        List<Router> routers  =  menuService.getRouters();
        currentUser.setRouters(routers);
         return R.ok().put("data",currentUser);
     }

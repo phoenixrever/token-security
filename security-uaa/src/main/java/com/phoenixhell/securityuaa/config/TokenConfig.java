@@ -25,7 +25,9 @@ public class TokenConfig {
     @Bean
     public TokenStore tokenStore(){
        // return new InMemoryTokenStore();  //内存令牌存储策咯
-        return new RedisTokenStore(redisConnectionFactory);
+        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+        redisTokenStore.setPrefix("AccessToken:");
+        return redisTokenStore;
         //return new JwtTokenStore(jwtAccessTokenConverter());
     }
 

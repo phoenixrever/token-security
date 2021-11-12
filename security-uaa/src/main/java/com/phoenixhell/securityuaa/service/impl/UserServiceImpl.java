@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.phoenixhell.common.exception.MyException;
 import com.phoenixhell.common.utils.PageUtils;
 import com.phoenixhell.common.utils.Query;
-import com.phoenixhell.securityuaa.config.UserPage;
 import com.phoenixhell.securityuaa.entity.RoleEntity;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.entity.UsersRolesEntity;
@@ -19,7 +19,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -70,10 +73,53 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return new PageUtils(userVoPage);
     }
 
-    @Cacheable(value = "authorities", key = "#root.args[0]")
+    //根据用户id 权限缓存
+    @Cacheable(value = "authorities:", key = "'userId-'+#args[0]")
     @Override
     public List<String> getStringAuthorities(Long userId) {
         return baseMapper.getGrantedAuthorities(userId);
+    }
+
+
+    //根据角色获取权限permissions 缓存
+    @Cacheable(value = "authorities", key = "'role-'+#root.args[0]")
+    public List<String> getAuthoritiesByRole(String role) {
+        List<String> authorities = baseMapper.getAuthoritiesByRole(role);
+        return authorities;
+    }
+
+    //根据多个角色获取权限
+    public List<String> getAuthoritiesByRoles(List<String> roles) {
+        HashSet<String> set = new HashSet<>();
+        roles.forEach(role -> {
+            List<String> authorities = this.getAuthoritiesByRole(role);
+            set.addAll(authorities);
+        });
+        ArrayList<String> arrayList = new ArrayList<>(set);
+        return arrayList;
+    }
+
+
+    @Transactional
+    //设置角色权限
+    public void setRolesByUserId(List<String> roles, Long userId) {
+        boolean remove = usersRolesService.remove(new QueryWrapper<UsersRolesEntity>().eq("user_id", userId));
+        if (!remove) {
+            throw new MyException(40000, "删除用户权限失败");
+        }
+        roles.forEach(role -> {
+            Long roleId = roleService.query().eq("name", role).one().getRoleId();
+            if (userId == null) {
+                throw new MyException(40000, "无此角色");
+            }
+            UsersRolesEntity usersRolesEntity = new UsersRolesEntity();
+            usersRolesEntity.setRoleId(roleId);
+            usersRolesEntity.setUserId(userId);
+            boolean save = usersRolesService.save(usersRolesEntity);
+            if (!save) {
+                throw new MyException(40000, "保存用户权限失败");
+            }
+        });
     }
 
     @Override
@@ -89,12 +135,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public UserVo getUserVoById(Long userId) {
         UserEntity userEntity = this.getById(userId);
         UserVo userVo = new UserVo();
-        BeanUtils.copyProperties(userEntity,userVo);
+        BeanUtils.copyProperties(userEntity, userVo);
         List<String> authorities = getStringAuthorities(userId);
         userVo.setPermissions(authorities);
         List<String> roles = this.getRoles(userId);
         userVo.setRoles(roles);
         return userVo;
+    }
+
+    @Transactional
+    @Override
+    public void updateByUserVo(UserVo userVo) {
+        //复制普通属性
+        UserEntity userEntity = new UserEntity();
+        BeanUtils.copyProperties(userVo, userEntity);
+        boolean update = this.updateById(userEntity);
+        if (!update) {
+            throw new MyException(40002, "更新用户失败");
+        }
+        this.setRolesByUserId(userVo.getRoles(), userVo.getUserId());
+        //根据 roles update permission(menu)
+    }
+
+    @Transactional
+    @Override
+    public void saveUserVo(UserVo userVo) {
+        //复制普通属性
+        UserEntity userEntity = new UserEntity();
+        BeanUtils.copyProperties(userVo, userEntity);
+        boolean save = this.save(userEntity);
+        if (!save) {
+            throw new MyException(40002, "更新用户失败");
+        }
+        this.setRolesByUserId(userVo.getRoles(), userVo.getUserId());
+        //根据 roles update permission(menu)
     }
 
 }

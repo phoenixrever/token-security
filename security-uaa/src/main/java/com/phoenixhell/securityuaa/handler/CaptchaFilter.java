@@ -23,7 +23,7 @@ import java.nio.charset.StandardCharsets;
  * filter 必须加 @Component 注入到容器
  */
 
-@Component
+//@Component
 public class CaptchaFilter extends OncePerRequestFilter {
     private static final String CAPTCHA_PREFIX="captcha:";
     @Autowired

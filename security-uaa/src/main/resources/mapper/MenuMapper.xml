@@ -14,7 +14,6 @@
         <result property="menuSort" column="menu_sort"/>
         <result property="icon" column="icon"/>
         <result property="path" column="path"/>
-        <result property="iFrame" column="i_frame"/>
         <result property="cache" column="cache"/>
         <result property="hidden" column="hidden"/>
         <result property="permission" column="permission"/>

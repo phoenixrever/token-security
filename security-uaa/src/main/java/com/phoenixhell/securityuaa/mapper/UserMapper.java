@@ -16,4 +16,6 @@ import java.util.List;
  */
 public interface UserMapper extends BaseMapper<UserEntity> {
     List<String> getGrantedAuthorities(@Param("userId") Long userId);
+
+    List<String> getAuthoritiesByRole(@Param("role") String role);
 }

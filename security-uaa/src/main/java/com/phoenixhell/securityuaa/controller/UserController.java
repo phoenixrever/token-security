@@ -1,13 +1,17 @@
 package com.phoenixhell.securityuaa.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import com.phoenixhell.securityuaa.entity.Router;
+import com.phoenixhell.securityuaa.entity.UsersRoles;
 import com.phoenixhell.securityuaa.service.MenuService;
+import com.phoenixhell.securityuaa.service.impl.UserServiceImpl;
 import com.phoenixhell.securityuaa.utils.SecurityUtils;
 import com.phoenixhell.securityuaa.vo.UserVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +36,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private MenuService menuService;
+
+    @Autowired
+    private UserServiceImpl userServiceImpl;
 
     /**
      * 用户信息 包括侧边栏菜单
@@ -75,9 +82,8 @@ public class UserController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("securityuaa:user:save")
-    public R save(@RequestBody UserEntity user){
-		userService.save(user);
-
+    public R save(@RequestBody UserVo userVo){
+		userService.saveUserVo(userVo);
         return R.ok();
     }
 
@@ -86,10 +92,9 @@ public class UserController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("securityuaa:user:update")
-    public R update(@RequestBody UserEntity user){
-		userService.updateById(user);
-
-        return R.ok();
+    public R update(@RequestBody UserVo userVo){
+      userService.updateByUserVo(userVo);
+      return R.ok();
     }
 
     /**
@@ -102,4 +107,17 @@ public class UserController {
         return R.ok();
     }
 
+    /**
+     * 修改
+     */
+    @GetMapping("/test")
+    //@RequiresPermissions("securityuaa:user:update")
+    public R update(){
+        ArrayList<String> list = new ArrayList<>();
+        list.add("getter");
+//        List<String> authoritiesByRoles = userServiceImpl.getAuthoritiesByRoles(list);
+//        return R.ok().put("data",authoritiesByRoles);
+        userServiceImpl.setRolesByUserId(list,1L);
+        return R.ok();
+    }
 }

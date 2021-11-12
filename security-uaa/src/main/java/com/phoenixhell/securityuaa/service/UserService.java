@@ -2,7 +2,6 @@ package com.phoenixhell.securityuaa.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.phoenixhell.common.utils.PageUtils;
-import com.phoenixhell.securityuaa.entity.Router;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.vo.UserVo;
 
@@ -25,4 +24,8 @@ public interface UserService extends IService<UserEntity> {
     List<String> getRoles(Long userId);
 
     UserVo getUserVoById(Long userId);
+
+    void updateByUserVo(UserVo userVo);
+
+    void saveUserVo(UserVo userVo);
 }

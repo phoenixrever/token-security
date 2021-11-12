@@ -34,8 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
 
-    @Autowired
-    private CaptchaFilter captchaFilter;
+//    @Autowired
+//    private CaptchaFilter captchaFilter;
 
     @Value("${security.baseUrl}")
     private String baseUrl;
@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class);
         http
                 //自定义异常处理
                 .exceptionHandling()

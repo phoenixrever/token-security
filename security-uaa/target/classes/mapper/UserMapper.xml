@@ -32,6 +32,48 @@
                 )
               )
             )
-
     </select>
+
+    <!--
+               collection：指定要遍历的集合：
+                   list类型的参数会特殊处理封装在map中，map的key就叫list
+               item：将当前遍历出的元素赋值给指定的变量
+               separator:每个元素之间的分隔符
+               open：遍历出所有结果拼接一个开始的字符
+               close:遍历出所有结果拼接一个结束的字符
+               index:索引。遍历list的时候是index就是索引，item就是当前值
+                             遍历map的时候index表示的就是map的key，item就是map的值
+
+               #{变量名}就能取出变量的值也就是当前遍历出的元素
+                                collection 默认是list 或者map ids 需要@param("ids")
+             -->
+
+    <select id="getAuthoritiesByRole" resultType="java.lang.String">
+<!--            不能这样子写 缓存不好维护(更新)-->
+<!--        SELECT DISTINCT permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(-->
+<!--        SELECT menu_id FROM sys_roles_menus WHERE role_id IN(-->
+<!--        SELECT role_id FROM sys_role WHERE `name` IN-->
+<!--        <foreach collection="roles" item="role_name" separator=","-->
+<!--                 open="(" close=")">-->
+<!--            #{role_name}-->
+<!--        </foreach>-->
+<!--            )-->
+<!--        )-->
+        SELECT DISTINCT permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(
+        SELECT menu_id FROM sys_roles_menus WHERE role_id IN(
+        SELECT role_id FROM sys_role WHERE `name` =${role}
+    </select>
+
+<!--    还是不要这样写好 有很多排列组合作为key 还是保存一个一个的key好-->
+<!--    <select id="getAuthoritiesByRoles" resultType="java.lang.String">-->
+<!--                SELECT DISTINCT permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(-->
+<!--                SELECT menu_id FROM sys_roles_menus WHERE role_id IN(-->
+<!--                SELECT role_id FROM sys_role WHERE `name` IN-->
+<!--                <foreach collection="roles" item="role_name" separator=","-->
+<!--                         open="(" close=")">-->
+<!--                    #{role_name}-->
+<!--                </foreach>-->
+<!--                    )-->
+<!--                )-->
+<!--    </select>-->
 </mapper>

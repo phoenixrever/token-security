@@ -38,15 +38,6 @@ public class SecurityUtils {
         return userVo;
     }
 
-    /**
-     * 获取当前登录的用户权限
-     */
-    public static List<String> getRoles() {
-        User securityUser = getSecurityUser();
-        Collection<GrantedAuthority> GrantedAuthorities = securityUser.getAuthorities();
-        List<String> authorities = GrantedAuthorities.stream().map(a -> a.getAuthority()).collect(Collectors.toList());
-        return authorities;
-    }
 
     /**
      * 获取当前登录的用户权限

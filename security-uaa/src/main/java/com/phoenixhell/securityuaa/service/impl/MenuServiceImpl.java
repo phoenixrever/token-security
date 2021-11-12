@@ -4,6 +4,7 @@ import com.phoenixhell.securityuaa.entity.Router;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.service.UserService;
 import com.phoenixhell.securityuaa.utils.SecurityUtils;
+import com.phoenixhell.securityuaa.vo.MenuTreeVo;
 import com.phoenixhell.securityuaa.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,35 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
         return new PageUtils(page);
     }
 
+
+    @Override
+    public List<MenuTreeVo> buildMenuTree() {
+       List<MenuEntity> menuEntities = this.list();
+        List<MenuTreeVo> menuTreeVos = menuEntities.stream().filter(menuEntity -> menuEntity.getPid() == 0)
+                .sorted((menu1, menu2) -> (menu1.getMenuId() == null ? 0 : menu1.getMenuSort()) - (menu2.getMenuSort() == null ? 0 : menu2.getMenuSort()))
+                .map(menu -> {
+                    MenuTreeVo menuTreeVo = new MenuTreeVo();
+                    menuTreeVo.setLabel(menu.getTitle());
+                    menuTreeVo.setChildren(getMenuTreeChildren(menu, menuEntities));
+                    return menuTreeVo;
+                })
+                .collect(Collectors.toList());
+        return menuTreeVos;
+    }
+
+    private List<MenuTreeVo> getMenuTreeChildren(MenuEntity menu, List<MenuEntity> menuEntities) {
+        List<MenuTreeVo> childMenuTreeVos = menuEntities.stream().filter(menuEntity -> menuEntity.getPid().equals(menu.getMenuId()))
+                .sorted((menu1, menu2) -> (menu1.getMenuSort() == null ? 0 : menu1.getMenuSort()) - (menu2.getMenuSort() == null ? 0 : menu2.getMenuSort()))
+                .map(childMenu -> {
+                    MenuTreeVo childMenuTreeVo = new MenuTreeVo();
+                    childMenuTreeVo.setLabel(childMenu.getTitle());
+                    childMenuTreeVo.setChildren(getMenuTreeChildren(childMenu, menuEntities));
+                    return childMenuTreeVo;
+                }).collect(Collectors.toList());
+        return childMenuTreeVos;
+    }
+
+
     @Override
     public List<Router> getRouters() {
         //List<String> authorities = userService.getStringAuthorities("admin");
@@ -63,6 +93,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
                 .collect(Collectors.toList());
         return routers;
     }
+
 
     /*
         private String name;

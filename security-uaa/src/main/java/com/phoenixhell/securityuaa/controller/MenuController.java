@@ -1,10 +1,12 @@
 package com.phoenixhell.securityuaa.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.utils.SecurityUtils;
+import com.phoenixhell.securityuaa.vo.MenuTreeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +31,14 @@ public class MenuController {
     private MenuService menuService;
 
 
+    /**
+     *  tree 列表
+     */
+    @GetMapping("/tree")
+    private R getMenuTree(){
+        List<MenuTreeVo> menuTreeVos =  menuService.buildMenuTree();
+        return R.ok();
+    }
 
     /**
      * 列表

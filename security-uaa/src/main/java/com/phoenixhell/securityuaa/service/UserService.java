@@ -28,4 +28,6 @@ public interface UserService extends IService<UserEntity> {
     void updateByUserVo(UserVo userVo);
 
     void saveUserVo(UserVo userVo);
+
+    List<String> getAuthoritiesByRole(String role);
 }

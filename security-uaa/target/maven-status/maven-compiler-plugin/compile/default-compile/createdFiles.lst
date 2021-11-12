@@ -46,5 +46,6 @@ com\phoenixhell\securityuaa\handler\CustomAccessDeniedHandler.class
 com\phoenixhell\securityuaa\service\UsersRolesService.class
 com\phoenixhell\securityuaa\controller\IndexController.class
 com\phoenixhell\securityuaa\entity\MenuEntity.class
+com\phoenixhell\securityuaa\vo\MenuTreeVo.class
 com\phoenixhell\securityuaa\config\MyMetaObjectHandler.class
 com\phoenixhell\securityuaa\service\impl\UserServiceImpl.class

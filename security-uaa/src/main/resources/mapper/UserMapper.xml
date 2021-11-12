@@ -22,16 +22,21 @@
 <!--            ON p.`id` = rp.`permission_id`-->
 <!--        WHERE u.`username` = #{username}-->
 <!--    </select>-->
+
+    <!--SELECT permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(-->
+    <!--SELECT menu_id FROM sys_roles_menus WHERE role_id IN(-->
+    <!--SELECT role_id FROM sys_role WHERE role_id IN(-->
+    <!--SELECT role_id FROM sys_users_roles WHERE user_id IN (-->
+    <!--SELECT user_id FROM sys_user WHERE username=#{username}-->
+    <!--)-->
     <select id="getGrantedAuthorities" resultType="java.lang.String">
-          SELECT permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(
-              SELECT menu_id FROM sys_roles_menus WHERE role_id IN(
-                SELECT role_id FROM sys_role WHERE role_id IN(
-                  SELECT role_id FROM sys_users_roles WHERE user_id IN (
-                    SELECT user_id FROM sys_user WHERE username=#{userId}
-                  )
-                )
-              )
-            )
+         SELECT permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(
+             SELECT menu_id FROM sys_roles_menus WHERE role_id IN(
+                 SELECT role_id FROM sys_role WHERE role_id IN(
+                     SELECT role_id FROM sys_users_roles WHERE user_id =#{userId}
+                 )
+             )
+         )
     </select>
 
     <!--

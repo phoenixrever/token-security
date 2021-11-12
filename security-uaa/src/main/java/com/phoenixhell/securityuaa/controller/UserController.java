@@ -70,8 +70,12 @@ public class UserController {
      */
     @RequestMapping("/{userId}/{status}")
     //@RequiresPermissions("securityuaa:user:list")
-    public R changeStaus(@PathVariable String userId, @PathVariable Boolean status){
+    public R changeStaus(@PathVariable Long userId, @PathVariable Boolean status){
+        if(userId.equals(1L)){
+            return R.error();
+        }
         UserEntity userEntity = new UserEntity();
+        userEntity.setUserId(userId);
         userEntity.setEnabled(status);
         userService.updateById(userEntity);
         return R.ok();
@@ -115,7 +119,13 @@ public class UserController {
     @RequestMapping("/delete")
     //@RequiresPermissions("securityuaa:user:delete")
     public R delete(@RequestBody Long[] userIds){
-		userService.removeByIds(Arrays.asList(userIds));
+        List<Long> list = Arrays.asList(userIds);
+        // 1  admin  id
+        int index = list.indexOf(1L);
+        if(index>-1) {
+            return R.error("不能删除admin");
+        }
+        userService.removeByIds(list);
         return R.ok();
     }
 

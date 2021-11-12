@@ -1,8 +1,6 @@
 package com.phoenixhell.securityuaa.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +23,6 @@ public class UserEntity implements Serializable {
 	/**
 	 * ID
 	 */
-	@TableId
 	private Long userId;
 	/**
 	 * 部门名称
@@ -83,10 +80,12 @@ public class UserEntity implements Serializable {
 	/**
 	 * 创建日期
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	private Date createTime;
 	/**
 	 * 更新时间
 	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
 
 }

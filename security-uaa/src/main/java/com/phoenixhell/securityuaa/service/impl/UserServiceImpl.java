@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -74,7 +75,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     //根据用户id 权限缓存
-    @Cacheable(value = "authorities:", key = "'userId-'+#args[0]")
+    //@Cacheable(value = "authorities:", key = "'userId-'+#args[0]")
     @Override
     public List<String> getStringAuthorities(Long userId) {
         return baseMapper.getGrantedAuthorities(userId);
@@ -103,9 +104,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Transactional
     //设置角色权限
     public void setRolesByUserId(List<String> roles, Long userId) {
-        boolean remove = usersRolesService.remove(new QueryWrapper<UsersRolesEntity>().eq("user_id", userId));
-        if (!remove) {
-            throw new MyException(40000, "删除用户权限失败");
+        List<UsersRolesEntity> usersRolesEntities = usersRolesService.query().eq("user_id", userId).list();
+        if(usersRolesEntities!=null && usersRolesEntities.size()>0){
+            List<Long> roleIds = usersRolesEntities.stream().map(usersRolesEntity -> usersRolesEntity.getRoleId()).collect(Collectors.toList());
+            boolean remove = usersRolesService.removeByIds(roleIds);
+            if (!remove) {
+                throw new MyException(40000, "删除用户权限失败");
+            }
         }
         roles.forEach(role -> {
             Long roleId = roleService.query().eq("name", role).one().getRoleId();
@@ -131,10 +136,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return roles;
     }
 
+    public List<String> getAllRoles() {
+        //查询出所有roles
+        List<String> allRoles = roleService.list().stream().map(roleEntity -> roleEntity.getName()).collect(Collectors.toList());
+        return allRoles;
+    }
+
     @Override
     public UserVo getUserVoById(Long userId) {
-        UserEntity userEntity = this.getById(userId);
         UserVo userVo = new UserVo();
+        userVo.setAllRoles(this.getAllRoles());
+        if(userId==0L){
+            return userVo;
+        }
+        UserEntity userEntity = this.getById(userId);
         BeanUtils.copyProperties(userEntity, userVo);
         List<String> authorities = getStringAuthorities(userId);
         userVo.setPermissions(authorities);
@@ -146,20 +161,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Transactional
     @Override
     public void updateByUserVo(UserVo userVo) {
+        String username = userVo.getUsername();
+        UserEntity user = this.query().eq("username", username).one();
+        if (user != null && !user.getUserId().equals(userVo.getUserId())) {
+            throw new MyException(40004, "用户已经存在");
+        }
         //复制普通属性
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(userVo, userEntity);
+        if (userVo.getUserId()==1L){
+            userEntity.setUsername(null);
+        }
         boolean update = this.updateById(userEntity);
         if (!update) {
             throw new MyException(40002, "更新用户失败");
         }
-        this.setRolesByUserId(userVo.getRoles(), userVo.getUserId());
+        if (!userVo.getUsername().equals("admin")){
+            this.setRolesByUserId(userVo.getRoles(), userVo.getUserId());
+        }
         //根据 roles update permission(menu)
     }
 
     @Transactional
     @Override
     public void saveUserVo(UserVo userVo) {
+        String username = userVo.getUsername();
+        UserEntity user = this.query().eq("username", username).one();
+        if (user != null) {
+            throw new MyException(40004, "用户已经存在");
+        }
         //复制普通属性
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(userVo, userEntity);
@@ -167,7 +197,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         if (!save) {
             throw new MyException(40002, "更新用户失败");
         }
-        this.setRolesByUserId(userVo.getRoles(), userVo.getUserId());
+        this.setRolesByUserId(userVo.getRoles(), userEntity.getUserId());
         //根据 roles update permission(menu)
     }
 

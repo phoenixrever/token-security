@@ -12,7 +12,7 @@ import java.util.List;
  * @author phoenixhell
  * @since 2021/11/11 0011-上午 10:39
  */
-
+//todo 校验
 @Data
 public class UserVo {
     /**
@@ -62,6 +62,12 @@ public class UserVo {
      * 角色
      */
     private List<String> roles;
+
+
+    /**
+     * 所有角色
+     */
+    private List<String> allRoles;
     /**
      * 状态：1启用、0禁用
      */

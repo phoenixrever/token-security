@@ -34,9 +34,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
 
-//    @Autowired
-//    private CaptchaFilter captchaFilter;
-
     @Value("${security.baseUrl}")
     private String baseUrl;
 
@@ -67,7 +64,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class);
+        //定义的一般过滤器 无需在spring security 注册
+        // 继承的spring security 比如表单验证的需要注册
+         //http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class);
         http
                 //自定义异常处理
                 .exceptionHandling()

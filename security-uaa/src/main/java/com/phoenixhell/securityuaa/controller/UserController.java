@@ -65,6 +65,18 @@ public class UserController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 改变激活状态
+     */
+    @RequestMapping("/{userId}/{status}")
+    //@RequiresPermissions("securityuaa:user:list")
+    public R changeStaus(@PathVariable String userId, @PathVariable Boolean status){
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEnabled(status);
+        userService.updateById(userEntity);
+        return R.ok();
+    }
+
 
     /**
      * 信息

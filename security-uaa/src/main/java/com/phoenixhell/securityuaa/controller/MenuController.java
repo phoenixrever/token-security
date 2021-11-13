@@ -37,7 +37,7 @@ public class MenuController {
     @GetMapping("/tree")
     private R getMenuTree(){
         List<MenuTreeVo> menuTreeVos =  menuService.buildMenuTree();
-        return R.ok();
+        return R.ok().put("data",menuTreeVos);
     }
 
     /**
@@ -60,7 +60,7 @@ public class MenuController {
     public R info(@PathVariable("menuId") Long menuId){
 		MenuEntity menu = menuService.getById(menuId);
 
-        return R.ok().put("menu", menu);
+        return R.ok().put("data", menu);
     }
 
     /**

@@ -106,15 +106,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public void setRolesByUserId(List<String> roles, Long userId) {
         List<UsersRolesEntity> usersRolesEntities = usersRolesService.query().eq("user_id", userId).list();
         if(usersRolesEntities!=null && usersRolesEntities.size()>0){
-            List<Long> roleIds = usersRolesEntities.stream().map(usersRolesEntity -> usersRolesEntity.getRoleId()).collect(Collectors.toList());
-            boolean remove = usersRolesService.removeByIds(roleIds);
+            QueryWrapper<UsersRolesEntity> wrapper = new QueryWrapper<UsersRolesEntity>().eq("user_id", userId);
+            boolean remove = usersRolesService.remove(wrapper);
             if (!remove) {
                 throw new MyException(40000, "删除用户权限失败");
             }
         }
         roles.forEach(role -> {
             Long roleId = roleService.query().eq("name", role).one().getRoleId();
-            if (userId == null) {
+            if (roleId == null) {
                 throw new MyException(40000, "无此角色");
             }
             UsersRolesEntity usersRolesEntity = new UsersRolesEntity();

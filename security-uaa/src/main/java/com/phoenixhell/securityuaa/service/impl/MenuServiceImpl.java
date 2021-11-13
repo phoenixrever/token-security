@@ -6,6 +6,7 @@ import com.phoenixhell.securityuaa.service.UserService;
 import com.phoenixhell.securityuaa.utils.SecurityUtils;
 import com.phoenixhell.securityuaa.vo.MenuTreeVo;
 import com.phoenixhell.securityuaa.vo.UserVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +51,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
                 .sorted((menu1, menu2) -> (menu1.getMenuId() == null ? 0 : menu1.getMenuSort()) - (menu2.getMenuSort() == null ? 0 : menu2.getMenuSort()))
                 .map(menu -> {
                     MenuTreeVo menuTreeVo = new MenuTreeVo();
+                    BeanUtils.copyProperties(menu,menuTreeVo);
                     menuTreeVo.setLabel(menu.getTitle());
                     menuTreeVo.setChildren(getMenuTreeChildren(menu, menuEntities));
                     return menuTreeVo;
@@ -63,6 +65,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
                 .sorted((menu1, menu2) -> (menu1.getMenuSort() == null ? 0 : menu1.getMenuSort()) - (menu2.getMenuSort() == null ? 0 : menu2.getMenuSort()))
                 .map(childMenu -> {
                     MenuTreeVo childMenuTreeVo = new MenuTreeVo();
+                    BeanUtils.copyProperties(childMenu,childMenuTreeVo);
                     childMenuTreeVo.setLabel(childMenu.getTitle());
                     childMenuTreeVo.setChildren(getMenuTreeChildren(childMenu, menuEntities));
                     return childMenuTreeVo;

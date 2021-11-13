@@ -23,6 +23,7 @@ public class UserEntity implements Serializable {
 	/**
 	 * ID
 	 */
+	@TableId(type = IdType.AUTO)
 	private Long userId;
 	/**
 	 * 部门名称
@@ -64,7 +65,7 @@ public class UserEntity implements Serializable {
 	/**
 	 * 状态：1启用、0禁用
 	 */
-	private Boolean enabled;
+	private Integer enabled;
 	/**
 	 * 创建者
 	 */

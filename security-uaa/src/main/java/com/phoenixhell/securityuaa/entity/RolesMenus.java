@@ -27,7 +27,7 @@ public class RolesMenus implements Serializable {
     /**
      * 菜单ID
      */
-    @TableId(value = "menu_id", type = IdType.ID_WORKER_STR)
+    @TableId
     private Long menuId;
 
     /**

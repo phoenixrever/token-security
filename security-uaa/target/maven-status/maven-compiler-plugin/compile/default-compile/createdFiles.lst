@@ -1,8 +1,10 @@
 com\phoenixhell\securityuaa\SecurityUaaApplication.class
 com\phoenixhell\securityuaa\config\AuthorizationServer.class
+valid\UpdateStatusGroup.class
 com\phoenixhell\securityuaa\service\impl\MenuServiceImpl.class
 com\phoenixhell\securityuaa\config\WebSecurityConfig.class
 com\phoenixhell\securityuaa\utils\ApplicationContextUtils.class
+valid\ListValue.class
 com\phoenixhell\securityuaa\entity\RoleEntity.class
 com\phoenixhell\securityuaa\service\RoleService.class
 com\phoenixhell\securityuaa\service\impl\RoleServiceImpl.class
@@ -12,8 +14,10 @@ com\phoenixhell\securityuaa\controller\RolesMenusController.class
 com\phoenixhell\securityuaa\controller\MenuController.class
 com\phoenixhell\securityuaa\entity\UserEntity.class
 com\phoenixhell\securityuaa\mapper\UserMapper.class
+valid\ListValueConstraintValidator.class
 com\phoenixhell\securityuaa\config\MybatisConfig.class
 com\phoenixhell\securityuaa\service\MenuService.class
+valid\UpdateGroup.class
 com\phoenixhell\securityuaa\controller\UserController.class
 com\phoenixhell\securityuaa\service\impl\UsersRolesServiceImpl.class
 com\phoenixhell\securityuaa\mapper\UsersRolesMapper.class
@@ -26,6 +30,7 @@ com\phoenixhell\securityuaa\handler\CaptchaFilter.class
 com\phoenixhell\securityuaa\service\UserService.class
 com\phoenixhell\securityuaa\exception\LoginErrorException.class
 com\phoenixhell\securityuaa\vo\UserVo.class
+valid\AddGroup.class
 com\phoenixhell\securityuaa\service\impl\MyUserDetailService.class
 com\phoenixhell\securityuaa\service\RolesMenusService.class
 com\phoenixhell\securityuaa\config\UserPage.class

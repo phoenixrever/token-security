@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.injector.methods.Update;
 import com.phoenixhell.securityuaa.entity.Router;
 import com.phoenixhell.securityuaa.entity.UsersRoles;
 import com.phoenixhell.securityuaa.service.MenuService;
@@ -13,13 +14,18 @@ import com.phoenixhell.securityuaa.utils.SecurityUtils;
 import com.phoenixhell.securityuaa.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.service.UserService;
 import com.phoenixhell.common.utils.PageUtils;
 import com.phoenixhell.common.utils.R;
+import valid.AddGroup;
+import valid.UpdateGroup;
+import valid.UpdateStatusGroup;
 
+import javax.validation.Valid;
 
 
 /**
@@ -70,7 +76,7 @@ public class UserController {
      */
     @RequestMapping("/{userId}/{status}")
     //@RequiresPermissions("securityuaa:user:list")
-    public R changeStaus(@PathVariable Long userId, @PathVariable Boolean status){
+    public R changeStaus(@Validated(value = {UpdateStatusGroup.class})@PathVariable Long userId, @PathVariable Integer status){
         if(userId.equals(1L)){
             return R.error();
         }
@@ -98,7 +104,7 @@ public class UserController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("securityuaa:user:save")
-    public R save(@RequestBody UserVo userVo){
+    public R save(@Validated(value = {AddGroup.class}) @RequestBody UserVo userVo){
 		userService.saveUserVo(userVo);
         return R.ok();
     }
@@ -108,7 +114,7 @@ public class UserController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("securityuaa:user:update")
-    public R update(@RequestBody UserVo userVo){
+    public R update(@Validated(value = {UpdateGroup.class})@RequestBody UserVo userVo){
       userService.updateByUserVo(userVo);
       return R.ok();
     }

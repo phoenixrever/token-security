@@ -11,6 +11,10 @@ import java.util.List;
 
 @Data
 public class MenuTreeVo {
-    public String label;
-    public List<MenuTreeVo> children;
+    private Long menuId;
+    private Long pid;
+    private Integer type;
+    private String  Icon;
+    private String label;
+    private List<MenuTreeVo> children;
 }

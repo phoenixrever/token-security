@@ -19,6 +19,7 @@ import java.util.HashMap;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    //後端校驗全局異常
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public R handleValidationException(MethodArgumentNotValidException e) {
         log.error("validate", e);

@@ -44,8 +44,8 @@ public class SecurityUtils {
      */
     public static List<String> getAuthorities() {
         User securityUser = getSecurityUser();
-        Collection<GrantedAuthority> GrantedAuthorities = securityUser.getAuthorities();
-        List<String> authorities = GrantedAuthorities.stream().map(a -> a.getAuthority()).collect(Collectors.toList());
+        Collection<GrantedAuthority> grantedAuthorities = securityUser.getAuthorities();
+        List<String> authorities = grantedAuthorities.stream().map(a -> a.getAuthority()).collect(Collectors.toList());
         return authorities;
     }
 

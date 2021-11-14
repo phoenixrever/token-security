@@ -59,7 +59,6 @@ public class MenuController {
     //@RequiresPermissions("securityuaa:menu:info")
     public R info(@PathVariable("menuId") Long menuId){
 		MenuEntity menu = menuService.getById(menuId);
-
         return R.ok().put("data", menu);
     }
 
@@ -80,6 +79,7 @@ public class MenuController {
     @RequestMapping("/update")
     //@RequiresPermissions("securityuaa:menu:update")
     public R update(@RequestBody MenuEntity menu){
+        //不允许修改组件name component 隐藏
 		menuService.updateById(menu);
 
         return R.ok();

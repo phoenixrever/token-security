@@ -82,11 +82,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
         List<Router> routers = menuEntities.stream().filter(menuEntity -> menuEntity.getPid() == 0)
                 .filter(menuItem-> StringUtils.isEmpty(menuItem.getPermission()) || authorities.contains(menuItem.getPermission()))
                 .map(menu -> {
+                    //重定向的目标也可以是一个命名的路由： { path: '/a', redirect: { name: 'foo' }}
                     Router router = new Router();
                     router.setName(menu.getName());
                     router.setPath(menu.getPath());
                     router.setComponent(menu.getComponent());
                     router.setHidden(menu.getHidden());
+                    if(!StringUtils.isEmpty(menu.getRedirect())){
+                        HashMap<String, String> redirectMap = new HashMap<>(1);
+                        redirectMap.put("name",menu.getRedirect());
+                        router.setRedirect(redirectMap);
+                    }
                     HashMap<String, String> map = new HashMap<>();
                     map.put("title", menu.getTitle());
                     router.setMeta(map);
@@ -120,6 +126,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
                     childRouter.setPath(menu.getPath());
                     childRouter.setComponent(menu.getComponent());
                     childRouter.setHidden(menu.getHidden());
+                    if(!StringUtils.isEmpty(menu.getRedirect())){
+                        HashMap<String, String> redirectMap = new HashMap<>(1);
+                        redirectMap.put("name",menu.getRedirect());
+                        childRouter.setRedirect(redirectMap);
+                    }
                     HashMap<String, String> map = new HashMap<>();
                     map.put("title", menu.getTitle());
                     childRouter.setMeta(map);

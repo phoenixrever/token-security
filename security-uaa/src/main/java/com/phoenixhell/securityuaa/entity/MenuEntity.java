@@ -61,6 +61,10 @@ public class MenuEntity implements Serializable {
 	 */
 	private String path;
 	/**
+	 * 重定向地址
+	 */
+	private String redirect;
+	/**
 	 * 是否外链
 	 */
 	private Boolean iFrame;
@@ -71,7 +75,7 @@ public class MenuEntity implements Serializable {
 	/**
 	 * 隐藏
 	 */
-	private Boolean hidden;
+	private Integer hidden;
 	/**
 	 * 权限
 	 */

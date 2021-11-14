@@ -14,8 +14,10 @@ public class Router {
     private String name;
     private String path;
     private String component;
-    private Boolean hidden=false;
-    private Boolean isAlwaysShow=false;
+    private Map<String,String> redirect;
+    private Integer hidden;
+    private Integer isAlwaysShow;
     private Map<String,String> meta;
     private List<Router> children;
+
 }

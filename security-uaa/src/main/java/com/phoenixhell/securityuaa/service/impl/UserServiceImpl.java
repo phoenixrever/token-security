@@ -146,6 +146,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public UserVo getUserVoById(Long userId) {
         UserVo userVo = new UserVo();
         userVo.setAllRoles(this.getAllRoles());
+        // 增加用户的时候需要角色列表
         if(userId==0L){
             return userVo;
         }

@@ -18,6 +18,7 @@ import com.phoenixhell.securityuaa.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -78,7 +79,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     //@Cacheable(value = "authorities:", key = "'userId-'+#args[0]")
     @Override
     public List<String> getStringAuthorities(Long userId) {
-        return baseMapper.getGrantedAuthorities(userId);
+        List<String> grantedAuthorities = baseMapper.getGrantedAuthorities(userId);
+        return grantedAuthorities.stream().filter(g->!StringUtils.isEmpty(g)).collect(Collectors.toList());
     }
 
 

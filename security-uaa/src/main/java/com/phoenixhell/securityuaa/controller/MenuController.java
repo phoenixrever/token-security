@@ -90,6 +90,8 @@ public class MenuController {
      */
     @RequestMapping("/delete")
     //@RequiresPermissions("securityuaa:menu:delete")
+    //@RequestBody 接收json  前端如果是数组的话 需要JSON.stringify(ids)
+    //数组的话 @RequestParam
     public R delete(@RequestBody Long[] menuIds){
 		menuService.removeByIds(Arrays.asList(menuIds));
 

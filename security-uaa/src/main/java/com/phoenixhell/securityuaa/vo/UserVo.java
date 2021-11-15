@@ -88,7 +88,7 @@ public class UserVo {
     /**
      * 状态：1启用、0禁用
      */
-    @NotNull(message = "新增不能为空",groups = {AddGroup.class})
+    @NotNull(message = "hidden不能为空",groups = {AddGroup.class})
     @ListValue(values = {0,1},groups = {AddGroup.class,UpdateGroup.class, UpdateStatusGroup.class})
     private Integer enabled;
     /**

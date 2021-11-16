@@ -23,6 +23,8 @@ public interface UserService extends IService<UserEntity> {
 
     List<String> getRoles(Long userId);
 
+    List<Long> getRoleIds(List<String> roleNames);
+
     UserVo getUserVoById(Long userId);
 
     void updateByUserVo(UserVo userVo);

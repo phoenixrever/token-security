@@ -13,6 +13,7 @@ import java.util.List;
 public class MenuTreeVo {
     private Long menuId;
     private Long pid;
+    private Integer menuSort;
     private Integer type;
     private String  Icon;
     private String label;

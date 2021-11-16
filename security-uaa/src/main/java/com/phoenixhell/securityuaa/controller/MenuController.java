@@ -86,6 +86,16 @@ public class MenuController {
     }
 
     /**
+     * 修改
+     */
+    @RequestMapping("/updateDrag")
+    //@RequiresPermissions("securityuaa:menu:update")
+    public R update(@RequestBody List <MenuEntity> menus){
+        menus.forEach(menu ->menuService.updateById(menu));
+        return R.ok();
+    }
+
+    /**
      * 删除
      */
     @RequestMapping("/delete")

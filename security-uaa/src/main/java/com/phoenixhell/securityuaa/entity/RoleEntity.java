@@ -1,10 +1,13 @@
 package com.phoenixhell.securityuaa.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -36,6 +39,12 @@ public class RoleEntity implements Serializable {
 	 * 描述
 	 */
 	private String description;
+
+	/**
+	 * 权限
+	 */
+	@TableField(exist = false)
+	private List<String> permissions;
 	/**
 	 * 数据权限
 	 */

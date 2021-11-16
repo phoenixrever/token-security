@@ -54,6 +54,7 @@ public class UserController {
         UserVo currentUser = SecurityUtils.getCurrentUser(userService);
         List<String> roles = userService.getRoles(currentUser.getUserId());
         currentUser.setRoles(roles);
+        currentUser.setRoleIds(userService.getRoleIds(roles));
         List<Router> routers  =  menuService.getRouters();
        currentUser.setRouters(routers);
         return R.ok().put("data",currentUser);

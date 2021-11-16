@@ -130,6 +130,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
+    public List<Long> getRoleIds(List<String> roleNames) {
+        List<RoleEntity> entityList = roleNames.stream().map(roleName -> roleService.query().eq("name", roleName).one()).collect(Collectors.toList());
+        List<Long> roleIds = entityList.stream().map(e -> e.getRoleId()).collect(Collectors.toList());
+        return roleIds;
+    }
+
+    @Override
     public List<String> getRoles(Long userId) {
         List<UsersRolesEntity> usersRolesEntities = usersRolesService.query().eq("user_id", userId).list();
         List<Long> roleIds = usersRolesEntities.stream().map(item -> item.getRoleId()).collect(Collectors.toList());

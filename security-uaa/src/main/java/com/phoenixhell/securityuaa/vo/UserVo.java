@@ -1,7 +1,6 @@
 package com.phoenixhell.securityuaa.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+
 import com.phoenixhell.securityuaa.entity.Router;
 import lombok.Data;
 import valid.AddGroup;
@@ -76,10 +75,11 @@ public class UserVo {
     /**
      * 角色
      */
-    @NotEmpty(message = "权限不能为空",groups = {AddGroup.class,UpdateGroup.class, UpdateStatusGroup.class})
+    @NotEmpty(message = "角色名不能为空",groups = {AddGroup.class,UpdateGroup.class, UpdateStatusGroup.class})
     private List<String> roles;
 
-
+    //传前端根据role id 判断角色 毕竟角色名字能修改
+    private List<Long> roleIds;
     /**
      * 所有角色
      */

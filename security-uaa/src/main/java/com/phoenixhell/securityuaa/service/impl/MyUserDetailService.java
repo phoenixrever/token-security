@@ -1,6 +1,7 @@
 package com.phoenixhell.securityuaa.service.impl;
 
 
+import com.phoenixhell.securityuaa.entity.RoleEntity;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author phoenixhell
@@ -29,7 +32,9 @@ public class MyUserDetailService implements UserDetailsService {
         UserEntity userEntity = userService.query().eq("username", username).one();
 
         // 注意 stringAuthorities permission 绝对不能含有null值 不然 A granted authority textual representation is required 错误
-        List<String> stringAuthorities = userService.getStringAuthorities(userEntity.getUserId());
+        List<RoleEntity.PermissionVo> permissionVos = userService.getStringAuthorities(userEntity.getUserId());
+        List<String> stringAuthorities = permissionVos.stream().map(p -> p.getPermission()).filter(g -> !StringUtils.isEmpty(g)).collect(Collectors.toList());
+
 
         //可以用security user 类生成一个 User
         //无参数的toArray()有一个缺点，就是转换后的数组类型是Object[]

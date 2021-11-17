@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -71,13 +72,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     @Override
     public RoleTreeVo getTreeById(Long userId) {
         List<MenuTreeVo> menuTreeVos = menuService.buildMenuTree();
-        List<String> stringAuthorities = userService.getStringAuthorities(userId);
-        ArrayList<Long> checkedIds = new ArrayList<>();
-        menuTreeVos.forEach(menuTreeVo -> {
-            if(stringAuthorities.contains(menuTreeVo.getLabel())){
-                checkedIds.add(menuTreeVo.getMenuId());
-            }
-        });
+        List<RoleEntity.PermissionVo> stringAuthorities = userService.getStringAuthorities(userId);
+        List<Long> checkedIds = stringAuthorities.stream().map(p -> p.getPermissionId()).collect(Collectors.toList());
         RoleTreeVo roleTreeVo = new RoleTreeVo();
         roleTreeVo.setCheckedIds(checkedIds);
         roleTreeVo.setMenuTreeVos(menuTreeVos);

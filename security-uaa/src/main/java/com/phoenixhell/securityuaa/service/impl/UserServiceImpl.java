@@ -79,9 +79,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     //根据用户id 权限缓存
     //@Cacheable(value = "authorities:", key = "'userId-'+#args[0]")
     @Override
-    public List<String> getStringAuthorities(Long userId) {
-        List<String> grantedAuthorities = baseMapper.getGrantedAuthorities(userId);
-        return grantedAuthorities.stream().filter(g->!StringUtils.isEmpty(g)).collect(Collectors.toList());
+    public List<RoleEntity.PermissionVo> getStringAuthorities(Long userId) {
+        List<RoleEntity.PermissionVo> grantedAuthorities = baseMapper.getGrantedAuthorities(userId);
+        return grantedAuthorities;
     }
 
 
@@ -163,7 +163,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         }
         UserEntity userEntity = this.getById(userId);
         BeanUtils.copyProperties(userEntity, userVo);
-        List<String> authorities = getStringAuthorities(userId);
+        List<RoleEntity.PermissionVo> permissionVos = getStringAuthorities(userId);
+        List<String> authorities = permissionVos.stream().map(p -> p.getPermission()).filter(g -> !StringUtils.isEmpty(g)).collect(Collectors.toList());
         userVo.setPermissions(authorities);
         List<String> roles = this.getRoles(userId);
         userVo.setRoles(roles);

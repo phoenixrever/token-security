@@ -29,8 +29,14 @@
     <!--SELECT role_id FROM sys_users_roles WHERE user_id IN (-->
     <!--SELECT user_id FROM sys_user WHERE username=#{username}-->
     <!--)-->
-    <select id="getGrantedAuthorities" resultType="java.lang.String">
-         SELECT permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(
+    <resultMap type="com.phoenixhell.securityuaa.entity.RoleEntity$PermissionVo" id="permissionMap">
+        <result property="permissionId" column="menu_id"/>
+        <result property="name" column="title"/>
+        <result property="permission" column="permission"/>
+    </resultMap>
+
+    <select id="getGrantedAuthorities" resultMap="permissionMap">
+         SELECT menu_id,permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(
              SELECT menu_id FROM sys_roles_menus WHERE role_id IN(
                  SELECT role_id FROM sys_role WHERE role_id IN(
                      SELECT role_id FROM sys_users_roles WHERE user_id =#{userId}
@@ -52,12 +58,6 @@
                #{变量名}就能取出变量的值也就是当前遍历出的元素
                                 collection 默认是list 或者map ids 需要@param("ids")
              -->
-
-    <resultMap type="com.phoenixhell.securityuaa.entity.RoleEntity$PermissionVo" id="permissionMap">
-        <result property="permissionId" column="menu_id"/>
-        <result property="name" column="title"/>
-        <result property="permission" column="permission"/>
-    </resultMap>
 
     <select id="getAuthoritiesByRole" resultMap="permissionMap">
 <!--            不能这样子写 缓存不好维护(更新)-->

@@ -17,5 +17,6 @@ public class MenuTreeVo {
     private Integer type;
     private String  Icon;
     private String label;
+    private String permission;
     private List<MenuTreeVo> children;
 }

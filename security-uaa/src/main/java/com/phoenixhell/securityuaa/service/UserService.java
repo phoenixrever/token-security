@@ -20,7 +20,7 @@ import java.util.Map;
 public interface UserService extends IService<UserEntity> {
    PageUtils queryPage(Map<String, Object> params);
 
-   List<String> getStringAuthorities(Long userId);
+   List<RoleEntity.PermissionVo> getStringAuthorities(Long userId);
 
     List<String> getRoles(Long userId);
 

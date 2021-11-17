@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.phoenixhell.securityuaa.entity.RolesMenusEntity;
+import com.phoenixhell.securityuaa.entity.UsersRolesEntity;
+import com.phoenixhell.securityuaa.service.RolesMenusService;
+import com.phoenixhell.securityuaa.service.UsersRolesService;
 import com.phoenixhell.securityuaa.vo.MenuTreeVo;
 import com.phoenixhell.securityuaa.vo.RoleTreeVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +37,21 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private UsersRolesService usersRolesService;
+
+    @Autowired
+    private RolesMenusService rolesMenusService;
     /**
      * 列表
      */
-    @RequestMapping("/tree/{id}")
+    @RequestMapping("/tree/{roleId}")
     //@RequiresPermissions("securityuaa:role:list")
-    public R tree(@PathVariable Long userId){
-        RoleTreeVo roleTreeVo = roleService.getTreeById(userId);
-        return R.ok();
+    public R tree(@PathVariable Long roleId){
+        UsersRolesEntity usersRolesEntity = usersRolesService.query().eq("role_id", roleId).one();
+        RoleTreeVo roleTreeVo = roleService.getTreeById(usersRolesEntity.getUserId());
+        return R.ok().put("role",roleTreeVo);
     }
-
 
     /**
      * 列表
@@ -64,6 +73,17 @@ public class RoleController {
     public R info(@PathVariable("roleId") Long roleId){
 		RoleEntity role = roleService.getRoleWithAllPermissionsById(roleId);
         return R.ok().put("role", role);
+    }
+
+    /**
+     * 保存 role 关联的permission（menu 菜单）
+     */
+    @RequestMapping("/savePermissions")
+    //@RequiresPermissions("securityuaa:role:save")
+    public R savePermissions(@RequestBody List<RolesMenusEntity> rolesMenusEntities){
+        //todo 更新  已经存在的 重复的值
+        rolesMenusService.saveBatch(rolesMenusEntities);
+        return R.ok();
     }
 
     /**

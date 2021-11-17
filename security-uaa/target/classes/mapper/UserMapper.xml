@@ -53,7 +53,13 @@
                                 collection 默认是list 或者map ids 需要@param("ids")
              -->
 
-    <select id="getAuthoritiesByRole" resultType="java.lang.String">
+    <resultMap type="com.phoenixhell.securityuaa.entity.RoleEntity$PermissionVo" id="permissionMap">
+        <result property="permissionId" column="menu_id"/>
+        <result property="name" column="title"/>
+        <result property="permission" column="permission"/>
+    </resultMap>
+
+    <select id="getAuthoritiesByRole" resultMap="permissionMap">
 <!--            不能这样子写 缓存不好维护(更新)-->
 <!--        SELECT DISTINCT permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(-->
 <!--        SELECT menu_id FROM sys_roles_menus WHERE role_id IN(-->
@@ -64,21 +70,10 @@
 <!--        </foreach>-->
 <!--            )-->
 <!--        )-->
-        SELECT DISTINCT permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(
-        SELECT menu_id FROM sys_roles_menus WHERE role_id IN(
-        SELECT role_id FROM sys_role WHERE `name` =${role}
+        SELECT DISTINCT menu_id,title,permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(
+            SELECT menu_id FROM sys_roles_menus WHERE role_id IN(
+                SELECT role_id FROM sys_role WHERE name =#{role}
+             )
+        )
     </select>
-
-<!--    还是不要这样写好 有很多排列组合作为key 还是保存一个一个的key好-->
-<!--    <select id="getAuthoritiesByRoles" resultType="java.lang.String">-->
-<!--                SELECT DISTINCT permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(-->
-<!--                SELECT menu_id FROM sys_roles_menus WHERE role_id IN(-->
-<!--                SELECT role_id FROM sys_role WHERE `name` IN-->
-<!--                <foreach collection="roles" item="role_name" separator=","-->
-<!--                         open="(" close=")">-->
-<!--                    #{role_name}-->
-<!--                </foreach>-->
-<!--                    )-->
-<!--                )-->
-<!--    </select>-->
 </mapper>

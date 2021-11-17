@@ -3,7 +3,10 @@ package com.phoenixhell.securityuaa.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.phoenixhell.common.utils.PageUtils;
 import com.phoenixhell.securityuaa.entity.RoleEntity;
+import com.phoenixhell.securityuaa.vo.MenuTreeVo;
+import com.phoenixhell.securityuaa.vo.RoleTreeVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +19,9 @@ import java.util.Map;
 public interface RoleService extends IService<RoleEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    RoleEntity getRoleWithAllPermissionsById(Long roleId);
+
+    RoleTreeVo getTreeById(Long userId);
 }
 

@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * <p>
@@ -85,17 +86,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
 
     //根据角色获取权限permissions 缓存
-    @Cacheable(value = "authorities", key = "'role-'+#root.args[0]")
-    public List<String> getAuthoritiesByRole(String role) {
-        List<String> authorities = baseMapper.getAuthoritiesByRole(role);
-        return authorities;
+//    @Cacheable(value = "authorities", key = "'role-'+#root.args[0]")
+    public List<RoleEntity.PermissionVo> getAuthoritiesByRole(String role) {
+        List<RoleEntity.PermissionVo> authoritiesByRole = baseMapper.getAuthoritiesByRole(role);
+        return authoritiesByRole;
     }
 
     //根据多个角色获取权限
     public List<String> getAuthoritiesByRoles(List<String> roles) {
         HashSet<String> set = new HashSet<>();
         roles.forEach(role -> {
-            List<String> authorities = this.getAuthoritiesByRole(role);
+            List<RoleEntity.PermissionVo> authoritiesByRole = this.getAuthoritiesByRole(role);
+            List<String> authorities = authoritiesByRole.stream().map(item -> item.getPermission()).collect(Collectors.toList());
             set.addAll(authorities);
         });
         ArrayList<String> arrayList = new ArrayList<>(set);

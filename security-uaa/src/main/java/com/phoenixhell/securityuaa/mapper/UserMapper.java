@@ -1,6 +1,7 @@
 package com.phoenixhell.securityuaa.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.phoenixhell.securityuaa.entity.RoleEntity;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,5 +18,5 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<UserEntity> {
     List<String> getGrantedAuthorities(@Param("userId") Long userId);
 
-    List<String> getAuthoritiesByRole(@Param("role") String role);
+    List<RoleEntity.PermissionVo> getAuthoritiesByRole(@Param("role") String role);
 }

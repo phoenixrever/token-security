@@ -44,7 +44,13 @@ public class RoleEntity implements Serializable {
 	 * 权限
 	 */
 	@TableField(exist = false)
-	private List<String> permissions;
+	private List<PermissionVo> permissions;
+
+	/**
+	 * 所有权限 select 用
+	 */
+	@TableField(exist = false)
+	private List<PermissionVo> AllPermissions;
 	/**
 	 * 数据权限
 	 */
@@ -66,4 +72,10 @@ public class RoleEntity implements Serializable {
 	 */
 	private Date updateTime;
 
+	@Data
+	public static class PermissionVo{
+		private Long permissionId;
+		private String name;
+		private String permission;
+	}
 }

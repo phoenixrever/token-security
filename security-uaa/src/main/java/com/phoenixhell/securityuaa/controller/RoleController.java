@@ -1,8 +1,11 @@
 package com.phoenixhell.securityuaa.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.phoenixhell.securityuaa.vo.MenuTreeVo;
+import com.phoenixhell.securityuaa.vo.RoleTreeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +36,17 @@ public class RoleController {
     /**
      * 列表
      */
+    @RequestMapping("/tree/{id}")
+    //@RequiresPermissions("securityuaa:role:list")
+    public R tree(@PathVariable Long userId){
+        RoleTreeVo roleTreeVo = roleService.getTreeById(userId);
+        return R.ok();
+    }
+
+
+    /**
+     * 列表
+     */
     @RequestMapping("/list")
     //@RequiresPermissions("securityuaa:role:list")
     public R list(@RequestParam Map<String, Object> params){
@@ -48,8 +62,7 @@ public class RoleController {
     @RequestMapping("/info/{roleId}")
     //@RequiresPermissions("securityuaa:role:info")
     public R info(@PathVariable("roleId") Long roleId){
-		RoleEntity role = roleService.getById(roleId);
-
+		RoleEntity role = roleService.getRoleWithAllPermissionsById(roleId);
         return R.ok().put("role", role);
     }
 

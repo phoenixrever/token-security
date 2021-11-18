@@ -8,7 +8,6 @@ import com.phoenixhell.securityuaa.entity.RolesMenusEntity;
 import com.phoenixhell.securityuaa.entity.UsersRolesEntity;
 import com.phoenixhell.securityuaa.service.RolesMenusService;
 import com.phoenixhell.securityuaa.service.UsersRolesService;
-import com.phoenixhell.securityuaa.vo.MenuTreeVo;
 import com.phoenixhell.securityuaa.vo.RoleTreeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,8 +47,7 @@ public class RoleController {
     @RequestMapping("/tree/{roleId}")
     //@RequiresPermissions("securityuaa:role:list")
     public R tree(@PathVariable Long roleId){
-        UsersRolesEntity usersRolesEntity = usersRolesService.query().eq("role_id", roleId).one();
-        RoleTreeVo roleTreeVo = roleService.getTreeById(usersRolesEntity.getUserId());
+        RoleTreeVo roleTreeVo = roleService.getTreeByRoleId(roleId);
         return R.ok().put("role",roleTreeVo);
     }
 
@@ -71,7 +69,8 @@ public class RoleController {
     @RequestMapping("/info/{roleId}")
     //@RequiresPermissions("securityuaa:role:info")
     public R info(@PathVariable("roleId") Long roleId){
-		RoleEntity role = roleService.getRoleWithAllPermissionsById(roleId);
+		//RoleEntity role = roleService.getRoleWithAllPermissionsById(roleId);
+		RoleEntity role = roleService.getById(roleId);
         return R.ok().put("role", role);
     }
 
@@ -81,7 +80,6 @@ public class RoleController {
     @RequestMapping("/savePermissions")
     //@RequiresPermissions("securityuaa:role:save")
     public R savePermissions(@RequestBody List<RolesMenusEntity> rolesMenusEntities){
-
         rolesMenusService.savePermissions(rolesMenusEntities);
         return R.ok();
     }
@@ -93,7 +91,6 @@ public class RoleController {
     //@RequiresPermissions("securityuaa:role:save")
     public R save(@RequestBody RoleEntity role){
 		roleService.save(role);
-
         return R.ok();
     }
 

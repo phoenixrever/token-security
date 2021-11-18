@@ -20,8 +20,8 @@ public interface RoleService extends IService<RoleEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    RoleEntity getRoleWithAllPermissionsById(Long roleId);
+    //RoleEntity getRoleWithAllPermissionsById(Long roleId);
 
-    RoleTreeVo getTreeById(Long userId);
+    RoleTreeVo getTreeByRoleId(Long roleId);
 }
 

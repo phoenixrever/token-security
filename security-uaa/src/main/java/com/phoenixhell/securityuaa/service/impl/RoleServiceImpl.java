@@ -48,31 +48,32 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         return new PageUtils(page);
     }
 
-    @Override
-    public RoleEntity getRoleWithAllPermissionsById(Long roleId) {
-        List<RoleEntity.PermissionVo> allPermissions = menuService.list().stream().map(menu -> {
-            RoleEntity.PermissionVo permissionVo = new RoleEntity.PermissionVo();
-            permissionVo.setPermissionId(menu.getMenuId());
-            permissionVo.setName(menu.getTitle());
-            permissionVo.setPermission(menu.getPermission());
-            return permissionVo;
-        }).filter(item -> !StringUtils.isEmpty(item.getPermission())).collect(Collectors.toList());
-        // 增加用户的时候需要角色列表
-        RoleEntity roleEntity=null;
-        if(roleId==0L){
-             roleEntity = new RoleEntity();
-        }else{
-             roleEntity = this.getById(roleId);
-        }
+    //@Override
+    //public RoleEntity getRoleWithAllPermissionsById(Long roleId) {
+    //    List<RoleEntity.PermissionVo> allPermissions = menuService.list().stream().map(menu -> {
+    //        RoleEntity.PermissionVo permissionVo = new RoleEntity.PermissionVo();
+    //        permissionVo.setPermissionId(menu.getMenuId());
+    //        permissionVo.setName(menu.getTitle());
+    //        permissionVo.setPermission(menu.getPermission());
+    //        return permissionVo;
+    //    }).filter(item -> !StringUtils.isEmpty(item.getPermission())).collect(Collectors.toList());
+    //    // 增加用户的时候需要角色列表
+    //    RoleEntity roleEntity=null;
+    //    if(roleId==0L){
+    //         roleEntity = new RoleEntity();
+    //    }else{
+    //         roleEntity = this.getById(roleId);
+    //    }
+    //
+    //    roleEntity.setAllPermissions(allPermissions);
+    //    return roleEntity;
+    //}
 
-        roleEntity.setAllPermissions(allPermissions);
-        return roleEntity;
-    }
-
     @Override
-    public RoleTreeVo getTreeById(Long userId) {
+    public RoleTreeVo getTreeByRoleId(Long roleId) {
         List<MenuTreeVo> menuTreeVos = menuService.buildMenuTree();
-        List<RoleEntity.PermissionVo> stringAuthorities = userService.getStringAuthorities(userId);
+        RoleEntity roleEntity = this.getById(roleId);
+        List<RoleEntity.PermissionVo> stringAuthorities = userService.getAuthoritiesByRole(roleEntity.getName());
         List<Long> checkedIds = stringAuthorities.stream().map(p -> p.getPermissionId()).collect(Collectors.toList());
         RoleTreeVo roleTreeVo = new RoleTreeVo();
         roleTreeVo.setCheckedIds(checkedIds);

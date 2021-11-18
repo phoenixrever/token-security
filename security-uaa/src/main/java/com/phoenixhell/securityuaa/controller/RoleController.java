@@ -81,8 +81,8 @@ public class RoleController {
     @RequestMapping("/savePermissions")
     //@RequiresPermissions("securityuaa:role:save")
     public R savePermissions(@RequestBody List<RolesMenusEntity> rolesMenusEntities){
-        //todo 更新  已经存在的 重复的值
-        rolesMenusService.saveBatch(rolesMenusEntities);
+
+        rolesMenusService.savePermissions(rolesMenusEntities);
         return R.ok();
     }
 

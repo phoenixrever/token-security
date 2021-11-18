@@ -7,6 +7,17 @@
         <result property="menuId" column="menu_id"/>
         <result property="roleId" column="role_id"/>
     </resultMap>
+    <insert id="savePermissions" useGeneratedKeys="true" keyProperty="menuId" keyColumn="menu_id"
+            parameterType="com.phoenixhell.securityuaa.entity.RolesMenusEntity">
+		insert INTO
+		t_user(openId, name, gender, phoneNumber)
+		VALUES
+		(#{openId},#{name},#{gender},#{phoneNumber})
+		ON DUPLICATE KEY UPDATE
+		name = #{name},
+		gender = #{gender},
+		phoneNumber = #{phoneNumber}
+	</insert>
 
 
 </mapper>

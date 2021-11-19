@@ -84,11 +84,12 @@ public class MenuController {
     @RequestMapping("/update")
     //@RequiresPermissions("securityuaa:menu:update")
     public R update(@RequestBody MenuEntity menu){
-        MenuEntity menuEntity = menuService.query().eq("title", menu.getTitle()).or().eq("path", menu.getPath()).one();
-        if(menuEntity!=null){
+        MenuEntity menuEntity = menuService.query().eq("title", menu.getTitle()).or().eq("name", menu.getName()).one();
+        //如果要更新的title 或者path 已经存在 并且和我们要更新的menuId不同 不允许更新
+        if (menuEntity != null && !menuEntity.getMenuId().equals(menu.getMenuId())) {
             throw new MyException(40006, "菜单或者path已经存在");
         }
-        //不允许修改组件name component 隐藏
+        //todo 不允许修改组件name component 隐藏??? 思考
 		menuService.updateById(menu);
 
         return R.ok();

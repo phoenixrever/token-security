@@ -106,7 +106,8 @@ public class RoleController {
     //@RequiresPermissions("securityuaa:role:update")
     public R update(@RequestBody RoleEntity role){
         RoleEntity roleEntity = roleService.query().eq("name", role.getName()).one();
-        if(roleEntity==null){
+        //如果要更新的name 已经存在 并且和我们要更新的menuId不同 不允许更新
+        if(roleEntity!=null && !roleEntity.getRoleId().equals(role.getRoleId())){
             throw new MyException(40005, "角色名已经存在");
         }
         roleService.updateById(role);

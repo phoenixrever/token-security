@@ -95,6 +95,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
                     }
                     HashMap<String, String> map = new HashMap<>();
                     map.put("title", menu.getTitle());
+                    map.put("icon", menu.getIcon());
                     router.setMeta(map);
                     router.setChildren(getChildren(menu, menuEntities));
                     return router;
@@ -133,6 +134,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
                     }
                     HashMap<String, String> map = new HashMap<>();
                     map.put("title", menu.getTitle());
+                    map.put("icon", menu.getIcon());
                     childRouter.setMeta(map);
                     childRouter.setChildren(getChildren(menu, list));
                     return childRouter;

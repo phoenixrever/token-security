@@ -7,6 +7,14 @@
         <result property="menuId" column="menu_id"/>
         <result property="roleId" column="role_id"/>
     </resultMap>
-
-
+    <insert id="savePermissions">
+		INSERT INTO
+		    sys_roles_menus ( menu_id, role_id )
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(#{item.menuId},#{item.roleId})
+		</foreach>
+		ON DUPLICATE KEY UPDATE
+			role_id = VALUES(role_id)
+	</insert>
 </mapper>

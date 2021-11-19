@@ -177,8 +177,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         String username = userVo.getUsername();
         UserEntity user = this.query().eq("username", username).or().eq("phone",userVo.getPhone()).or().eq("email",userVo.getEmail()).one();
         //忘记后面判断干嘛的了 暂时不删
-//        if (user != null && !user.getUserId().equals(userVo.getUserId())) {
-        if (user != null) {
+        //更新 (●'◡'●)
+        //更新用户的时候会带有原来的username
+        //如果要更新的username已经存在 并且和我们要更新的userId不同 不允许更新
+        if (user != null && !user.getUserId().equals(userVo.getUserId())) {
             throw new MyException(40004, "用户已经存在");
         }
         //复制普通属性

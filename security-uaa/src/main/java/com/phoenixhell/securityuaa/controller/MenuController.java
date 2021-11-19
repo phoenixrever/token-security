@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.phoenixhell.common.exception.MyException;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.utils.SecurityUtils;
 import com.phoenixhell.securityuaa.vo.MenuTreeVo;
@@ -68,7 +69,11 @@ public class MenuController {
     @RequestMapping("/save")
     //@RequiresPermissions("securityuaa:menu:save")
     public R save(@RequestBody MenuEntity menu){
-		menuService.save(menu);
+        MenuEntity menuEntity = menuService.query().eq("title", menu.getTitle()).or().eq("path", menu.getPath()).one();
+        if(menuEntity!=null){
+            throw new MyException(40006, "菜单或者path已经存在");
+        }
+        menuService.save(menu);
 
         return R.ok();
     }
@@ -79,6 +84,10 @@ public class MenuController {
     @RequestMapping("/update")
     //@RequiresPermissions("securityuaa:menu:update")
     public R update(@RequestBody MenuEntity menu){
+        MenuEntity menuEntity = menuService.query().eq("title", menu.getTitle()).or().eq("path", menu.getPath()).one();
+        if(menuEntity!=null){
+            throw new MyException(40006, "菜单或者path已经存在");
+        }
         //不允许修改组件name component 隐藏
 		menuService.updateById(menu);
 

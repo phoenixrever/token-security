@@ -72,6 +72,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     @Override
     public RoleTreeVo getTreeByRoleId(Long roleId) {
         List<MenuTreeVo> menuTreeVos = menuService.buildMenuTree();
+        if(roleId==1){
+            //管理员禁用全部选项
+            disableAllNodes(menuTreeVos);
+        }
         RoleEntity roleEntity = this.getById(roleId);
         List<RoleEntity.PermissionVo> stringAuthorities = userService.getAuthoritiesByRole(roleEntity.getName());
         List<Long> checkedIds = stringAuthorities.stream().map(p -> p.getPermissionId()).collect(Collectors.toList());
@@ -81,4 +85,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         return roleTreeVo;
     }
 
+    //admin 禁用全部节点
+    public List<MenuTreeVo> disableAllNodes(List<MenuTreeVo> menuTreeVos) {
+        return menuTreeVos.stream().map(m -> {
+            m.setDisabled(true);
+            if (m.getChildren().size() > 0) {
+                disableAllNodes(m.getChildren());
+            }
+            return m;
+        }).collect(Collectors.toList());
+    }
 }

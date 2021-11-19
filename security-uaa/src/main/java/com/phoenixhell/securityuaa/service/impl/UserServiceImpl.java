@@ -175,8 +175,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Override
     public void updateByUserVo(UserVo userVo) {
         String username = userVo.getUsername();
-        UserEntity user = this.query().eq("username", username).one();
-        if (user != null && !user.getUserId().equals(userVo.getUserId())) {
+        UserEntity user = this.query().eq("username", username).or().eq("phone",userVo.getPhone()).or().eq("email",userVo.getEmail()).one();
+        //忘记后面判断干嘛的了 暂时不删
+//        if (user != null && !user.getUserId().equals(userVo.getUserId())) {
+        if (user != null) {
             throw new MyException(40004, "用户已经存在");
         }
         //复制普通属性
@@ -199,7 +201,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Override
     public void saveUserVo(UserVo userVo) {
         String username = userVo.getUsername();
-        UserEntity user = this.query().eq("username", username).one();
+        UserEntity user = this.query().eq("username", username).or().eq("phone",userVo.getPhone()).or().eq("email",userVo.getEmail()).one();
         if (user != null) {
             throw new MyException(40004, "用户已经存在");
         }

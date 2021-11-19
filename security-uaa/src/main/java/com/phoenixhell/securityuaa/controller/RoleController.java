@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.phoenixhell.common.exception.MyException;
 import com.phoenixhell.securityuaa.entity.RolesMenusEntity;
 import com.phoenixhell.securityuaa.entity.UsersRolesEntity;
 import com.phoenixhell.securityuaa.service.RolesMenusService;
@@ -90,6 +91,10 @@ public class RoleController {
     @RequestMapping("/save")
     //@RequiresPermissions("securityuaa:role:save")
     public R save(@RequestBody RoleEntity role){
+        RoleEntity roleEntity = roleService.query().eq("name", role.getName()).one();
+        if(roleEntity==null){
+            throw new MyException(40005, "角色名已经存在");
+        }
 		roleService.save(role);
         return R.ok();
     }
@@ -100,7 +105,11 @@ public class RoleController {
     @RequestMapping("/update")
     //@RequiresPermissions("securityuaa:role:update")
     public R update(@RequestBody RoleEntity role){
-		roleService.updateById(role);
+        RoleEntity roleEntity = roleService.query().eq("name", role.getName()).one();
+        if(roleEntity==null){
+            throw new MyException(40005, "角色名已经存在");
+        }
+        roleService.updateById(role);
 
         return R.ok();
     }

@@ -35,9 +35,14 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        QueryWrapper<MenuEntity> wrapper = new QueryWrapper<>();
+        String keyword = (String )params.get("keyword");
+        if(!StringUtils.isEmpty(keyword)) {
+            wrapper.like("title", keyword);
+        }
         IPage<MenuEntity> page = this.page(
                 new Query<MenuEntity>().getPage(params),
-                new QueryWrapper<MenuEntity>()
+                wrapper
         );
 
         return new PageUtils(page);

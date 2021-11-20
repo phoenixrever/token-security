@@ -57,11 +57,7 @@ public class UserVo {
     /**
      * 头像地址
      */
-    private String avatarName;
-    /**
-     * 头像真实路径
-     */
-    private String avatarPath;
+    private String avatar;
     /**
      * 菜单routers
      */

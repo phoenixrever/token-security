@@ -4,6 +4,7 @@ package com.phoenixhell.securityuaa.service.impl;
 import com.phoenixhell.securityuaa.entity.RoleEntity;
 import com.phoenixhell.securityuaa.entity.UserEntity;
 import com.phoenixhell.securityuaa.service.UserService;
+import com.phoenixhell.securityuaa.vo.PermissionVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,7 +33,7 @@ public class MyUserDetailService implements UserDetailsService {
         UserEntity userEntity = userService.query().eq("username", username).one();
 
         // 注意 stringAuthorities permission 绝对不能含有null值 不然 A granted authority textual representation is required 错误
-        List<RoleEntity.PermissionVo> permissionVos = userService.getStringAuthorities(userEntity.getUserId());
+        List<PermissionVo> permissionVos = userService.getStringAuthorities(userEntity.getUserId());
         List<String> stringAuthorities = permissionVos.stream().map(p -> p.getPermission()).filter(g -> !StringUtils.isEmpty(g)).collect(Collectors.toList());
 
 

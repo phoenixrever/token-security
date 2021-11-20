@@ -14,6 +14,7 @@ import com.phoenixhell.securityuaa.mapper.UserMapper;
 import com.phoenixhell.securityuaa.service.RoleService;
 import com.phoenixhell.securityuaa.service.UserService;
 import com.phoenixhell.securityuaa.service.UsersRolesService;
+import com.phoenixhell.securityuaa.vo.PermissionVo;
 import com.phoenixhell.securityuaa.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
                 && !info.getColumn().equals("create_time"));
          */
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
+        String keyword = (String )params.get("keyword");
+        if(!StringUtils.isEmpty(keyword)) {
+            wrapper.like("username", keyword)
+                    .or().like("nick_name", keyword)
+                    .or().like("gender",keyword)
+                    .or().like("phone",keyword)
+                    .or().like("email",keyword)
+                    .or().like("phone",keyword);
+        }
         wrapper.select(UserEntity.class, user -> !user.getColumn().equals("password"));
         IPage<UserEntity> page = this.page(
                 new Query<UserEntity>().getPage(params), wrapper
@@ -79,16 +89,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     //根据用户id 权限缓存
     //@Cacheable(value = "authorities:", key = "'userId-'+#args[0]")
     @Override
-    public List<RoleEntity.PermissionVo> getStringAuthorities(Long userId) {
-        List<RoleEntity.PermissionVo> grantedAuthorities = baseMapper.getGrantedAuthorities(userId);
+    public List<PermissionVo> getStringAuthorities(Long userId) {
+        List<PermissionVo> grantedAuthorities = baseMapper.getGrantedAuthorities(userId);
         return grantedAuthorities;
     }
 
 
     //根据角色获取权限permissions 缓存
 //    @Cacheable(value = "authorities", key = "'role-'+#root.args[0]")
-    public List<RoleEntity.PermissionVo> getAuthoritiesByRole(String role) {
-        List<RoleEntity.PermissionVo> authoritiesByRole = baseMapper.getAuthoritiesByRole(role);
+    public List<PermissionVo> getAuthoritiesByRole(String role) {
+        List<PermissionVo> authoritiesByRole = baseMapper.getAuthoritiesByRole(role);
         return authoritiesByRole;
     }
 
@@ -96,7 +106,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public List<String> getAuthoritiesByRoles(List<String> roles) {
         HashSet<String> set = new HashSet<>();
         roles.forEach(role -> {
-            List<RoleEntity.PermissionVo> authoritiesByRole = this.getAuthoritiesByRole(role);
+            List<PermissionVo> authoritiesByRole = this.getAuthoritiesByRole(role);
             List<String> authorities = authoritiesByRole.stream().map(item -> item.getPermission()).collect(Collectors.toList());
             set.addAll(authorities);
         });
@@ -163,7 +173,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         }
         UserEntity userEntity = this.getById(userId);
         BeanUtils.copyProperties(userEntity, userVo);
-        List<RoleEntity.PermissionVo> permissionVos = getStringAuthorities(userId);
+        List<PermissionVo> permissionVos = getStringAuthorities(userId);
         List<String> authorities = permissionVos.stream().map(p -> p.getPermission()).filter(g -> !StringUtils.isEmpty(g)).collect(Collectors.toList());
         userVo.setPermissions(authorities);
         List<String> roles = this.getRoles(userId);

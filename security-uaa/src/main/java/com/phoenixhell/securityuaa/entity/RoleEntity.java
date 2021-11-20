@@ -1,5 +1,6 @@
 package com.phoenixhell.securityuaa.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -32,50 +33,28 @@ public class RoleEntity implements Serializable {
 	 */
 	private String name;
 	/**
-	 * 角色级别
-	 */
-	private Integer level;
-	/**
 	 * 描述
 	 */
 	private String description;
 
 	/**
-	 * 权限
-	 */
-	@TableField(exist = false)
-	private List<PermissionVo> permissions;
-
-	/**
-	 * 所有权限 select 用
-	 */
-	@TableField(exist = false)
-	private List<PermissionVo> AllPermissions;
-	/**
-	 * 数据权限
-	 */
-	private String dataScope;
-	/**
 	 * 创建者
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	private String createBy;
 	/**
 	 * 更新者
 	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private String updateBy;
 	/**
 	 * 创建日期
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	private Date createTime;
 	/**
 	 * 更新时间
 	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
-
-	@Data
-	public static class PermissionVo{
-		private Long permissionId;
-		private String name;
-		private String permission;
-	}
 }

@@ -1,6 +1,7 @@
 package com.phoenixhell.securityuaa.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.phoenixhell.securityuaa.utils.SecurityUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         this.setFieldValByName("createTime",new Date(),metaObject);
         this.setFieldValByName("updateTime",new Date(),metaObject);
+        this.setFieldValByName("createBy", SecurityUtils.getSecurityUser().getUsername(),metaObject);
+        this.setFieldValByName("updateBy",SecurityUtils.getSecurityUser().getUsername(),metaObject);
 
         this.setFieldValByName("version",1,metaObject);
     }

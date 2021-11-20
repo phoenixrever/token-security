@@ -6,6 +6,7 @@ com\phoenixhell\securityuaa\config\WebSecurityConfig.class
 com\phoenixhell\securityuaa\utils\ApplicationContextUtils.class
 valid\ListValue.class
 com\phoenixhell\securityuaa\entity\RoleEntity.class
+com\phoenixhell\securityuaa\vo\PermissionVo.class
 com\phoenixhell\securityuaa\vo\RoleTreeVo.class
 com\phoenixhell\securityuaa\service\RoleService.class
 com\phoenixhell\securityuaa\service\impl\RoleServiceImpl.class
@@ -27,7 +28,6 @@ com\phoenixhell\securityuaa\controller\RoleController.class
 com\phoenixhell\securityuaa\entity\RolesMenus.class
 com\phoenixhell\securityuaa\controller\AuthController.class
 com\phoenixhell\securityuaa\mapper\MenuMapper.class
-com\phoenixhell\securityuaa\entity\RoleEntity$PermissionVo.class
 com\phoenixhell\securityuaa\handler\CaptchaFilter.class
 com\phoenixhell\securityuaa\service\UserService.class
 com\phoenixhell\securityuaa\exception\LoginErrorException.class

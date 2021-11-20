@@ -6,8 +6,6 @@
     <resultMap type="com.phoenixhell.securityuaa.entity.MenuEntity" id="menuMap">
         <result property="menuId" column="menu_id"/>
         <result property="pid" column="pid"/>
-        <result property="subCount" column="sub_count"/>
-        <result property="type" column="type"/>
         <result property="title" column="title"/>
         <result property="name" column="name"/>
         <result property="component" column="component"/>

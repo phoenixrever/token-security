@@ -3,6 +3,7 @@ package com.phoenixhell.securityuaa.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.phoenixhell.securityuaa.entity.RoleEntity;
 import com.phoenixhell.securityuaa.entity.UserEntity;
+import com.phoenixhell.securityuaa.vo.PermissionVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  * @since 2021-11-05
  */
 public interface UserMapper extends BaseMapper<UserEntity> {
-    List<RoleEntity.PermissionVo> getGrantedAuthorities(@Param("userId") Long userId);
+    List<PermissionVo> getGrantedAuthorities(@Param("userId") Long userId);
 
-    List<RoleEntity.PermissionVo> getAuthoritiesByRole(@Param("role") String role);
+    List<PermissionVo> getAuthoritiesByRole(@Param("roleName") String roleName);
 }

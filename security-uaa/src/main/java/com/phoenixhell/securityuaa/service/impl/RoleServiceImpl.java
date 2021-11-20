@@ -3,6 +3,7 @@ package com.phoenixhell.securityuaa.service.impl;
 import com.phoenixhell.securityuaa.service.MenuService;
 import com.phoenixhell.securityuaa.service.UserService;
 import com.phoenixhell.securityuaa.vo.MenuTreeVo;
+import com.phoenixhell.securityuaa.vo.PermissionVo;
 import com.phoenixhell.securityuaa.vo.RoleTreeVo;
 import com.phoenixhell.securityuaa.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,41 +34,29 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     @Autowired
     private MenuService menuService;
 
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        QueryWrapper<RoleEntity> wrapper = new QueryWrapper<>();
+        String keyword = (String )params.get("keyword");
+        if(!StringUtils.isEmpty(keyword)) {
+            wrapper.like("name", keyword)
+                    .or().like("description", keyword);
+        }
         IPage<RoleEntity> page = this.page(
                 new Query<RoleEntity>().getPage(params),
-                new QueryWrapper<RoleEntity>()
+                wrapper
         );
-        List<RoleEntity> collect = page.getRecords().stream().map(item -> {
-            List<RoleEntity.PermissionVo> authoritiesByRole = userService.getAuthoritiesByRole(item.getName());
-            item.setPermissions(authoritiesByRole);
-            return item;
-        }).collect(Collectors.toList());
-        page.setRecords(collect);
+        //分页数据里面不需要权限了 (单独在tree里面获取)
+//        List<RoleEntity> collect = page.getRecords().stream().map(item -> {
+//            List<PermissionVo> authoritiesByRole = userService.getAuthoritiesByRole(item.getName());
+//            item.setPermissions(authoritiesByRole);
+//            return item;
+//        }).collect(Collectors.toList());
+//        page.setRecords(collect);
         return new PageUtils(page);
     }
 
-    //@Override
-    //public RoleEntity getRoleWithAllPermissionsById(Long roleId) {
-    //    List<RoleEntity.PermissionVo> allPermissions = menuService.list().stream().map(menu -> {
-    //        RoleEntity.PermissionVo permissionVo = new RoleEntity.PermissionVo();
-    //        permissionVo.setPermissionId(menu.getMenuId());
-    //        permissionVo.setName(menu.getTitle());
-    //        permissionVo.setPermission(menu.getPermission());
-    //        return permissionVo;
-    //    }).filter(item -> !StringUtils.isEmpty(item.getPermission())).collect(Collectors.toList());
-    //    // 增加用户的时候需要角色列表
-    //    RoleEntity roleEntity=null;
-    //    if(roleId==0L){
-    //         roleEntity = new RoleEntity();
-    //    }else{
-    //         roleEntity = this.getById(roleId);
-    //    }
-    //
-    //    roleEntity.setAllPermissions(allPermissions);
-    //    return roleEntity;
-    //}
 
     @Override
     public RoleTreeVo getTreeByRoleId(Long roleId) {
@@ -77,7 +66,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
             disableAllNodes(menuTreeVos);
         }
         RoleEntity roleEntity = this.getById(roleId);
-        List<RoleEntity.PermissionVo> stringAuthorities = userService.getAuthoritiesByRole(roleEntity.getName());
+        List<PermissionVo> stringAuthorities = userService.getAuthoritiesByRole(roleEntity.getName());
         List<Long> checkedIds = stringAuthorities.stream().map(p -> p.getPermissionId()).collect(Collectors.toList());
         RoleTreeVo roleTreeVo = new RoleTreeVo();
         roleTreeVo.setCheckedIds(checkedIds);
@@ -85,7 +74,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         return roleTreeVo;
     }
 
-    //admin 禁用全部节点
+    //admin 禁用全部tree节点选择框
     public List<MenuTreeVo> disableAllNodes(List<MenuTreeVo> menuTreeVos) {
         return menuTreeVos.stream().map(m -> {
             m.setDisabled(true);

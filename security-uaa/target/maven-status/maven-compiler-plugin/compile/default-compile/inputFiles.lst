@@ -4,6 +4,7 @@ D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\entity\
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\SecurityUaaApplication.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\controller\RoleController.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\entity\RolesMenusEntity.java
+D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\vo\PermissionVo.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\service\RoleService.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\exception\LoginErrorException.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\mapper\RoleMapper.java
@@ -23,6 +24,7 @@ D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\config\
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\entity\RolesMenus.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\config\RedisConfig.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\controller\UserController.java
+D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\vo\RoleTreeVo.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\service\RolesMenusService.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\service\UserService.java
 D:\token-security\security-uaa\src\main\java\com\phoenixhell\securityuaa\service\UsersRolesService.java

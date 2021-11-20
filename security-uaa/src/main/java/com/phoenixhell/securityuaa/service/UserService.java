@@ -2,8 +2,8 @@ package com.phoenixhell.securityuaa.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.phoenixhell.common.utils.PageUtils;
-import com.phoenixhell.securityuaa.entity.RoleEntity;
 import com.phoenixhell.securityuaa.entity.UserEntity;
+import com.phoenixhell.securityuaa.vo.PermissionVo;
 import com.phoenixhell.securityuaa.vo.UserVo;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.Map;
 public interface UserService extends IService<UserEntity> {
    PageUtils queryPage(Map<String, Object> params);
 
-   List<RoleEntity.PermissionVo> getStringAuthorities(Long userId);
+   List<PermissionVo> getStringAuthorities(Long userId);
 
     List<String> getRoles(Long userId);
 
@@ -32,5 +32,5 @@ public interface UserService extends IService<UserEntity> {
 
     void saveUserVo(UserVo userVo);
 
-    List<RoleEntity.PermissionVo> getAuthoritiesByRole(String role);
+    List<PermissionVo> getAuthoritiesByRole(String role);
 }

@@ -26,10 +26,6 @@ public class UserEntity implements Serializable {
 	@TableId(type = IdType.AUTO)
 	private Long userId;
 	/**
-	 * 部门名称
-	 */
-	private Long deptId;
-	/**
 	 * 用户名
 	 */
 	private String username;
@@ -52,11 +48,7 @@ public class UserEntity implements Serializable {
 	/**
 	 * 头像地址
 	 */
-	private String avatarName;
-	/**
-	 * 头像真实路径
-	 */
-	private String avatarPath;
+	private String avatar;
 	/**
 	 * 密码
 	 */
@@ -69,14 +61,17 @@ public class UserEntity implements Serializable {
 	/**
 	 * 创建者
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	private String createBy;
 	/**
 	 * 更新者
 	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private String updateBy;
 	/**
 	 * 修改密码的时间
 	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date pwdResetTime;
 	/**
 	 * 创建日期

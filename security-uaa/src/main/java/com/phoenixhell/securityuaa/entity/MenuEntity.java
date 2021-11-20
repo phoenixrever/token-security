@@ -1,5 +1,7 @@
 package com.phoenixhell.securityuaa.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -28,14 +30,7 @@ public class MenuEntity implements Serializable {
 	 * 上级菜单ID
 	 */
 	private Long pid;
-	/**
-	 * 子菜单数目
-	 */
-	private Integer subCount;
-	/**
-	 * 菜单类型
-	 */
-	private Integer type;
+
 	/**
 	 * 菜单标题
 	 */
@@ -83,18 +78,22 @@ public class MenuEntity implements Serializable {
 	/**
 	 * 创建者
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	private String createBy;
 	/**
 	 * 更新者
 	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private String updateBy;
 	/**
 	 * 创建日期
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	private Date createTime;
 	/**
 	 * 更新时间
 	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
 
 }

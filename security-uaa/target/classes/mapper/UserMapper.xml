@@ -29,7 +29,7 @@
     <!--SELECT role_id FROM sys_users_roles WHERE user_id IN (-->
     <!--SELECT user_id FROM sys_user WHERE username=#{username}-->
     <!--)-->
-    <resultMap type="com.phoenixhell.securityuaa.entity.RoleEntity$PermissionVo" id="permissionMap">
+    <resultMap type="com.phoenixhell.securityuaa.vo.PermissionVo" id="permissionMap">
         <result property="permissionId" column="menu_id"/>
         <result property="name" column="title"/>
         <result property="permission" column="permission"/>
@@ -72,7 +72,7 @@
 <!--        )-->
         SELECT DISTINCT menu_id,title,permission FROM sys_menu WHERE permission IS NOT NULL AND menu_id IN(
             SELECT menu_id FROM sys_roles_menus WHERE role_id IN(
-                SELECT role_id FROM sys_role WHERE name =#{role}
+                SELECT role_id FROM sys_role WHERE name =#{roleName}
              )
         )
     </select>

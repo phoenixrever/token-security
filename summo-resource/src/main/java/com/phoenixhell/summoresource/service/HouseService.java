@@ -16,5 +16,7 @@ import java.util.Map;
 public interface HouseService extends IService<HouseEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils queryFullPage(Map<String, Object> params);
 }
 

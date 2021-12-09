@@ -36,6 +36,17 @@ public class HouseController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 自定义联合列表查询
+     */
+    @RequestMapping("/fullList")
+    //@RequiresPermissions("summoresource:house:list")
+    public R fullList(@RequestParam Map<String, Object> params){
+        PageUtils page = houseService.queryFullPage(params);
+
+        return R.ok().put("page", page);
+    }
+
 
     /**
      * 信息

@@ -40,7 +40,11 @@
         <result property="vrLink" column="vr_link"/>
         <result property="vrImage" column="vr_image"/>
         <result property="requirement" column="requirement"/>
+        <collection property="imageEntities" ofType="com.phoenixhell.summoresource.entity.ImageEntity">
+            <id column="id" property="id"/>
+            <result column="img_src" property="imgSrc"/>
+            <result column="house_id" property="houseId"/>
+        </collection>
     </resultMap>
-
-
+    <!-- 对于有分页的查询 这个方法不太友好 分页结果不准确 放弃-->
 </mapper>

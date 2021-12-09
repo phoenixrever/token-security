@@ -59,8 +59,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
                 //URL路径拦截 oauth不需要在这放行
                 .authorizeRequests()//需要登陆路径request
-                .antMatchers("/**").access("#oauth2.hasScope('all')")// 校验令牌的访问范围(scope) 是不是all
                 .antMatchers("/summoresource/house/**").permitAll()
+                .antMatchers("/**").access("#oauth2.hasScope('all')")// 校验令牌的访问范围(scope) 是不是all
                 .anyRequest().authenticated()//其他所有路径都需要认证
                 .and()
                 .csrf().disable();//关闭crsf跨域攻击

@@ -43,6 +43,7 @@ public class HouseServiceImpl extends ServiceImpl<HouseMapper, HouseEntity> impl
 
     @Override
     public PageUtils queryFullPage(Map<String, Object> params) {
+
         IPage<HouseEntity> page = this.page(
                 new Query<HouseEntity>().getPage(params),
                 new QueryWrapper<HouseEntity>()

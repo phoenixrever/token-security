@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)  //此注解不能少
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 @SpringBootApplication
 @MapperScan(basePackages = "com.phoenixhell.summoresource.mapper")
 public class SummoResourceApplication {

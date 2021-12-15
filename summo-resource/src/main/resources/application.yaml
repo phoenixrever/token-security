@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: summo-resource
+  profiles:
+    active: prod
   cloud:
     nacos:
       discovery:

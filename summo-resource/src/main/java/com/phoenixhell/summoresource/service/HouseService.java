@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.phoenixhell.common.utils.PageUtils;
 import com.phoenixhell.summoresource.entity.HouseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,5 +19,7 @@ public interface HouseService extends IService<HouseEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     PageUtils queryFullPage(Map<String, Object> params);
+
+    List<HouseEntity> search(String query);
 }
 

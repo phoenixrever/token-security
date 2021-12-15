@@ -8,6 +8,8 @@ import com.phoenixhell.summoresource.entity.HouseEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 
  * 
@@ -17,4 +19,5 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface HouseMapper extends BaseMapper<HouseEntity> {
+    List<HouseEntity> search(@Param("q") String query);
 }

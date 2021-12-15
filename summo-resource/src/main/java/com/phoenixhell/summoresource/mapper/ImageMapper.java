@@ -3,6 +3,9 @@ package com.phoenixhell.summoresource.mapper;
 import com.phoenixhell.summoresource.entity.ImageEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 
@@ -13,5 +16,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ImageMapper extends BaseMapper<ImageEntity> {
-
+        List<ImageEntity> getImageByHouseId(@Param("houseId") Long houseId);
 }

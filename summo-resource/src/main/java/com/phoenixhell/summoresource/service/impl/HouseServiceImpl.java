@@ -61,4 +61,10 @@ public class HouseServiceImpl extends ServiceImpl<HouseMapper, HouseEntity> impl
 
         return new PageUtils(page);
     }
+
+    @Override
+    public List<HouseEntity> search(String query) {
+        List<HouseEntity> houseEntities = baseMapper.search(query);
+        return houseEntities;
+    }
 }

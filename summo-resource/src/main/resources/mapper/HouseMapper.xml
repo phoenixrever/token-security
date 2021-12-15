@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.phoenixhell.summoresource.mapper.HouseMapper">
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.phoenixhell.summoresource.entity.HouseEntity" id="houseMap">
         <result property="id" column="id"/>
         <result property="title" column="title"/>
@@ -40,11 +40,52 @@
         <result property="vrLink" column="vr_link"/>
         <result property="vrImage" column="vr_image"/>
         <result property="requirement" column="requirement"/>
-        <collection property="imageEntities" ofType="com.phoenixhell.summoresource.entity.ImageEntity">
-            <id column="id" property="id"/>
-            <result column="img_src" property="imgSrc"/>
-            <result column="house_id" property="houseId"/>
+        <!--   分段查询懒加载 真正点进去了在查询       -->
+        <collection property="imageEntities" select="com.phoenixhell.summoresource.mapper.ImageMapper.getImageByHouseId"
+                    column="id" fetchType="lazy"
+        >
+        </collection>
+        <collection property="neighborhoodEntities" select="com.phoenixhell.summoresource.mapper.NeighborhoodMapper.getNeighborhoodEntities"
+                    column="id" fetchType="lazy"
+        >
         </collection>
     </resultMap>
+
+    <select id="search" resultMap="houseMap">
+
+           SELECT
+                  *
+                FROM
+                  house
+                WHERE CONCAT(
+                    title,
+                    price,
+                    AREA,
+                    age,
+                    location,
+                    detail_room,
+                    build_material,
+                    FLOOR,
+                    build_date,
+                    depreciation,
+                    car_park,
+                    check_in,
+                    total_house,
+                    duration,
+                    commission,
+                    company_price,
+                    total_price,
+                    other_price,
+                    remarks,
+                    room_decoration,
+                    walk_time,
+                    management_price,
+                    room,
+                    direction,
+                    classify,
+                    requirement
+                  ) LIKE CONCAT('%',#{q},'%') limit 20
+    </select>
     <!-- 对于有分页的查询 这个方法不太友好 分页结果不准确 放弃-->
+
 </mapper>

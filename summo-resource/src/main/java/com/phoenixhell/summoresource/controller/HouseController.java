@@ -4,10 +4,12 @@ import com.phoenixhell.common.utils.PageUtils;
 import com.phoenixhell.common.utils.R;
 import com.phoenixhell.summoresource.entity.HouseEntity;
 import com.phoenixhell.summoresource.service.HouseService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -45,6 +47,16 @@ public class HouseController {
         PageUtils page = houseService.queryFullPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * serach
+     */
+
+    @GetMapping("/search")
+    public R search(@RequestParam("q") String query){
+      List<HouseEntity> houseEntityList =  houseService.search(query);
+      return R.ok().put("data",houseEntityList);
     }
 
 

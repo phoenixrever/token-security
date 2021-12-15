@@ -9,5 +9,9 @@
         <result property="houseId" column="house_id"/>
     </resultMap>
 
+    <select id="getImageByHouseId" resultType="com.phoenixhell.summoresource.entity.ImageEntity">
+        select * from image where house_id = #{houseId}
+    </select>
+
 
 </mapper>

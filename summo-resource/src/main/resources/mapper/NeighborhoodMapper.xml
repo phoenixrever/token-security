@@ -9,6 +9,8 @@
         <result property="title" column="title"/>
         <result property="houseId" column="house_id"/>
     </resultMap>
-
+    <select id="getNeighborhoodEntities" resultType="com.phoenixhell.summoresource.entity.NeighborhoodEntity">
+        select * from neighborhood where house_id = #{houseId}
+    </select>
 
 </mapper>

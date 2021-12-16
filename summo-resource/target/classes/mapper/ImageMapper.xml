@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.phoenixhell.summoresource.mapper.ImageMapper">
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.phoenixhell.summoresource.entity.ImageEntity" id="imageMap">
+        <result property="id" column="id"/>
+        <result property="imgSrc" column="img_src"/>
+        <result property="houseId" column="house_id"/>
+    </resultMap>
+
+    <select id="getImageByHouseId" resultType="com.phoenixhell.summoresource.entity.ImageEntity">
+        select * from image where house_id = #{houseId}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.phoenixhell.summoresource.mapper.HouseMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.phoenixhell.summoresource.entity.HouseEntity" id="houseMap">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="price" column="price"/>
+        <result property="giftPrice" column="gift_price"/>
+        <result property="deposit" column="deposit"/>
+        <result property="area" column="area"/>
+        <result property="age" column="age"/>
+        <result property="location" column="location"/>
+        <result property="isEnable" column="is_enable"/>
+        <result property="detailRoom" column="detail_room"/>
+        <result property="buildMaterial" column="build_material"/>
+        <result property="floor" column="floor"/>
+        <result property="buildDate" column="build_date"/>
+        <result property="depreciation" column="depreciation"/>
+        <result property="carPark" column="car_park"/>
+        <result property="checkIn" column="check_in"/>
+        <result property="totalHouse" column="total_house"/>
+        <result property="houseUpdate" column="house_update"/>
+        <result property="duration" column="duration"/>
+        <result property="commission" column="commission"/>
+        <result property="companyPrice" column="company_price"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="otherPrice" column="other_price"/>
+        <result property="remarks" column="remarks"/>
+        <result property="mapLongitude" column="map_longitude"/>
+        <result property="mapLatitude" column="map_latitude"/>
+        <result property="roomDecoration" column="room_decoration"/>
+        <result property="summoLink" column="summo_link"/>
+        <result property="walkTime" column="walk_time"/>
+        <result property="managementPrice" column="management_price"/>
+        <result property="room" column="room"/>
+        <result property="direction" column="direction"/>
+        <result property="classify" column="classify"/>
+        <result property="vrLink" column="vr_link"/>
+        <result property="vrImage" column="vr_image"/>
+        <result property="requirement" column="requirement"/>
+        <!--   分段查询懒加载 真正点进去了在查询       -->
+        <collection property="imageEntities" select="com.phoenixhell.summoresource.mapper.ImageMapper.getImageByHouseId"
+                    column="id" fetchType="lazy"
+        >
+        </collection>
+        <collection property="neighborhoodEntities" select="com.phoenixhell.summoresource.mapper.NeighborhoodMapper.getNeighborhoodEntities"
+                    column="id" fetchType="lazy"
+        >
+        </collection>
+    </resultMap>
+
+    <select id="search" resultMap="houseMap">
+
+           SELECT
+                  *
+                FROM
+                  house
+                WHERE CONCAT(
+                    title,
+                    price,
+                    AREA,
+                    age,
+                    location,
+                    detail_room,
+                    build_material,
+                    FLOOR,
+                    build_date,
+                    depreciation,
+                    car_park,
+                    check_in,
+                    total_house,
+                    duration,
+                    commission,
+                    company_price,
+                    total_price,
+                    other_price,
+                    remarks,
+                    room_decoration,
+                    walk_time,
+                    management_price,
+                    room,
+                    direction,
+                    classify,
+                    requirement
+                  ) LIKE CONCAT('%',#{q},'%') limit 20
+    </select>
+    <!-- 对于有分页的查询 这个方法不太友好 分页结果不准确 放弃-->
+
+</mapper>

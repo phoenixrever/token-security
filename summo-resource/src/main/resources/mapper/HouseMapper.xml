@@ -86,6 +86,17 @@
                     requirement
                   ) LIKE CONCAT('%',#{q},'%') limit 20
     </select>
+    <select id="getOrderPage"   resultType="com.phoenixhell.summoresource.entity.HouseEntity">
+        SELECT * FROM house
+        ORDER BY
+        <if test="order!='area'">
+            #{order}
+        </if>
+        <if test="order=='area'">
+            #{order}+0
+        </if>
+        limit ${(pageNo-1)*pageSize},#{pageSize}
+    </select>
     <!-- 对于有分页的查询 这个方法不太友好 分页结果不准确 放弃-->
 
 </mapper>

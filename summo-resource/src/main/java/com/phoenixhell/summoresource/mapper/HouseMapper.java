@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -20,4 +21,6 @@ import java.util.List;
 @Mapper
 public interface HouseMapper extends BaseMapper<HouseEntity> {
     List<HouseEntity> search(@Param("q") String query);
+
+    List<HouseEntity> getOrderPage(@Param("order") String order,@Param("pageSize") int pageSize,@Param("pageNo") int pageNo);
 }

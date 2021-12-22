@@ -43,23 +43,33 @@ public class HouseServiceImpl extends ServiceImpl<HouseMapper, HouseEntity> impl
 
     @Override
     public PageUtils queryFullPage(Map<String, Object> params) {
+        //
+        //IPage<HouseEntity> page = this.page(
+        //        new Query<HouseEntity>().getPage(params),
+        //        new QueryWrapper<HouseEntity>()
+        //);
+        //
+        //List<HouseEntity> list = page.getRecords().stream().map(item -> {
+        //    List<ImageEntity> imageEntities = imageService.query().eq("house_id", item.getId()).list();
+        //    item.setImageEntities(imageEntities);
+        //    List<NeighborhoodEntity> neighborhoodEntities = neighborhoodService.query().eq("house_id", item.getId()).list();
+        //    item.setNeighborhoodEntities(neighborhoodEntities);
+        //    return item;
+        //}).collect(Collectors.toList());
+        //
+        //page.setRecords(list);
+        //
+        //return new PageUtils(page);
 
-        IPage<HouseEntity> page = this.page(
-                new Query<HouseEntity>().getPage(params),
-                new QueryWrapper<HouseEntity>()
-        );
 
-        List<HouseEntity> list = page.getRecords().stream().map(item -> {
-            List<ImageEntity> imageEntities = imageService.query().eq("house_id", item.getId()).list();
-            item.setImageEntities(imageEntities);
-            List<NeighborhoodEntity> neighborhoodEntities = neighborhoodService.query().eq("house_id", item.getId()).list();
-            item.setNeighborhoodEntities(neighborhoodEntities);
-            return item;
-        }).collect(Collectors.toList());
-
-        page.setRecords(list);
-
-        return new PageUtils(page);
+        //#需求：每页显示pageSize条记录，此时显示第pageNo页：
+        //#公式：LIMIT (pageNo-1) * pageSize,pageSize;
+        int pageSize = Integer.parseInt((String) params.get("pageSize"));
+        int pageNo = Integer.parseInt((String) params.get("pageNo"));
+        List<HouseEntity> houseEntities =  baseMapper.getOrderPage(params.get("order").toString(),pageSize,pageNo);
+        PageUtils pageUtils = new PageUtils(houseEntities, houseEntities.size(), pageSize, pageNo);
+        System.out.println(pageUtils);
+        return pageUtils;
     }
 
     @Override

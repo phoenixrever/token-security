@@ -86,7 +86,7 @@
                     requirement
                   ) LIKE CONCAT('%',#{q},'%') limit 20
     </select>
-    <select id="getOrderPage"   resultType="com.phoenixhell.summoresource.entity.HouseEntity">
+    <select id="getOrderPage"   resultMap="houseMap">
         SELECT * FROM house
         ORDER BY
         <choose>
@@ -94,13 +94,16 @@
                 SUBSTR(${order},2,2)
             </when>
             <when test="order=='area'">
-                ${order}+0
+                ${order}+0 desc
             </when>
             <when test="order=='distance'">
                 ExtractNumber(find_num_str('船堀',walk_time))
             </when>
+            <when test="order=='price'">
+                ${order}+0
+            </when>
             <otherwise>
-                ${order}
+                ${order} desc
             </otherwise>
         </choose>
         limit ${(pageNo-1)*pageSize},#{pageSize}

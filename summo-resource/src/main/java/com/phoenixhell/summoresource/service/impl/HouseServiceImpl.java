@@ -64,9 +64,19 @@ public class HouseServiceImpl extends ServiceImpl<HouseMapper, HouseEntity> impl
 
         //#需求：每页显示pageSize条记录，此时显示第pageNo页：
         //#公式：LIMIT (pageNo-1) * pageSize,pageSize;
-        int pageSize = Integer.parseInt((String) params.get("pageSize"));
-        int pageNo = Integer.parseInt((String) params.get("pageNo"));
-        List<HouseEntity> houseEntities =  baseMapper.getOrderPage(params.get("order").toString(),pageSize,pageNo);
+        int pageSize=10;
+        int pageNo=1;
+        String order="price";
+        if(params.get("pageSize")!=null){
+             pageSize = Integer.parseInt((String) params.get("pageSize"));
+        }
+        if(params.get("pageNo")!=null){
+            pageNo = Integer.parseInt((String) params.get("pageNo"));
+        }
+        if(params.get("order")!=null){
+            order = (String) params.get("order");
+        }
+        List<HouseEntity> houseEntities =  baseMapper.getOrderPage(order,pageSize,pageNo);
         PageUtils pageUtils = new PageUtils(houseEntities, houseEntities.size(), pageSize, pageNo);
         System.out.println(pageUtils);
         return pageUtils;

@@ -89,12 +89,20 @@
     <select id="getOrderPage"   resultType="com.phoenixhell.summoresource.entity.HouseEntity">
         SELECT * FROM house
         ORDER BY
-        <if test="order!='area'">
-            #{order}
-        </if>
-        <if test="order=='area'">
-            #{order}+0
-        </if>
+        <choose>
+            <when test="order=='age'">
+                SUBSTR(${order},2,2)
+            </when>
+            <when test="order=='area'">
+                ${order}+0
+            </when>
+            <when test="order=='distance'">
+                ExtractNumber(find_num_str('船堀',walk_time))
+            </when>
+            <otherwise>
+                ${order}
+            </otherwise>
+        </choose>
         limit ${(pageNo-1)*pageSize},#{pageSize}
     </select>
     <!-- 对于有分页的查询 这个方法不太友好 分页结果不准确 放弃-->

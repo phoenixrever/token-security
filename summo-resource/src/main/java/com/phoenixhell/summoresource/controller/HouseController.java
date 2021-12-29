@@ -104,4 +104,25 @@ public class HouseController {
         return R.ok();
     }
 
+    ///**
+    // * 删除
+    // */
+    //@RequestMapping("/addToFavorite/{houseId}")
+    //public R addToFavorite(@PathVariable("houseId") Long houseId){
+    //    HouseEntity houseEntity = new HouseEntity();
+    //    houseEntity.setId(houseId);
+    //    houseService.updateById(houseEntity);
+    //    return R.ok();
+    //}
+    //
+    ///**
+    // * 删除
+    // */
+    //@RequestMapping("/removeFavorite/{houseId}")
+    //public R removeFavorite(@PathVariable("houseId") Long houseId){
+    //    HouseEntity houseEntity = new HouseEntity();
+    //    houseEntity.setId(houseId);
+    //    houseService.updateById(houseEntity);
+    //    return R.ok();
+    //}
 }

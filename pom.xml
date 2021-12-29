@@ -20,6 +20,7 @@
         <module>security-common</module>
         <module>security-order</module>
         <module>security-gateway</module>
+        <module>summo-resource</module>
     </modules>
 
     <properties>

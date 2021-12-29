@@ -27,14 +27,15 @@ public class NotificationController {
         //notificationEntity.setTitle("spring boot");
         //notificationEntity.setBody("this is a body");
         HashMap<String, String> map = new HashMap<>();
-        map.put("route","tab1");
-        map.put("title","title");
-        map.put("body","body");
+        map.put("route","home");
+        map.put("title","新的房间信息更新了");
+        map.put("body","更新了新的信息 快来点击我查看把");
         notificationEntity.setData(map);
         String send="";
-        String token = "fPmGFPU8TLKiUTPxAUniJ3:APA91bG3jwTAORBvnloz6w452h0_zRz2s2zQCJKLVm7ZipaMbjf13SN7JAO_PZArxHcZLTJ-Dy--h674ras68i7CjZkSf8q8kbXZFcQC_c9NYhyccwEWLZ5K_Zla9NKQlv57husWUdRa";
+        //String token = "fPmGFPU8TLKiUTPxAUniJ3:APA91bG3jwTAORBvnloz6w452h0_zRz2s2zQCJKLVm7ZipaMbjf13SN7JAO_PZArxHcZLTJ-Dy--h674ras68i7CjZkSf8q8kbXZFcQC_c9NYhyccwEWLZ5K_Zla9NKQlv57husWUdRa";
         try {
-             send = firebaseMessagingService.sendNotification(notificationEntity, token);
+             //send = firebaseMessagingService.sendNotification(notificationEntity, token);
+             send = firebaseMessagingService.sendNotification(notificationEntity,"fakesummo");
             System.out.println(send);
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();

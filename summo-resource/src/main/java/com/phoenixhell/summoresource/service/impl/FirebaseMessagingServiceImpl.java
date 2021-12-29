@@ -40,8 +40,8 @@ public class FirebaseMessagingServiceImpl implements FirebaseMessagingService {
         Message message = Message
                 .builder()
                 .setNotification(notification)
-                //.setTopic(topic)
-                .setToken(topic)
+                .setTopic(topic)
+                //.setToken(topic)
                 .putAllData(notificationEntity.getData())
                 .build();
 

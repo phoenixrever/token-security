@@ -86,8 +86,30 @@
                     requirement
                   ) LIKE CONCAT('%',#{q},'%') limit 20
     </select>
+
+    <!-- 2 ：后面跟where标签，会将第一个and过滤（不会过滤第二个）-->
     <select id="getOrderPage"   resultMap="houseMap">
         SELECT * FROM house
+        <where>
+            <if test="classify!=null">
+                <foreach collection="classify" item="classify_item" separator=","
+                         open="classify in(" close=")">
+                    #{classify_item}
+                </foreach>
+            </if>
+            <if test="buildMaterial!=null">
+                <foreach collection="buildMaterial" item="buildMaterial_item" separator=","
+                         open="and build_material in(" close=")">
+                    #{buildMaterial_item}
+                </foreach>
+            </if>
+            <if test="giftPrice!=null">
+                or gift_price=#{giftPrice}
+            </if>
+            <if test="deposit!=null">
+                or deposit=#{deposit}
+            </if>
+        </where>
         ORDER BY
         <choose>
             <when test="order=='age'">

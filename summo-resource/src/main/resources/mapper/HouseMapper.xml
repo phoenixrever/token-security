@@ -103,6 +103,9 @@
                     #{buildMaterial_item}
                 </foreach>
             </if>
+            <if test="vrLink!=null">
+                and vr_link!=''
+            </if>
             <if test="giftPrice!=null">
                 or gift_price=#{giftPrice}
             </if>

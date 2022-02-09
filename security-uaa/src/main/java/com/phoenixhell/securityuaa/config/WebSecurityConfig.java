@@ -55,7 +55,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    //认证管理器 密码模式颁发令牌服务URL  这个不能AuthorizationServer里面  会没有super.authenticationManager()方法
+    // 密码模式颁发令牌服务 需要 调用AuthenticationManager.authenticate
+    // 比对用户输入的密码和userdetails查询数据库得出的密码
+    // 这个不能AuthorizationServer里面  会没有super.authenticationManager()方法
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
@@ -64,8 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //定义的一般过滤器 无需在spring security 注册
-        // 继承的spring security 比如表单验证的需要注册
+        //定义的一般过滤器 一般无需在spring security 注册
+        //但是最好在这注册下 放在UsernamePasswordAuthenticationFilter前面
          //http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class);
         http
                 //自定义异常处理
@@ -74,7 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .accessDeniedHandler(customAccessDeniedHandler)
                 .and()
                 .sessionManagement() //
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //默认创建会话
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //不创建会话
                 .and()
                 .authorizeRequests()
                     //.antMatchers("/securityuaa/menu/**","/securityuaa/auth/**","/securityuaa/user/**","/favicon.ico").permitAll()//需要登陆路径request

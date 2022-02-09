@@ -35,7 +35,6 @@ com\phoenixhell\securityuaa\vo\UserVo.class
 valid\AddGroup.class
 com\phoenixhell\securityuaa\service\impl\MyUserDetailService.class
 com\phoenixhell\securityuaa\service\RolesMenusService.class
-com\phoenixhell\securityuaa\config\UserPage.class
 com\phoenixhell\securityuaa\config\TokenConfig.class
 com\phoenixhell\securityuaa\config\RedisConfig.class
 com\phoenixhell\securityuaa\mapper\RoleMapper.class

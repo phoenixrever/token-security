@@ -12,14 +12,21 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
- * @author phoenixhell
- * @since 2021/10/12 0012-上午 9:09
+ * 	ResourceServerSecurityConfigurer 资源服务器:
+ * 	    • tokenServices ：ResourceServerTokenServices 类的实例，用来实现令牌服务。
+ * 	    • tokenStore ：TokenStore类的实例，指定令牌如何访问，与tokenServices配置可选
+ *      • resourceId ：这个资源服务的ID，这个属性是可选的，但是推荐设置并在授权服务中进行验证。
+ *
+ *  拓展属性例如 tokenExtractor 令牌提取器用来提取请求中的令牌。
+ *
+ *  @EnableResourceServer 注解自动增加了一个类型为 OAuth2AuthenticationProcessingFilter 的过滤器链
  */
 
 @EnableResourceServer
 @Configuration
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-    //对应  AuthorizationServer 里面 配置的 client 详细配置 resourceIds("resource1")客户端可以访问的资源列表
+    //对应  AuthorizationServer 里面 配置的 client 可以访问的资源 id resourceIds("resource1")
+    //客户端可以访问的资源列表
     public static final String RESOURCE_ID="web";
 
     @Autowired
@@ -40,7 +47,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 
 
-    //HttpSecurity配置这个与Spring Security类似：
+    //HttpSecurity配置   与Spring Security类似 资源的放行
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
@@ -53,7 +60,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/**").access("#oauth2.hasScope('all')")// 校验令牌的访问范围(scope) 是不是all
                 .anyRequest().authenticated()//其他所有路径都需要认证
                 .and()
-                .csrf().disable();//关闭crsf跨域攻击
+                .csrf().disable();//关闭crsf跨域攻击防护
     }
 
 

@@ -1,5 +1,6 @@
 package com.phoenixhell.securityuaa.config;
 
+import com.phoenixhell.securityuaa.service.impl.MyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,10 @@ import java.util.Arrays;
 
 /**
  * @author phoenixhell
- * @since 2021/10/11 0011-下午 2:26
+ * @since 2021/10/11 下午 2:26
+ *
+ * 配置认证服务器
+ *
  */
 @Configuration
 @EnableAuthorizationServer
@@ -44,29 +48,44 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
+    @Autowired
+    private MyUserDetailService myUserDetailService;
+
 
 
     /**
-     * 客户端详情   配置 ClientDetailsService
-     * @param clients
-     * @throws Exception
+     * 配置查找客户端详细信息
+     * ClientDetailsServiceConfigurer 能够使用内存或者JDBC来实现客户端详情服务（ClientDetailsService），
+     * ClientDetailsService负责查找ClientDetails，而ClientDetails有几个重要的属性如下列表：
+     * 	• clientId ：（必须的）用来标识客户的Id。
+     * 	• secret ：（需要值得信任的客户端）客户端安全码，如果有的话。
+     * 	• scope ：用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围。
+     * 	• authorizedGrantTypes ：此客户端可以使用的授权类型，默认为空。
+     * 	• authorities ：此客户端可以使用的权限（基于Spring Security authorities）。
+     *
+     * 客户端详情（Client Details）能够在应用程序运行的时候进行更新
+     * 可以通过访问底层的存储服务（例如将客户端详情存储在一个关系数据库的表中
+     * 就可以使用 JdbcClientDetailsService）或者通过自己实现ClientRegistrationService接口
+     * （同时你也可以实现 ClientDetailsService 接口）来进行管理。
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 //        clients.inMemory() //使用in‐memory存储
-//                .withClient("client1")//client_id 客户端id
-//                .secret(new BCryptPasswordEncoder().encode("secret")) //客户端密钥
+//                .withClient("web")//client_id 客户端id
+//                .secret(new BCryptPasswordEncoder().encode("secret"))//客户端密钥
+//                .accessTokenValiditySeconds(36000) //令牌token有效期 单位 秒
 //                .resourceIds("resource1")//客户端可以访问的资源列表
 //                //该client允许的授权类型 authorization_code, password, refresh_token, implicit, client_credentials
 //                .authorizedGrantTypes("authorization_code",
 //                        "password", "client_credentials", "implicit", "refresh_token")
-//                .scopes("all")//read 等等允许的授权范围 all不是所有也是一种标识
+//                .scopes("all")// 用来限制客户端的访问范围 all不是所有也是一种标识
 //                .autoApprove(false)//跳转到授权页面  true 不用跳转直接发令牌
-//                .redirectUris("http://www.baidu.com")//加上验证回调地址
+//                .redirectUris("http://www.baidu.com")//加上验证回调地址 授权成功后的跳转地址
 //                .and()
+//                 //配置多个客户端
 //                .withClient("client2")
 //                .secret(new BCryptPasswordEncoder().encode("secret2"))
-//                .resourceIds("resource2")//
+//                .resourceIds("resource2")
 //                .authorizedGrantTypes("authorization_code",
 //                        "password", "client_credentials", "implicit", "refresh_token")
 //                .scopes("all")
@@ -99,20 +118,42 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     }
 
 
-
+    /**
+     * 使用密码模式所需配置
+     * AuthorizationServerEndpointsConfigurer 通过设定以下属性决定支持的授权类型（Grant Types）:
+     *      authenticationManager:密码（password）授权类型的时候需要设置这个属性注入一个 AuthenticationManager 对象(用于比对用户输入密码和数据密码)
+     *      userDetailsService : 获取数据库用户信息,设置这个的话 refresh_token 时候也查看账号是否仍然有效(没有被禁用)
+     *      authorizationCodeServices :设置 authorization_code 授权码类型模式
+     *      implicitGrantService : 设置隐式授权模式，用来管理隐式授权模式的状态
+     *      tokenGranter: 完全掌控授权，并且会忽略掉上面的这几个属性，这个属性一般是用作拓展用途的(四种授权模式都不符合)
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .authenticationManager(authenticationManager)//认证管理器  密码模式颁发令牌服务URL 开启
-                .authorizationCodeServices(authorizationCodeServices)//授权码模式颁发令牌服务URL开启
+                .authenticationManager(authenticationManager)//认证管理器  开启    密码模式颁发令牌服务URL
+                .authorizationCodeServices(authorizationCodeServices)//开启授权码模式颁发令牌服务URL
+                .userDetailsService(myUserDetailService) //refresh_token 查看令牌是否被禁用
                 .tokenServices(tokenServices())//令牌存储管理服务
                 .allowedTokenEndpointRequestMethods(HttpMethod.POST)//允许post提交访问令牌
-                //自定义获取token 地址
+                //自定义获取token等校验 地址
                 .pathMapping("/oauth/token", "/securityuaa/oauth/token")
                 .pathMapping("/oauth/check_token", "/securityuaa/oauth/check_token");
     }
 
-    //令牌访问端点
+    /**
+     * 令牌端点的安全约束
+     * 	• /oauth/authorize ：授权端点。
+     * 	• /oauth/token ：令牌端点。
+     * 	• /oauth/confirm_access ：用户确认授权提交端点。
+     * 	• /oauth/error ：授权服务错误信息端点。
+     * 	• /oauth/check_token ：用于资源服务访问的令牌解析端点。
+     *  • /oauth/token_key ：提供公有密匙的端点，如果你使用JWT令牌的话
+     *
+     *  （1）tokenkey这个endpoint url 当使用JwtToken且使用非对称加密时，资源服务用于获取公钥而开放的，这里指这个endpoint完全公开(无需授权即可访问)
+     *       目前我使用的是对称加密 用不到
+     *  （2）checkToken这个endpoint完全公开 (无需授权即可访问)
+     *  （3） 允许表单认证
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security

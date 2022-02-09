@@ -22,6 +22,9 @@ public class TokenConfig {
     //对称秘钥，资源服务器使用该秘钥来验证
    private static final String TOKEN_KEY="key";
 
+    /**
+     * token 存入redis
+     */
     @Bean
     public TokenStore tokenStore(){
        // return new InMemoryTokenStore();  //内存令牌存储策咯

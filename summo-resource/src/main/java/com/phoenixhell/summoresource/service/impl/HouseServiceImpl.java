@@ -9,6 +9,8 @@ import com.phoenixhell.summoresource.service.NeighborhoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,6 +24,7 @@ import com.phoenixhell.common.utils.Query;
 import com.phoenixhell.summoresource.mapper.HouseMapper;
 import com.phoenixhell.summoresource.entity.HouseEntity;
 import com.phoenixhell.summoresource.service.HouseService;
+import org.springframework.util.StringUtils;
 
 
 @Service("houseService")
@@ -67,6 +70,11 @@ public class HouseServiceImpl extends ServiceImpl<HouseMapper, HouseEntity> impl
         int pageSize=10;
         int pageNo=1;
         String order="price";
+        String giftPrice=null;
+        String deposit=null;
+        String vrLink=null;
+        List<String> classify=null;
+        List<String> buildMaterial=null;
         if(params.get("pageSize")!=null){
              pageSize = Integer.parseInt((String) params.get("pageSize"));
         }
@@ -76,9 +84,29 @@ public class HouseServiceImpl extends ServiceImpl<HouseMapper, HouseEntity> impl
         if(params.get("order")!=null){
             order = (String) params.get("order");
         }
-        List<HouseEntity> houseEntities =  baseMapper.getOrderPage(order,pageSize,pageNo);
+
+        if(!StringUtils.isEmpty(params.get("classify"))){
+            classify = Arrays.asList(params.get("classify").toString().split(","));
+        }
+
+        if(!StringUtils.isEmpty(params.get("build_material"))){
+            buildMaterial = Arrays.asList(params.get("build_material").toString().split(","));
+        }
+
+        if(params.get("giftPrice")!=null){
+            giftPrice= (String) params.get("giftPrice");
+        }
+
+        if(params.get("deposit")!=null){
+            deposit= (String) params.get("deposit");
+        }
+
+        if(params.get("vr_link")!=null){
+            vrLink= (String) params.get("vr_link");
+        }
+        System.out.println(StringUtils.isEmpty(params.get("build_material")));
+        List<HouseEntity> houseEntities =  baseMapper.getOrderPage(order,pageSize,pageNo,classify,buildMaterial,giftPrice,deposit,vrLink);
         PageUtils pageUtils = new PageUtils(houseEntities, houseEntities.size(), pageSize, pageNo);
-        System.out.println(pageUtils);
         return pageUtils;
     }
 

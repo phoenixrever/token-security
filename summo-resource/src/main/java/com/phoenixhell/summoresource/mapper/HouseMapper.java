@@ -22,5 +22,5 @@ import java.util.Map;
 public interface HouseMapper extends BaseMapper<HouseEntity> {
     List<HouseEntity> search(@Param("q") String query);
 
-    List<HouseEntity> getOrderPage(@Param("order") String order,@Param("pageSize") int pageSize,@Param("pageNo") int pageNo);
+    List<HouseEntity> getOrderPage(@Param("order") String order, @Param("pageSize") int pageSize, @Param("pageNo") int pageNo, @Param("classify") List<String> classify, @Param("buildMaterial") List<String> buildMaterial,  @Param("giftPrice")String giftPrice,@Param("deposit")String deposit,@Param("vrLink")String vrLink);
 }

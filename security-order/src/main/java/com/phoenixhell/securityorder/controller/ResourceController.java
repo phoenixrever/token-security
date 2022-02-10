@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ResourceController {
     //@EnableGlobalMethodSecurity 注解一定要开启
-    @PreAuthorize("hasAnyAuthority('p1')")
+//    @PreAuthorize("hasAnyAuthority('p1')")
     @GetMapping("/resource1")
     public String resource(){
         return "resource1";

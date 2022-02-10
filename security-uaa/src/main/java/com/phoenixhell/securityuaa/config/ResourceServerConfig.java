@@ -30,7 +30,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public static final String RESOURCE_ID="web";
 
     @Autowired
-    private TokenStore tokenStore;
+    private TokenStore jwtTokenStore;
 
 
     @Override
@@ -38,7 +38,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         resources.resourceId(RESOURCE_ID)//客户端可以访问的资源列表
                 //.tokenStore(tokenStore)// 资源服务和授权服务在一个工程里面可以本地内存存储和验证令牌(通常情况下不在)
                 //.tokenServices(tokenService())//远程验证令牌的服务配置jwt令牌后停用 使用本地校验jwt
-                .tokenStore(tokenStore)// 基于jwt令牌的校验
+                .tokenStore(jwtTokenStore)// 基于jwt令牌的校验
                 .stateless(true);
                 //其他资源令牌验证
                 //.resourceId(RESOURCE_ID2)
@@ -54,9 +54,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //基于token 不创建和使用session
                 .and()
-                //URL路径拦截 oauth不需要在这放行
+
                 .authorizeRequests()
-                .antMatchers("/securityuaa/auth/**").permitAll()
+                //.antMatchers("/securityuaa/auth/**").permitAll() //URL路径拦截 oauth不需要在这放行
                 .antMatchers("/**").access("#oauth2.hasScope('all')")// 校验令牌的访问范围(scope) 是不是all
                 .anyRequest().authenticated()//其他所有路径都需要认证
                 .and()

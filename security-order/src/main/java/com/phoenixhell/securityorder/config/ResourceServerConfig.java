@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 /**
  * @author phoenixhell
@@ -20,18 +21,22 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @Configuration
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     //对应  AuthorizationServer 里面 配置的 client 详细配置 resourceIds("resource1")客户端可以访问的资源列表
-    public static final String RESOURCE_ID="resource1";
+    public static final String RESOURCE_ID="web";
 
     @Autowired
-    private TokenStore tokenStore;
+    private TokenStore jwtTokenStore;
 
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.resourceId(RESOURCE_ID)//客户端可以访问的资源列表
-                //.tokenStore(tokenStore)// 资源服务和授权服务在一个工程里面可以本地内存存储和验证令牌(通常情况下不在)
-                //.tokenServices(tokenService())//远程验证令牌的服务配置jwt令牌后停用 使用本地校验jwt
-                .tokenStore(tokenStore)// 基于jwt令牌的校验
+        resources.resourceId(RESOURCE_ID)//资源服務器的資源ID
+                /*
+                * 资源服务和授权服务在一个工程里面可以本地内存存储和验证令牌 new InMemoryTokenStore();(通常情况下不在的)
+                */
+                //.tokenStore(tokenStore) //资源服务和授权服务在一个工程里面验证令牌
+
+                //.tokenServices(tokenService())//远程验证令牌的服务配置oauth/check_token   使用jwt令牌后停用 jwt自带校验信息直接校验jwt
+                .tokenStore(jwtTokenStore)// 基于jwt令牌的校验
                 .stateless(true);
                 //其他资源令牌验证
                 //.resourceId(RESOURCE_ID2)

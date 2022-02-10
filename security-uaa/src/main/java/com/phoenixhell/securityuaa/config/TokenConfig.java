@@ -26,14 +26,22 @@ public class TokenConfig {
      * token 存入redis
      */
     @Bean
-    public TokenStore tokenStore(){
+    public TokenStore jwtTokenStore(){
        // return new InMemoryTokenStore();  //内存令牌存储策咯
+        /*
+        //使用JWT token 后  token自带内容  无需存储令牌相关的信息
         RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
         redisTokenStore.setPrefix("AccessToken:");
-        return redisTokenStore;
-        //return new JwtTokenStore(jwtAccessTokenConverter());
+        return redisTokenStore;*/
+
+        //使用JWT token
+        return new JwtTokenStore(jwtAccessTokenConverter());
     }
 
+    /**
+     * 配置密钥 (对称和非对称)
+     * @return
+     */
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter(){
         JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();

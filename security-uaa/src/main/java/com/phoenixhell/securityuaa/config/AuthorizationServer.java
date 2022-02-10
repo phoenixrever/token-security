@@ -36,7 +36,7 @@ import java.util.Arrays;
 @EnableAuthorizationServer
 public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     @Autowired
-    private TokenStore tokenStore;
+    private TokenStore jwtTokenStore;
 
     //以下4个实例在WebSecurityConfig中配置了bean
     @Autowired
@@ -105,8 +105,8 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setClientDetailsService(jdbcClientDetailsService);//客户端信息服务
         tokenServices.setSupportRefreshToken(true);//是否产生刷新令牌
-        tokenServices.setTokenStore(tokenStore);//令牌存储策略
-        //令牌增强(转化为jwt令牌)
+        tokenServices.setTokenStore(jwtTokenStore);//令牌存储策略
+        //令牌增强(返回值放入更多内容)
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         //customTokenEnhancer() 自定义返回token内容
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(customTokenEnhancer(),jwtAccessTokenConverter));
@@ -131,8 +131,8 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 .authenticationManager(authenticationManager)//认证管理器  开启    密码模式颁发令牌服务URL
-                .authorizationCodeServices(authorizationCodeServices)//开启授权码模式颁发令牌服务URL
-                .userDetailsService(myUserDetailService) //refresh_token 查看令牌是否被禁用
+                //.authorizationCodeServices(authorizationCodeServices)//开启授权码模式颁发令牌服务URL
+                .userDetailsService(myUserDetailService) //refresh_token 查看令牌是否被禁用(校验用户名密码在ifilter里面也会做 这边不太清楚)
                 .tokenServices(tokenServices())//令牌存储管理服务
                 .allowedTokenEndpointRequestMethods(HttpMethod.POST)//允许post提交访问令牌
                 //自定义获取token等校验 地址
@@ -141,7 +141,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     }
 
     /**
-     * 令牌端点的安全约束
+     * 令牌端点的安全约束 (默认配置即可)
      * 	• /oauth/authorize ：授权端点。
      * 	• /oauth/token ：令牌端点。
      * 	• /oauth/confirm_access ：用户确认授权提交端点。
@@ -165,7 +165,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
                 // 以便资源服务可以进行访问
                 // 简单来说就是暴露 /oauth/check_token 这个url 并允许访问
                 .checkTokenAccess("permitAll()")
-                //允许表单认证
+                //允许表单认证(用户名密码登陆不能少)
                 .allowFormAuthenticationForClients();
     }
 

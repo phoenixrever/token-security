@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
+ *
  * 	ResourceServerSecurityConfigurer 资源服务器:
  * 	    • tokenServices ：ResourceServerTokenServices 类的实例，用来实现令牌服务。
  * 	    • tokenStore ：TokenStore类的实例，指定令牌如何访问，与tokenServices配置可选
@@ -47,7 +48,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 
 
-    //HttpSecurity配置   与Spring Security类似 资源的放行
+    /**
+     * HttpSecurity配置   与Spring Security类似 资源的放行
+     *  授权服务器需要配置拦截路径
+     *  资源管理器自带拦截路径就不需要配置了
+     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
@@ -57,6 +62,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
                 .authorizeRequests()
                 //.antMatchers("/securityuaa/auth/**").permitAll() //URL路径拦截 oauth不需要在这放行
+                .antMatchers("/securityuaa/user/**").permitAll()
                 .antMatchers("/**").access("#oauth2.hasScope('all')")// 校验令牌的访问范围(scope) 是不是all
                 .anyRequest().authenticated()//其他所有路径都需要认证
                 .and()

@@ -64,6 +64,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    /**
+     *  授权服务器需要配置拦截路径
+     *  资源管理器自带拦截路径就不需要配置了
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //定义的一般过滤器 一般无需在spring security 注册
@@ -81,6 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     //.antMatchers("/securityuaa/menu/**","/securityuaa/auth/**","/securityuaa/user/**","/favicon.ico").permitAll()//需要登陆路径request
                     .antMatchers("/securityuaa/auth/**","/favicon.ico").permitAll()//需要登陆路径request
+                    .antMatchers("/securityuaa/user/**").permitAll()
                     .anyRequest().authenticated()//其他所有路径都需要认证
                 .and()
                 .csrf().disable();//关闭crsf跨域攻击

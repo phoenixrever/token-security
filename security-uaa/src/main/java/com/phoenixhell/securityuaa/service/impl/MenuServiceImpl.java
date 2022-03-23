@@ -51,7 +51,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
 
     @Override
     public List<MenuTreeVo> buildMenuTree() {
-       List<MenuEntity> menuEntities = this.list();
+        List<MenuEntity> menuEntities = this.list();
         List<MenuTreeVo> menuTreeVos = menuEntities.stream().filter(menuEntity -> menuEntity.getPid() == 0)
                 .sorted((menu1, menu2) -> (menu1.getMenuId() == null ? 0 : menu1.getMenuSort()) - (menu2.getMenuSort() == null ? 0 : menu2.getMenuSort()))
                 .map(menu -> {
@@ -144,6 +144,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
                     childRouter.setChildren(getChildren(menu, list));
                     return childRouter;
                 }).collect(Collectors.toList());
-            return childRouters;
+        return childRouters;
     }
 }

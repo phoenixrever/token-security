@@ -40,6 +40,7 @@
         <result property="vrLink" column="vr_link"/>
         <result property="vrImage" column="vr_image"/>
         <result property="requirement" column="requirement"/>
+        <result property="isFavorite" column="is_favorite"/>
         <!--   分段查询懒加载 真正点进去了在查询       -->
         <collection property="imageEntities" select="com.phoenixhell.summoresource.mapper.ImageMapper.getImageByHouseId"
                     column="id" fetchType="lazy"
@@ -107,10 +108,10 @@
                 and vr_link!=''
             </if>
             <if test="giftPrice!=null">
-                or gift_price=#{giftPrice}
+                and gift_price=#{giftPrice}
             </if>
             <if test="deposit!=null">
-                or deposit=#{deposit}
+                and  deposit=#{deposit}
             </if>
         </where>
         ORDER BY

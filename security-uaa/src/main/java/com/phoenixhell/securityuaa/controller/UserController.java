@@ -49,7 +49,7 @@ public class UserController {
     /**
      * 用户信息 包括侧边栏菜单
      */
-    @GetMapping("/authUserInfo")
+        @GetMapping("/authUserInfo")
     public R getAuthUserInfo(){
         UserVo currentUser = SecurityUtils.getCurrentUser(userService);
         List<String> roles = userService.getRoles(currentUser.getUserId());

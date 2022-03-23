@@ -171,6 +171,8 @@ public class HouseEntity implements Serializable {
 	 */
 	private String requirement;
 
+	private int isFavorite;
+
 	@TableField(exist = false)
 	private List<ImageEntity> imageEntities;
 

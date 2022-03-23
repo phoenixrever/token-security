@@ -3,8 +3,8 @@ server:
 spring:
   application:
     name: security-uaa
-  profiles:
-    active: prod
+#  profiles:
+#    active: prod
   datasource:
     username: root
     password: root

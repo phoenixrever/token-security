@@ -28,14 +28,12 @@ public class HouseController {
     private HouseService houseService;
 
     /**
-     * 列表
+     * favorite 列表
      */
-    @RequestMapping("/list")
-    //@RequiresPermissions("summoresource:house:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = houseService.queryPage(params);
-
-        return R.ok().put("page", page);
+    @RequestMapping("/list/favorite")
+    public R list(){
+        List<HouseEntity> houseEntityList = houseService.query().eq("is_favorite",1).list();
+        return R.ok().put("list", houseEntityList);
     }
 
     /**
@@ -104,25 +102,27 @@ public class HouseController {
         return R.ok();
     }
 
-    ///**
-    // * 删除
-    // */
-    //@RequestMapping("/addToFavorite/{houseId}")
-    //public R addToFavorite(@PathVariable("houseId") Long houseId){
-    //    HouseEntity houseEntity = new HouseEntity();
-    //    houseEntity.setId(houseId);
-    //    houseService.updateById(houseEntity);
-    //    return R.ok();
-    //}
-    //
-    ///**
-    // * 删除
-    // */
-    //@RequestMapping("/removeFavorite/{houseId}")
-    //public R removeFavorite(@PathVariable("houseId") Long houseId){
-    //    HouseEntity houseEntity = new HouseEntity();
-    //    houseEntity.setId(houseId);
-    //    houseService.updateById(houseEntity);
-    //    return R.ok();
-    //}
+    /**
+     * 删除
+     */
+    @RequestMapping("/addToFavorite/{houseId}")
+    public R addToFavorite(@PathVariable("houseId") Long houseId){
+        HouseEntity houseEntity = new HouseEntity();
+        houseEntity.setId(houseId);
+        houseEntity.setIsFavorite(1);
+        houseService.updateById(houseEntity);
+        return R.ok();
+    }
+
+    /**
+     * 删除
+     */
+    @RequestMapping("/removeFavorite/{houseId}")
+    public R removeFavorite(@PathVariable("houseId") Long houseId){
+        HouseEntity houseEntity = new HouseEntity();
+        houseEntity.setId(houseId);
+        houseEntity.setIsFavorite(0);
+        houseService.updateById(houseEntity);
+        return R.ok();
+    }
 }

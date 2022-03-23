@@ -93,8 +93,8 @@ public class HouseServiceImpl extends ServiceImpl<HouseMapper, HouseEntity> impl
             buildMaterial = Arrays.asList(params.get("build_material").toString().split(","));
         }
 
-        if(params.get("giftPrice")!=null){
-            giftPrice= (String) params.get("giftPrice");
+        if(params.get("gift_price")!=null){
+            giftPrice= (String) params.get("gift_price");
         }
 
         if(params.get("deposit")!=null){
@@ -104,7 +104,7 @@ public class HouseServiceImpl extends ServiceImpl<HouseMapper, HouseEntity> impl
         if(params.get("vr_link")!=null){
             vrLink= (String) params.get("vr_link");
         }
-        System.out.println(StringUtils.isEmpty(params.get("build_material")));
+        //System.out.println(StringUtils.isEmpty(params.get("build_material")));
         List<HouseEntity> houseEntities =  baseMapper.getOrderPage(order,pageSize,pageNo,classify,buildMaterial,giftPrice,deposit,vrLink);
         PageUtils pageUtils = new PageUtils(houseEntities, houseEntities.size(), pageSize, pageNo);
         return pageUtils;

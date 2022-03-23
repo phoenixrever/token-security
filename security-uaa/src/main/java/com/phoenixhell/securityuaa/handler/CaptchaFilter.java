@@ -32,21 +32,21 @@
         @Override
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     //        RedisTemplate<String,String> stringRedisTemplate = ApplicationContextUtils.getBean("redisTemplate");
-            if(request.getRequestURI().contains("/securityuaa/oauth/token")){
-                String code = request.getParameter("code");
-                String captchaKey= request.getParameter("captchaKey");
-                String redisCode = redisTemplate.opsForValue().get(CAPTCHA_PREFIX + captchaKey);
-                if(!StringUtils.isEmpty(captchaKey) && !StringUtils.isEmpty(code) && code.equalsIgnoreCase(redisCode)){
-                    super.doFilter(request, response, filterChain);
-                }else{
-                    R error = R.error(ExceptionCodeEnume.CAPTCHA_EXCEPTION.getCode(), ExceptionCodeEnume.CAPTCHA_EXCEPTION.getMessage());
-                    System.out.println("验证码验证错误");
-                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                    response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-                    response.getWriter().write(JSON.toJSONString(error));
-                }
-            }else{
+    //        if(request.getRequestURI().contains("/securityuaa/oauth/token")){
+    //            String code = request.getParameter("code");
+    //            String captchaKey= request.getParameter("captchaKey");
+    //            String redisCode = redisTemplate.opsForValue().get(CAPTCHA_PREFIX + captchaKey);
+    //            if(!StringUtils.isEmpty(captchaKey) && !StringUtils.isEmpty(code) && code.equalsIgnoreCase(redisCode)){
+    //                super.doFilter(request, response, filterChain);
+    //            }else{
+    //                R error = R.error(ExceptionCodeEnume.CAPTCHA_EXCEPTION.getCode(), ExceptionCodeEnume.CAPTCHA_EXCEPTION.getMessage());
+    //                System.out.println("验证码验证错误");
+    //                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    //                response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+    //                response.getWriter().write(JSON.toJSONString(error));
+    //            }
+    //        }else{
                 super.doFilter(request, response, filterChain);
-            }
+            //}
         }
     }

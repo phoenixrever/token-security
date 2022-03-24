@@ -3,7 +3,11 @@ package com.phoenixhell.summoresource.controller;
 import com.phoenixhell.common.utils.PageUtils;
 import com.phoenixhell.common.utils.R;
 import com.phoenixhell.summoresource.entity.HouseEntity;
+import com.phoenixhell.summoresource.entity.ImageEntity;
+import com.phoenixhell.summoresource.entity.NeighborhoodEntity;
 import com.phoenixhell.summoresource.service.HouseService;
+import com.phoenixhell.summoresource.service.ImageService;
+import com.phoenixhell.summoresource.service.NeighborhoodService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 
 
 /**
@@ -27,12 +31,23 @@ public class HouseController {
     @Autowired
     private HouseService houseService;
 
+    @Autowired
+    private ImageService imageService;
+    @Autowired
+    private NeighborhoodService neighborhoodService;
+
     /**
      * favorite 列表
      */
     @RequestMapping("/list/favorite")
     public R list(){
         List<HouseEntity> houseEntityList = houseService.query().eq("is_favorite",1).list();
+        houseEntityList.forEach(houseEntity -> {
+            List<ImageEntity> imageEntities = imageService.query().eq("house_id", houseEntity.getId()).list();
+            List<NeighborhoodEntity> neighborhoodEntities = neighborhoodService.query().eq("house_id", houseEntity.getId()).list();
+            houseEntity.setImageEntities(imageEntities);
+            houseEntity.setNeighborhoodEntities(neighborhoodEntities);
+        });
         return R.ok().put("list", houseEntityList);
     }
 
